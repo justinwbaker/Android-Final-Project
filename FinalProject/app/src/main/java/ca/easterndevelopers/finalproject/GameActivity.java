@@ -15,6 +15,10 @@ public class GameActivity extends Activity {
     private GameRenderer renderer;
     private static Point resolution;
 
+    //for tile size calculations
+    private static float zoom = 1.0f;
+    private static int tilesInWidth = 20;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,5 +46,10 @@ public class GameActivity extends Activity {
 
     public static Point getResolution() {
         return resolution;
+    }
+
+    //calculates actual size of tiles based on resolution
+    public static float getTileSize() {
+        return (resolution.x / tilesInWidth) * zoom;
     }
 }
