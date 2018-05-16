@@ -54,7 +54,7 @@ public class Utils {
     public static Point toTiledPosition(Point point) {
         Point tilePosition = new Point(point);
         tilePosition.x = Math.round(tilePosition.x / GameActivity.getTileSize());
-        tilePosition.y = Math.round(tilePosition.x / GameActivity.getTileSize());
+        tilePosition.y = Math.round(tilePosition.y / GameActivity.getTileSize());
         return tilePosition;
     }
 

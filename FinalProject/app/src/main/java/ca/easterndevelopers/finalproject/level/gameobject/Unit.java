@@ -40,6 +40,7 @@ public abstract class Unit extends GameObject {
         if(this.isAcrtiveUnit) {
             this.showMovementRange(canvas, paint);
         }
+        paint.setColor(Color.WHITE);
         canvas.drawBitmap(image, getPosition().x, getPosition().y, paint);
     }
 
@@ -51,11 +52,10 @@ public abstract class Unit extends GameObject {
         for(int i = 0; i < this.getLevel().getHeight(); i++) {
             for(int j = 0; j < this.getLevel().getWidth(); j++) {
                 Point tilePosition = new Point(j, i);
-                if(Math.abs(Utils.getDistance(Utils.toTiledPosition(Utils.toTiledPosition(this.getPosition())), tilePosition)) < movementRange){
+                if(Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), tilePosition)) < movementRange){
                     //draw trasnparent squares
-                    System.out.println(getPosition().y + " " + j + " " + Utils.toTiledPosition(this.getPosition()).x + " " + GameActivity.getTileSize());
                     paint.setColor(Color.argb(150, 0, 153, 204));
-                    canvas.drawRect(j*GameActivity.getTileSize(), i*GameActivity.getTileSize(), j*GameActivity.getTileSize() + GameActivity.getTileSize(), i*GameActivity.getTileSize() + GameActivity.getTileSize(),  paint);
+                    canvas.drawRect(tilePosition.x*GameActivity.getTileSize(), tilePosition.y*GameActivity.getTileSize(), tilePosition.x*GameActivity.getTileSize() + GameActivity.getTileSize(), tilePosition.y*GameActivity.getTileSize() + GameActivity.getTileSize(),  paint);
                 }
             }
         }

@@ -15,5 +15,4 @@ public class Soldier extends Unit {
         this.setBitmap(Utils.loadBitmap(GameActivity.getContext(), R.drawable.soldier));
         this.movementRange = 5;
     }
-
 }
