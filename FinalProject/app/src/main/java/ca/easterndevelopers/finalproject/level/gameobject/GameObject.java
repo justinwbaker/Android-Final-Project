@@ -1,13 +1,27 @@
 package ca.easterndevelopers.finalproject.level.gameobject;
 
+import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
+
+import ca.easterndevelopers.finalproject.level.Level;
 
 public abstract class GameObject {
 
     private Point position;
     private Point size;
+
+    private Level level;
+
+    public GameObject(Point position, Point size) {
+        this.position = position;
+        this.size = size;
+    }
+
+    public void init(Level level) {
+        this.level = level;
+    }
 
     public abstract void update(double fps);
     public abstract void render(Canvas canvas, Paint paint);
@@ -26,5 +40,9 @@ public abstract class GameObject {
 
     public void setSize(Point size) {
         this.size = size;
+    }
+
+    public Level getLevel() {
+        return this.level;
     }
 }

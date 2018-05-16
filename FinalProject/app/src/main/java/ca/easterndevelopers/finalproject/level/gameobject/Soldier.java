@@ -2,15 +2,18 @@ package ca.easterndevelopers.finalproject.level.gameobject;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
+
+import ca.easterndevelopers.finalproject.GameActivity;
+import ca.easterndevelopers.finalproject.R;
+import ca.easterndevelopers.finalproject.utils.Utils;
 
 public class Soldier extends Unit {
-    @Override
-    public void update(double fps) {
 
+    public Soldier(Point position) {
+        super(position, new Point((int)GameActivity.getTileSize(), (int)GameActivity.getTileSize()));
+        this.setBitmap(Utils.loadBitmap(GameActivity.getContext(), R.drawable.soldier));
+        this.movementRange = 5;
     }
 
-    @Override
-    public void render(Canvas canvas, Paint paint) {
-
-    }
 }

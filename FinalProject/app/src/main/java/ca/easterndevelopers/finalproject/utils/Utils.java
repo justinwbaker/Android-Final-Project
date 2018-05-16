@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.Point;
 
 import ca.easterndevelopers.finalproject.GameActivity;
 
@@ -48,6 +49,26 @@ public class Utils {
             bm.recycle();
         }
         return resizedBitmap;
+    }
+
+    public static Point toTiledPosition(Point point) {
+        Point tilePosition = new Point(point);
+        tilePosition.x = Math.round(tilePosition.x / GameActivity.getTileSize());
+        tilePosition.y = Math.round(tilePosition.x / GameActivity.getTileSize());
+        return tilePosition;
+    }
+
+    public static Point toWorldPosition(Point point) {
+        Point worldPosition = new Point(point);
+        worldPosition.x *= GameActivity.getTileSize();
+        worldPosition.y *= GameActivity.getTileSize();
+        return worldPosition;
+    }
+
+    public static double getDistance(Point a, Point b) {
+        double dx = b.x - a.x;
+        double dy = b.y - a.y;
+        return Math.sqrt((dx*dx)+(dy*dy));
     }
 
 }

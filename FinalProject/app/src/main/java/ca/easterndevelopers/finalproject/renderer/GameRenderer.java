@@ -64,7 +64,7 @@ public class GameRenderer extends SurfaceView implements Runnable{
             deltaTime = oldTime-newTime;
             fps = 1000000000.0 / (deltaTime);
             newTime = oldTime;
-            System.out.println("FPS: " + fps);
+            //System.out.println("FPS: " + fps);
         }
     }
 

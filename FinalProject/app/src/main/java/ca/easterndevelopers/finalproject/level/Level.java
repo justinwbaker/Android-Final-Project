@@ -6,8 +6,11 @@ import android.graphics.Paint;
 
 import java.util.ArrayList;
 
+import ca.easterndevelopers.finalproject.game.Game;
 import ca.easterndevelopers.finalproject.level.gameobject.GameObject;
 import ca.easterndevelopers.finalproject.level.tile.Tile;
+import ca.easterndevelopers.finalproject.player.Enemy;
+import ca.easterndevelopers.finalproject.player.Player;
 
 public class Level {
 
@@ -17,6 +20,9 @@ public class Level {
     private Tile tiles[];
     private ArrayList<GameObject> objects;
 
+    private Enemy enemy;
+    private Player player;
+
     public Level(int width, int height, Context context) {
         this.width = width;
         this.height = height;
@@ -24,6 +30,10 @@ public class Level {
 
         tiles = new Tile[width*height];
         objects = new ArrayList<GameObject>();
+    }
+
+    public void init(Player player){
+        this.player = player;
     }
 
     public void setTile(int x, int y, Tile tile) {
@@ -46,9 +56,21 @@ public class Level {
         for (GameObject go: objects) {
             go.render(canvas, paint);
         }
+
+        if(this.player != null) {
+            this.player.renderUnits(canvas, paint);
+        }
     }
 
     public Context getContext() {
         return context;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 }

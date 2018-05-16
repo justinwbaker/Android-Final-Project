@@ -1,6 +1,7 @@
 package ca.easterndevelopers.finalproject;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +16,8 @@ public class GameActivity extends Activity {
     private GameRenderer renderer;
     private static Point resolution;
 
+    private static Context context;
+
     //for tile size calculations
     private static float zoom = 1.0f;
     private static int tilesInWidth = 20;
@@ -22,6 +25,7 @@ public class GameActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = this;
 
         Display display = getWindowManager().getDefaultDisplay();
         // Load the resolution into a Point object
@@ -51,5 +55,9 @@ public class GameActivity extends Activity {
     //calculates actual size of tiles based on resolution
     public static float getTileSize() {
         return (resolution.x / tilesInWidth) * zoom;
+    }
+
+    public static Context getContext() {
+        return context;
     }
 }
