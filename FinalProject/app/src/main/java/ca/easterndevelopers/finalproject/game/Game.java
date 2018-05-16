@@ -30,14 +30,17 @@ public class Game {
     }
 
     public void update(double fps) {
-        x+= GameActivity.getTileSize()/fps;
+        x += GameActivity.getTileSize()*2/fps;
+        if(x > GameActivity.getResolution().x - GameActivity.getTileSize()) {
+            x = 0;
+        }
         testLevel.update(fps);
     }
 
     public void render(Canvas canvas, Paint paint) {
         testLevel.render(canvas, paint);
         paint.setColor(Color.BLUE);
-        canvas.drawRect(x, 100, x+100, 200, paint);
+        canvas.drawRect(x, 100, x+GameActivity.getTileSize(), 100+GameActivity.getTileSize(), paint);
 
     }
 
