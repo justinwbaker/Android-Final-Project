@@ -128,19 +128,15 @@ public class GameRenderer extends SurfaceView implements Runnable{
                     if (canvasOffset.y <= -Game.getPlayer().getCurrentLevel().getHeight() * GameActivity.getTileSize() + GameActivity.getResolution().y)
                         canvasOffset.y = (int)-(Game.getPlayer().getCurrentLevel().getHeight() * GameActivity.getTileSize())+ GameActivity.getResolution().y;
                 }
-                System.out.println("Dragged amount: " + dragAmt.x + " " + dragAmt.y);
                 break;
-            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_UP:
                 if(!Game.isLookingAtMap()) {
-                    dragAmt = null;
                     touchedPoint = new Point((int) x, (int) y);
-                    System.out.println("touched point: " + touchedPoint.x + " " + touchedPoint.y);
+                    Game.getPlayer().updateUnits();
                 }
                 break;
         }
         preveousTouchedPoint = new Point((int)x, (int)y);
-        if(Game.getPlayer() != null)
-            Game.getPlayer().updateUnits();
         return true;
     }
 

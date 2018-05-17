@@ -42,7 +42,7 @@ public abstract class Unit extends GameObject {
 
     public void update(double fps) {
         if(this.isAcrtiveUnit && timesHasMoved < timeCanMove) {
-            if(GameRenderer.getDragAmt() == null) {
+            if(Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), Utils.toTiledPosition(GameRenderer.getTouchedPoint()))) < movementRange) {
                 this.setPosition(Utils.toWorldPosition(Utils.toTiledPosition(GameRenderer.getTouchedPoint())));
                 this.timesHasMoved++;
             }
