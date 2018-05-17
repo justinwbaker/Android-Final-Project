@@ -4,9 +4,28 @@ import ca.easterndevelopers.finalproject.level.gameobject.projectile.Projectile;
 
 public abstract class RangedWeapon extends Weapon {
 
-    int ammo;
-    int ammoCapacity;
+    protected int ammo;
+    protected int ammoCapacity;
 
     Projectile projectile;
 
+    public RangedWeapon() {
+
+    }
+
+    public int getAmmo() {
+        return ammo;
+    }
+
+    public void setAmmo(int ammo) {
+        this.ammo = ammo;
+    }
+
+    public int getAmmoCapacity() {
+        return ammoCapacity;
+    }
+
+    public void setAmmoCapacity(int ammoCapacity) {
+        this.ammoCapacity = ammoCapacity;
+    }
 }
