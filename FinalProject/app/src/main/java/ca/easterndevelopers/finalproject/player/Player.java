@@ -54,4 +54,10 @@ public class Player {
             u.render(canvas, paint);
         }
     }
+
+    public void updateUnits() {
+        for(Unit u : units){
+            u.update(0.0);
+        }
+    }
 }

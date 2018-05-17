@@ -16,6 +16,8 @@ public class Game {
 
     private Context context;
 
+    private static boolean isLookingAtMap = false;
+
     Level testLevel;
 
     private static Player player;
@@ -50,6 +52,10 @@ public class Game {
 
     public static Player getPlayer() {
         return player;
+    }
+
+    public static boolean isLookingAtMap() {
+        return isLookingAtMap;
     }
 
 }

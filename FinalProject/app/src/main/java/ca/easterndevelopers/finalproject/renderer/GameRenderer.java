@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -26,11 +28,22 @@ public class GameRenderer extends SurfaceView implements Runnable{
 
     private Game game;
 
+    private static Point touchedPoint;
+    private Point preveousTouchedPoint;
+    private static Point dragAmt;
+
+    private Point canvasOffset;
+
     private Context context;
 
     public GameRenderer(Context context) {
         super(context);
         this.context = context;
+
+        touchedPoint = new Point(-1, -1);
+        preveousTouchedPoint = new Point(-1, -1);
+        canvasOffset = new Point();
+
         paint = new Paint();
         ourHolder = getHolder();
 
@@ -77,6 +90,9 @@ public class GameRenderer extends SurfaceView implements Runnable{
             //First we lock the area of memory we will be drawing to
             canvas = ourHolder.lockCanvas();
 
+
+                canvas.translate(canvasOffset.x, canvasOffset.y);
+
             paint.setColor(Color.BLACK);
             canvas.drawRect(0, 0, GameActivity.getResolution().x, GameActivity.getResolution().y, paint);
 
@@ -84,5 +100,55 @@ public class GameRenderer extends SurfaceView implements Runnable{
 
             ourHolder.unlockCanvasAndPost(canvas);
         }
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent e) {
+        float x = e.getX();
+        float y = e.getY();
+        switch (e.getAction()){
+            case MotionEvent.ACTION_MOVE:
+                if(preveousTouchedPoint != null && Game.isLookingAtMap()) {
+                    float dx = x - preveousTouchedPoint.x;
+                    float dy = y - preveousTouchedPoint.y;
+                    dragAmt = new Point((int)dx, (int)dy);
+                    if(game.getPlayer().getCurrentLevel() != null) {
+                        canvasOffset.x += dx;
+                        canvasOffset.y += dy;
+                    }
+
+                    System.out.println(canvasOffset.x + " " + -Game.getPlayer().getCurrentLevel().getWidth() * GameActivity.getTileSize());
+
+                    if (canvasOffset.x > 0)
+                        canvasOffset.x = 0;
+                    if (canvasOffset.y > 0)
+                        canvasOffset.y = 0;
+                    if (canvasOffset.x <= -Game.getPlayer().getCurrentLevel().getWidth() * GameActivity.getTileSize() + GameActivity.getResolution().x)
+                        canvasOffset.x = (int)-(Game.getPlayer().getCurrentLevel().getWidth() * GameActivity.getTileSize()) + GameActivity.getResolution().x;
+                    if (canvasOffset.y <= -Game.getPlayer().getCurrentLevel().getHeight() * GameActivity.getTileSize() + GameActivity.getResolution().y)
+                        canvasOffset.y = (int)-(Game.getPlayer().getCurrentLevel().getHeight() * GameActivity.getTileSize())+ GameActivity.getResolution().y;
+                }
+                System.out.println("Dragged amount: " + dragAmt.x + " " + dragAmt.y);
+                break;
+            case MotionEvent.ACTION_DOWN:
+                if(!Game.isLookingAtMap()) {
+                    dragAmt = null;
+                    touchedPoint = new Point((int) x, (int) y);
+                    System.out.println("touched point: " + touchedPoint.x + " " + touchedPoint.y);
+                }
+                break;
+        }
+        preveousTouchedPoint = new Point((int)x, (int)y);
+        if(Game.getPlayer() != null)
+            Game.getPlayer().updateUnits();
+        return true;
+    }
+
+    public static Point getTouchedPoint() {
+        return touchedPoint;
+    }
+
+    public static Point getDragAmt() {
+        return dragAmt;
     }
 }

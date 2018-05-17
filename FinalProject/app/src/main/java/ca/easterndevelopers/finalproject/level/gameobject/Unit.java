@@ -6,10 +6,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 
+import java.util.logging.ConsoleHandler;
+
 import ca.easterndevelopers.finalproject.GameActivity;
-import ca.easterndevelopers.finalproject.level.Level;
 import ca.easterndevelopers.finalproject.level.gameobject.weapon.RangedWeapon;
 import ca.easterndevelopers.finalproject.level.gameobject.weapon.Weapon;
+import ca.easterndevelopers.finalproject.renderer.GameRenderer;
 import ca.easterndevelopers.finalproject.utils.Utils;
 
 public abstract class Unit extends GameObject {
@@ -30,10 +32,21 @@ public abstract class Unit extends GameObject {
 
     public Unit(Point position, Point size) {
         super(position, size);
+        this.baseDamage = 1;
+        this.movementRange = 2;
+        this.timesHasMoved = 0;
+        this.timeCanMove = 1;
+        this.isAcrtiveUnit = false;
+        this.costToLevel = 10;
     }
 
     public void update(double fps) {
-
+        if(this.isAcrtiveUnit && timesHasMoved < timeCanMove) {
+            if(GameRenderer.getDragAmt() == null) {
+                this.setPosition(Utils.toWorldPosition(Utils.toTiledPosition(GameRenderer.getTouchedPoint())));
+                this.timesHasMoved++;
+            }
+        }
     }
 
     public void render(Canvas canvas, Paint paint){

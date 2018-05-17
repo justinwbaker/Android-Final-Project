@@ -11,6 +11,5 @@ public class Soldier extends Unit {
     public Soldier(Point position) {
         super(position, new Point((int)GameActivity.getTileSize(), (int)GameActivity.getTileSize()));
         this.setBitmap(Utils.loadBitmap(GameActivity.getContext(), R.drawable.soldier));
-        this.movementRange = 4;
     }
 }
