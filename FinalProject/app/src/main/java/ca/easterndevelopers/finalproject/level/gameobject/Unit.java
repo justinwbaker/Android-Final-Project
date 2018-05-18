@@ -6,9 +6,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 
-import java.util.logging.ConsoleHandler;
-
 import ca.easterndevelopers.finalproject.GameActivity;
+import ca.easterndevelopers.finalproject.level.gameobject.projectile.Projectile;
 import ca.easterndevelopers.finalproject.level.gameobject.weapon.RangedWeapon;
 import ca.easterndevelopers.finalproject.level.gameobject.weapon.Weapon;
 import ca.easterndevelopers.finalproject.renderer.GameRenderer;
@@ -21,8 +20,10 @@ public abstract class Unit extends GameObject {
 
     protected int timeCanMove;
     protected int timesHasMoved;
+    private boolean hasAttackedRanged;
+    private boolean hasAttackedMelee;
 
-    protected boolean isAcrtiveUnit;
+    protected boolean isActiveUnit;
 
     int costToLevel;
 
@@ -36,21 +37,34 @@ public abstract class Unit extends GameObject {
         this.movementRange = 2;
         this.timesHasMoved = 0;
         this.timeCanMove = 1;
-        this.isAcrtiveUnit = false;
+        this.isActiveUnit = false;
         this.costToLevel = 10;
     }
 
     public void update(double fps) {
-        if(this.isAcrtiveUnit && timesHasMoved < timeCanMove) {
+        if(this.isActiveUnit && timesHasMoved < timeCanMove) {
             if(Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), Utils.toTiledPosition(GameRenderer.getTouchedPoint()))) < movementRange) {
                 this.setPosition(Utils.toWorldPosition(Utils.toTiledPosition(GameRenderer.getTouchedPoint())));
                 this.timesHasMoved++;
             }
         }
+        else if(!hasAttackedRanged && !hasAttackedMelee){
+            if(ranged.getAmmo() != 0) {
+
+                hasAttackedRanged = true;
+                ranged.setAmmo(ranged.getAmmo() - 1);
+                this.getLevel().addGameObject(new Projectile(
+                        GameRenderer.getTouchedPoint().x,
+                        GameRenderer.getTouchedPoint().y,
+                        this.getPosition().x + (int) GameActivity.getTileSize() / 2,
+                        this.getPosition().y + (int) GameActivity.getTileSize() / 2));
+
+            }
+        }
     }
 
     public void render(Canvas canvas, Paint paint){
-        if(this.isAcrtiveUnit) {
+        if(this.isActiveUnit && timesHasMoved != timeCanMove) {
             this.showMovementRange(canvas, paint);
         }
         paint.setColor(Color.WHITE);
@@ -94,7 +108,7 @@ public abstract class Unit extends GameObject {
     }
 
     public void setActive() {
-        this.isAcrtiveUnit = true;
+        this.isActiveUnit = true;
     }
 
 }

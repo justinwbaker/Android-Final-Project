@@ -73,4 +73,9 @@ public class Level {
     public int getHeight() {
         return height;
     }
+
+    public void addGameObject(GameObject GO){
+        GO.init(this);
+        objects.add(GO);
+    }
 }
