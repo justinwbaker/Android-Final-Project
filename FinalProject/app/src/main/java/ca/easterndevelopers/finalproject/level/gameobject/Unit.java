@@ -94,12 +94,13 @@ public abstract class Unit extends GameObject {
 
         hasAttackedRanged = true;
         ranged.setAmmo(ranged.getAmmo() - 1);
-        this.getLevel().addGameObject(new Projectile(
+        Projectile projectile = new Projectile(
                 GameRenderer.getTouchedPoint().x,
                 GameRenderer.getTouchedPoint().y,
                 this.getPosition().x + (int) GameActivity.getTileSize() / 2,
                 this.getPosition().y + (int) GameActivity.getTileSize() / 2,
-                new Point(100, 100)));
+                this.ranged.getSize(), this.ranged.getColor());
+        this.getLevel().addGameObject(projectile);
     }
 
     public void levelUp() {

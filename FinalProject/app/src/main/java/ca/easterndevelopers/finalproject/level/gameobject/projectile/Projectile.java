@@ -23,7 +23,7 @@ public class Projectile extends GameObject {
 
     int color;
 
-    public Projectile(int targetX, int targetY, int startX, int startY, Point size) {
+    public Projectile(int targetX, int targetY, int startX, int startY, Point size, int color) {
 
         super(new Point(startX, startY), new Point (size));
 
@@ -34,7 +34,7 @@ public class Projectile extends GameObject {
         this.startY = startY;
         this.targetX = targetX;
         this.targetY = targetY;
-        this.color = Color.GRAY;
+        this.color = color;
 
         distance = Math.sqrt(Math.pow((startX-targetX), 2) + Math.pow((startY-targetY), 2));
 
