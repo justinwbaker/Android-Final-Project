@@ -7,7 +7,7 @@ public abstract class RangedWeapon extends Weapon {
     protected int ammo;
     protected int ammoCapacity;
 
-    Projectile projectile;
+    protected Projectile projectile;
 
     public RangedWeapon() {
 

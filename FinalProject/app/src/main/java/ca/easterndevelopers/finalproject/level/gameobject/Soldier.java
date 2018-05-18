@@ -4,6 +4,8 @@ import android.graphics.Point;
 
 import ca.easterndevelopers.finalproject.GameActivity;
 import ca.easterndevelopers.finalproject.R;
+import ca.easterndevelopers.finalproject.level.gameobject.weapon.RangedWeapon;
+import ca.easterndevelopers.finalproject.level.gameobject.weapon.ranged.Pistol;
 import ca.easterndevelopers.finalproject.utils.Utils;
 
 public class Soldier extends Unit {
@@ -13,5 +15,6 @@ public class Soldier extends Unit {
         this.setBitmap(Utils.loadBitmap(GameActivity.getContext(), R.drawable.soldier));
         this.timeCanMove = 10;
         this.movementRange = 4;
+        this.ranged = new Pistol();
     }
 }

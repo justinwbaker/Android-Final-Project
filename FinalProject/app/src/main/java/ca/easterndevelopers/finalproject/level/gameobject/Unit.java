@@ -48,17 +48,17 @@ public abstract class Unit extends GameObject {
                 this.timesHasMoved++;
             }
         }
-        else if(!hasAttackedRanged && !hasAttackedMelee){ // will also need " && shoot option is selected"
+        else /*if(!hasAttackedRanged && !hasAttackedMelee)*/{ // will also need " && shoot option is selected"
             if(ranged.getAmmo() != 0) {
 
                 rangedAttack();
             }
         }
-
+/*
         else if(!hasAttackedRanged && !hasAttackedMelee) { // will be the " && melee option selected"
 
             meleeAttack();
-        }
+        }*/
     }
 
     public void render(Canvas canvas, Paint paint){
@@ -99,7 +99,7 @@ public abstract class Unit extends GameObject {
                 GameRenderer.getTouchedPoint().y,
                 this.getPosition().x + (int) GameActivity.getTileSize() / 2,
                 this.getPosition().y + (int) GameActivity.getTileSize() / 2,
-                new Point(10, 10)));
+                new Point(100, 100)));
     }
 
     public void levelUp() {
