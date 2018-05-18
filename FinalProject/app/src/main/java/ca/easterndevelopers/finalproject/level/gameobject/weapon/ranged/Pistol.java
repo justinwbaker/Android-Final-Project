@@ -6,7 +6,7 @@ import ca.easterndevelopers.finalproject.level.gameobject.Unit;
 import ca.easterndevelopers.finalproject.level.gameobject.weapon.RangedWeapon;
 
 public class Pistol extends RangedWeapon{
-    
+
     public Pistol(Unit unit) {
         super(unit, 0xffff00ff, new Point(10, 10));
         this.damage = 3;
