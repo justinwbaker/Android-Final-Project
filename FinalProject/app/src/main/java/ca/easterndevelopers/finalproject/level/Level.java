@@ -3,11 +3,14 @@ package ca.easterndevelopers.finalproject.level;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 
 import java.util.ArrayList;
 
+import ca.easterndevelopers.finalproject.GameActivity;
 import ca.easterndevelopers.finalproject.game.Game;
 import ca.easterndevelopers.finalproject.level.gameobject.GameObject;
+import ca.easterndevelopers.finalproject.level.gameobject.Soldier;
 import ca.easterndevelopers.finalproject.level.tile.Tile;
 import ca.easterndevelopers.finalproject.player.Enemy;
 import ca.easterndevelopers.finalproject.player.Player;
@@ -30,6 +33,8 @@ public class Level {
 
         tiles = new Tile[width*height];
         objects = new ArrayList<GameObject>();
+        this.enemy = new Enemy();
+        enemy.addUnit(new Soldier(new Point((int)(GameActivity.getTileSize()*5),(int)(GameActivity.getTileSize()*7))));
     }
 
     public void init(Player player){
@@ -59,6 +64,7 @@ public class Level {
 
         if(this.player != null) {
             this.player.renderUnits(canvas, paint);
+            this.enemy.renderUnits(canvas, paint);
         }
     }
 

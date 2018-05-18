@@ -10,12 +10,12 @@ import ca.easterndevelopers.finalproject.level.gameobject.Unit;
 
 public class Player {
 
-    private ArrayList<Unit> units;
-    private boolean isPlayersTurn;
+    protected ArrayList<Unit> units;
+    protected boolean isPlayersTurn;
 
-    private int indexOfAcrtiveUnit = 0;
+    protected int indexOfActiveUnit = 0;
 
-    private Level currentLevel;
+    protected Level currentLevel;
 
     public Player() {
         this.isPlayersTurn = false;
@@ -29,7 +29,7 @@ public class Player {
     public void startTurn() {
         this.isPlayersTurn = true;
         if(this.units.size() != 0) {
-            this.units.get(indexOfAcrtiveUnit).setActive();
+            this.units.get(indexOfActiveUnit).setActive();
         }
     }
 
