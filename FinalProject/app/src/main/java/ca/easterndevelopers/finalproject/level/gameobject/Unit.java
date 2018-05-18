@@ -48,18 +48,16 @@ public abstract class Unit extends GameObject {
                 this.timesHasMoved++;
             }
         }
-        else if(!hasAttackedRanged && !hasAttackedMelee){
+        else if(!hasAttackedRanged && !hasAttackedMelee){ // will also need " && shoot option is selected"
             if(ranged.getAmmo() != 0) {
 
-                hasAttackedRanged = true;
-                ranged.setAmmo(ranged.getAmmo() - 1);
-                this.getLevel().addGameObject(new Projectile(
-                        GameRenderer.getTouchedPoint().x,
-                        GameRenderer.getTouchedPoint().y,
-                        this.getPosition().x + (int) GameActivity.getTileSize() / 2,
-                        this.getPosition().y + (int) GameActivity.getTileSize() / 2));
-
+                rangedAttack();
             }
+        }
+
+        else if(!hasAttackedRanged && !hasAttackedMelee) { // will be the " && melee option selected"
+
+            meleeAttack();
         }
     }
 
@@ -80,7 +78,7 @@ public abstract class Unit extends GameObject {
             for(int j = 0; j < this.getLevel().getWidth(); j++) {
                 Point tilePosition = new Point(j, i);
                 if(Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), tilePosition)) < movementRange){
-                    //draw trasnparent squares
+                    //draw transparent squares
                     paint.setColor(Color.argb(150, 0, 153, 204));
                     canvas.drawRect(tilePosition.x*GameActivity.getTileSize(), tilePosition.y*GameActivity.getTileSize(), tilePosition.x*GameActivity.getTileSize() + GameActivity.getTileSize(), tilePosition.y*GameActivity.getTileSize() + GameActivity.getTileSize(),  paint);
                 }
@@ -94,6 +92,14 @@ public abstract class Unit extends GameObject {
 
     public void rangedAttack() {
 
+        hasAttackedRanged = true;
+        ranged.setAmmo(ranged.getAmmo() - 1);
+        this.getLevel().addGameObject(new Projectile(
+                GameRenderer.getTouchedPoint().x,
+                GameRenderer.getTouchedPoint().y,
+                this.getPosition().x + (int) GameActivity.getTileSize() / 2,
+                this.getPosition().y + (int) GameActivity.getTileSize() / 2,
+                new Point(10, 10)));
     }
 
     public void levelUp() {
