@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 
 import ca.easterndevelopers.finalproject.GameActivity;
+import ca.easterndevelopers.finalproject.MainScreen;
 import ca.easterndevelopers.finalproject.R;
 import ca.easterndevelopers.finalproject.level.Level;
 import ca.easterndevelopers.finalproject.level.LevelManager;
@@ -20,8 +21,6 @@ public class Game {
 
     private static boolean isLookingAtMap = false;
 
-    private static Player player;
-
     float x = 0;
 
     public Game(Context context) {
@@ -29,10 +28,8 @@ public class Game {
         LevelManager.loadLevel(context, R.drawable.level1);
         System.out.println();
 
-        player = new Player();
-        player.addUnit(new Soldier(new Point((int)(GameActivity.getTileSize()*7), (int)(GameActivity.getTileSize()*5))));
-        player.playLevel(LevelManager.getLevel(0));
-        player.startTurn();
+        MainScreen.getPlayer().playLevel(LevelManager.getLevel(0));
+        MainScreen.getPlayer().startTurn();
     }
 
     public void update(double fps) {
@@ -40,15 +37,15 @@ public class Game {
         if(x > GameActivity.getResolution().x - GameActivity.getTileSize()) {
             x = 0;
         }
-        player.getCurrentLevel().update(fps);
+        MainScreen.getPlayer().getCurrentLevel().update(fps);
     }
 
     public void render(Canvas canvas, Paint paint) {
-        player.getCurrentLevel().render(canvas, paint);
+        MainScreen.getPlayer().getCurrentLevel().render(canvas, paint);
     }
 
     public static Player getPlayer() {
-        return player;
+        return MainScreen.getPlayer();
     }
 
     public static boolean isLookingAtMap() {
