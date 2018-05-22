@@ -11,7 +11,7 @@ public class Pistol extends RangedWeapon{
         super(unit, 0xffff00ff, new Point(10, 10));
 
         this.damage = 3;
-        this.range = 5;
+        this.range = 9;
         this.speed = 8;
         this.ammoCapacity = 3;
         this.ammo = this.ammoCapacity;

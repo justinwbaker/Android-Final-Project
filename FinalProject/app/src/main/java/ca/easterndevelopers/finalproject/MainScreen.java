@@ -7,6 +7,12 @@ import android.view.View;
 import android.widget.Button;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+    private int missionSelect = 0; // will default start on mission one if you don't manually pick one
+=======
+>>>>>>> f2edd97f7b2176c6ba1d3a143e9b2fb0a9eadbbf
 import ca.easterndevelopers.finalproject.level.LevelManager;
 import ca.easterndevelopers.finalproject.level.gameobject.Soldier;
 import ca.easterndevelopers.finalproject.player.Player;
@@ -15,11 +21,15 @@ public class MainScreen extends Activity implements View.OnClickListener{
 
     private static int missionSelect = 0; // will default start on mission one if you don't manually pick one
     private static Player player = new Player();
+<<<<<<< HEAD
 =======
 public class MainScreen extends Activity implements View.OnClickListener{
 
     private int missionSelect = 0; // will default start on mission one if you don't manually pick one
 >>>>>>> parent of 700ead8... Merge branch 'master' of https://github.com/justinwbaker/Android-Final-Project
+=======
+>>>>>>> 83f0a9fd15766e477a1c935f0cd967711c400176
+>>>>>>> f2edd97f7b2176c6ba1d3a143e9b2fb0a9eadbbf
 
 
     @Override
@@ -194,6 +204,11 @@ public class MainScreen extends Activity implements View.OnClickListener{
     }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+=======
+>>>>>>> f2edd97f7b2176c6ba1d3a143e9b2fb0a9eadbbf
     public static Player getPlayer() {
         return player;
     }
@@ -201,7 +216,11 @@ public class MainScreen extends Activity implements View.OnClickListener{
     public static int getMissionSelected() {
         return missionSelect;
     }
+<<<<<<< HEAD
 =======
 
 >>>>>>> parent of 700ead8... Merge branch 'master' of https://github.com/justinwbaker/Android-Final-Project
+=======
+>>>>>>> 83f0a9fd15766e477a1c935f0cd967711c400176
+>>>>>>> f2edd97f7b2176c6ba1d3a143e9b2fb0a9eadbbf
 }
