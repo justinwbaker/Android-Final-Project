@@ -7,6 +7,7 @@ import android.graphics.Matrix;
 import android.graphics.Point;
 
 import ca.easterndevelopers.finalproject.GameActivity;
+import ca.easterndevelopers.finalproject.MainActivity;
 
 public class Utils {
 
@@ -20,7 +21,7 @@ public class Utils {
     public static Bitmap loadTileBitmap(Context context, int id) {
         Bitmap returnBitmap = loadBitmap(context, id);
 
-        returnBitmap = getResizedBitmap(returnBitmap, (int)GameActivity.getTileSize(), (int)GameActivity.getTileSize(), true);
+        returnBitmap = getResizedBitmap(returnBitmap, (int) MainActivity.getTileSize(), (int)MainActivity.getTileSize(), true);
 
         return returnBitmap;
     }
@@ -53,15 +54,15 @@ public class Utils {
 
     public static Point toTiledPosition(Point point) {
         Point tilePosition = new Point(point);
-        tilePosition.x = Math.round(tilePosition.x / GameActivity.getTileSize());
-        tilePosition.y = Math.round(tilePosition.y / GameActivity.getTileSize());
+        tilePosition.x = Math.round(tilePosition.x / MainActivity.getTileSize());
+        tilePosition.y = Math.round(tilePosition.y / MainActivity.getTileSize());
         return tilePosition;
     }
 
     public static Point toWorldPosition(Point point) {
         Point worldPosition = new Point(point);
-        worldPosition.x *= GameActivity.getTileSize();
-        worldPosition.y *= GameActivity.getTileSize();
+        worldPosition.x *= MainActivity.getTileSize();
+        worldPosition.y *= MainActivity.getTileSize();
         return worldPosition;
     }
 

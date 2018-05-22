@@ -7,18 +7,24 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import ca.easterndevelopers.finalproject.level.LevelManager;
 import ca.easterndevelopers.finalproject.level.gameobject.Soldier;
 import ca.easterndevelopers.finalproject.player.Player;
 
 public class MainScreen extends Activity implements View.OnClickListener{
 
-    private int missionSelect = 0; // will default start on mission one if you don't manually pick one
+    private static int missionSelect = 0; // will default start on mission one if you don't manually pick one
     private static Player player = new Player();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        LevelManager.loadLevel(GameActivity.getContext(), R.drawable.level1);
+        LevelManager.loadLevel(GameActivity.getContext(), R.drawable.level2);
+        LevelManager.loadLevel(GameActivity.getContext(), R.drawable.level3);
 
         setContentView(R.layout.activity_main_screen);
 
@@ -191,5 +197,7 @@ public class MainScreen extends Activity implements View.OnClickListener{
         return player;
     }
 
-
+    public static int getMissionSelected() {
+        return missionSelect;
+    }
 }

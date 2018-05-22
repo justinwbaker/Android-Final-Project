@@ -10,6 +10,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import ca.easterndevelopers.finalproject.GameActivity;
+import ca.easterndevelopers.finalproject.MainActivity;
 import ca.easterndevelopers.finalproject.game.Game;
 
 public class GameRenderer extends SurfaceView implements Runnable{
@@ -92,7 +93,7 @@ public class GameRenderer extends SurfaceView implements Runnable{
                 canvas.translate(canvasOffset.x, canvasOffset.y);
 
             paint.setColor(Color.BLACK);
-            canvas.drawRect(0, 0, GameActivity.getResolution().x, GameActivity.getResolution().y, paint);
+            canvas.drawRect(0, 0, MainActivity.getResolution().x, MainActivity.getResolution().y, paint);
 
             game.render(canvas, paint);
 
@@ -115,16 +116,16 @@ public class GameRenderer extends SurfaceView implements Runnable{
                         canvasOffset.y += dy;
                     }
 
-                    System.out.println(canvasOffset.x + " " + -Game.getPlayer().getCurrentLevel().getWidth() * GameActivity.getTileSize());
+                    System.out.println(canvasOffset.x + " " + -Game.getPlayer().getCurrentLevel().getWidth() * MainActivity.getTileSize());
 
                     if (canvasOffset.x > 0)
                         canvasOffset.x = 0;
                     if (canvasOffset.y > 0)
                         canvasOffset.y = 0;
-                    if (canvasOffset.x <= -Game.getPlayer().getCurrentLevel().getWidth() * GameActivity.getTileSize() + GameActivity.getResolution().x)
-                        canvasOffset.x = (int)-(Game.getPlayer().getCurrentLevel().getWidth() * GameActivity.getTileSize()) + GameActivity.getResolution().x;
-                    if (canvasOffset.y <= -Game.getPlayer().getCurrentLevel().getHeight() * GameActivity.getTileSize() + GameActivity.getResolution().y)
-                        canvasOffset.y = (int)-(Game.getPlayer().getCurrentLevel().getHeight() * GameActivity.getTileSize())+ GameActivity.getResolution().y;
+                    if (canvasOffset.x <= -Game.getPlayer().getCurrentLevel().getWidth() * MainActivity.getTileSize() + MainActivity.getResolution().x)
+                        canvasOffset.x = (int)-(Game.getPlayer().getCurrentLevel().getWidth() * MainActivity.getTileSize()) + MainActivity.getResolution().x;
+                    if (canvasOffset.y <= -Game.getPlayer().getCurrentLevel().getHeight() * MainActivity.getTileSize() + MainActivity.getResolution().y)
+                        canvasOffset.y = (int)-(Game.getPlayer().getCurrentLevel().getHeight() * MainActivity.getTileSize())+ MainActivity.getResolution().y;
                 }
                 break;
             case MotionEvent.ACTION_UP:

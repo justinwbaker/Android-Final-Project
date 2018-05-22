@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 
 import ca.easterndevelopers.finalproject.GameActivity;
+import ca.easterndevelopers.finalproject.MainActivity;
 
 public abstract class Tile {
 
@@ -21,7 +22,7 @@ public abstract class Tile {
     }
 
     public void render(Canvas canvas, Paint paint){
-        canvas.drawBitmap(image, position.x * GameActivity.getTileSize(), position.y * GameActivity.getTileSize(), paint);
+        canvas.drawBitmap(image, position.x * MainActivity.getTileSize(), position.y * MainActivity.getTileSize(), paint);
     }
 
 }
