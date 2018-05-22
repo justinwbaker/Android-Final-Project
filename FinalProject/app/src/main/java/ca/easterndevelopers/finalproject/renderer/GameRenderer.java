@@ -34,6 +34,7 @@ public class GameRenderer extends SurfaceView implements Runnable{
 
     private static Point canvasOffset;
 
+
     private Context context;
 
     public GameRenderer(Context context) {

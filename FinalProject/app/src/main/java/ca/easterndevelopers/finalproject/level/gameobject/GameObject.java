@@ -12,9 +12,12 @@ public abstract class GameObject {
     private Point position;
     private Point size;
 
+    private boolean isRemoved;
+
     private Level level;
 
     public GameObject(Point position, Point size) {
+        this.isRemoved = false;
         this.position = position;
         this.size = size;
     }
@@ -25,6 +28,14 @@ public abstract class GameObject {
 
     public abstract void update(double fps);
     public abstract void render(Canvas canvas, Paint paint);
+
+    public boolean isRemoved() {
+        return isRemoved;
+    }
+
+    public void remove() {
+        this.isRemoved = true;
+    }
 
     public Point getPosition() {
         return position;

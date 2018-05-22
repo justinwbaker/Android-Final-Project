@@ -12,6 +12,7 @@ import ca.easterndevelopers.finalproject.MainActivity;
 import ca.easterndevelopers.finalproject.game.Game;
 import ca.easterndevelopers.finalproject.level.gameobject.GameObject;
 import ca.easterndevelopers.finalproject.level.gameobject.Soldier;
+import ca.easterndevelopers.finalproject.level.gameobject.projectile.Projectile;
 import ca.easterndevelopers.finalproject.level.tile.Tile;
 import ca.easterndevelopers.finalproject.player.Enemy;
 import ca.easterndevelopers.finalproject.player.Player;
@@ -51,6 +52,9 @@ public class Level {
     public void update(double fps) {
         for (GameObject go: objects) {
             go.update(fps);
+            if(go.isRemoved()) {
+                objects.remove(go);
+            }
         }
     }
 
