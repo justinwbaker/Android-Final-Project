@@ -18,8 +18,8 @@ public class Projectile extends GameObject {
     private float direction;
     private float changeX;
     private float changeY;
-    public int startX;
-    public int startY;
+    private int startX;
+    private int startY;
 
     int color;
 
@@ -45,7 +45,7 @@ public class Projectile extends GameObject {
     }
 
     public Projectile(Projectile projectile){
-        super(new Point(projectile.x, projectile.y), new Point(10, 10));
+        super(new Point(projectile.startX, projectile.startY), new Point(10, 10));
 
         this.setSize(projectile.getSize());
         this.x = projectile.x;
