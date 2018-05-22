@@ -8,6 +8,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 
 import ca.easterndevelopers.finalproject.GameActivity;
+import ca.easterndevelopers.finalproject.game.Game;
 import ca.easterndevelopers.finalproject.level.gameobject.projectile.Projectile;
 import ca.easterndevelopers.finalproject.level.gameobject.weapon.RangedWeapon;
 import ca.easterndevelopers.finalproject.level.gameobject.weapon.Weapon;
@@ -70,6 +71,10 @@ public abstract class Unit extends GameObject {
         }
         paint.setColor(Color.WHITE);
         canvas.drawBitmap(image, getPosition().x, getPosition().y, paint);
+
+        if(Game.debug){
+
+        }
     }
 
     public void move() {
@@ -138,8 +143,10 @@ public abstract class Unit extends GameObject {
     }
 
     public void initHitbox(){
-        hitbox = new Rect(this.getPosition().x, this.getPosition().y, this.getSize().x, this.getSize().y);
+        hitbox = new Rect(this.getPosition().x+1, this.getPosition().y+1, this.getSize().x-1, this.getSize().y-1);
 
     }
+
+
 
 }

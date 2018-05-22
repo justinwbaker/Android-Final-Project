@@ -22,6 +22,8 @@ public class Game {
 
     private static Player player;
 
+    public static boolean debug = true;
+
     float x = 0;
 
     public Game(Context context) {
