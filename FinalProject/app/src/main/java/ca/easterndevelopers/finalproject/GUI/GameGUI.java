@@ -15,7 +15,7 @@ public class GameGUI extends GUI {
     private Rect viewMap;
 
     public GameGUI() {
-        viewMap = new Rect((int)MainActivity.getTileSize(), (int)MainActivity.getTileSize(), (int)MainActivity.getTileSize()*2, (int)MainActivity.getTileSize()*2);
+        viewMap = new Rect((int)MainActivity.getTileSize(), (int)MainActivity.getTileSize(), (int)(MainActivity.getTileSize()*2.5f), (int)(MainActivity.getTileSize()*2.5f));
     }
 
     @Override
