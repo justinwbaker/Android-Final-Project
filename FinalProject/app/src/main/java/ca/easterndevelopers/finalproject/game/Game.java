@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.Point;
 
 import ca.easterndevelopers.finalproject.GameActivity;
-import ca.easterndevelopers.finalproject.MainScreen;
 import ca.easterndevelopers.finalproject.R;
 import ca.easterndevelopers.finalproject.level.Level;
 import ca.easterndevelopers.finalproject.level.LevelManager;
@@ -21,13 +20,10 @@ public class Game {
 
     private static boolean isLookingAtMap = false;
 
-<<<<<<< HEAD
     private static Player player;
 
     public static boolean debug = true;
 
-=======
->>>>>>> 4bac556b8015ff304f11e450364bcff5742470eb
     float x = 0;
 
     public Game(Context context) {
@@ -35,8 +31,10 @@ public class Game {
         LevelManager.loadLevel(context, R.drawable.level1);
         System.out.println();
 
-        MainScreen.getPlayer().playLevel(LevelManager.getLevel(0));
-        MainScreen.getPlayer().startTurn();
+        player = new Player();
+        player.addUnit(new Soldier(new Point((int)(GameActivity.getTileSize()*7), (int)(GameActivity.getTileSize()*5))));
+        player.playLevel(LevelManager.getLevel(0));
+        player.startTurn();
     }
 
     public void update(double fps) {
@@ -44,15 +42,15 @@ public class Game {
         if(x > GameActivity.getResolution().x - GameActivity.getTileSize()) {
             x = 0;
         }
-        MainScreen.getPlayer().getCurrentLevel().update(fps);
+        player.getCurrentLevel().update(fps);
     }
 
     public void render(Canvas canvas, Paint paint) {
-        MainScreen.getPlayer().getCurrentLevel().render(canvas, paint);
+        player.getCurrentLevel().render(canvas, paint);
     }
 
     public static Player getPlayer() {
-        return MainScreen.getPlayer();
+        return player;
     }
 
     public static boolean isLookingAtMap() {

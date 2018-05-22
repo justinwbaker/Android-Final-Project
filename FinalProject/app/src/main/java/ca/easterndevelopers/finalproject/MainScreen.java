@@ -2,24 +2,19 @@ package ca.easterndevelopers.finalproject;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import ca.easterndevelopers.finalproject.level.gameobject.Soldier;
-import ca.easterndevelopers.finalproject.player.Player;
-
 public class MainScreen extends Activity implements View.OnClickListener{
 
     private int missionSelect = 0; // will default start on mission one if you don't manually pick one
-    private static Player player = new Player();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
 
         final Intent z = new Intent(this, MainActivity.class);
@@ -185,10 +180,6 @@ public class MainScreen extends Activity implements View.OnClickListener{
     @Override
     protected void onResume() {
         super.onResume();
-    }
-
-    public static Player getPlayer() {
-        return player;
     }
 
 

@@ -51,17 +51,20 @@ public abstract class Unit extends GameObject {
                 this.timesHasMoved++;
             }
         }
-        else /* if(!hasAttackedRanged && !hasAttackedMelee)*/{ // will also need " && shoot option is selected"
-            if(ranged.getAmmo() != 0) {
+        else if(!hasAttackedRanged && !hasAttackedMelee){ // will also need " && shoot option is selected"
+            //if(Ranged option is selected){
+                if (ranged.getAmmo() != 0) {
 
-                rangedAttack();
-            }
+                    rangedAttack();
+                }
+            //}
+
+        //    else /*if (melee option is selected)*/ {
+        //        meleeAttack();
+        //    }
+
         }
-/*
-        else if(!hasAttackedRanged && !hasAttackedMelee) { // will be the " && melee option selected"
 
-            meleeAttack();
-        }*/
     }
 
     public void render(Canvas canvas, Paint paint){
@@ -73,12 +76,10 @@ public abstract class Unit extends GameObject {
         canvas.drawBitmap(image, getPosition().x, getPosition().y, paint);
 
         if(Game.debug){
+            paint.setColor(Color.BLACK);
+            canvas.drawRect(this.getPosition().x + 1, this.getPosition().y + 1, this.getSize().x + this.getPosition().x - 1, getSize().y + this.getPosition().y - 1, paint);
 
         }
-    }
-
-    public void move() {
-
     }
 
     public void showMovementRange(Canvas canvas, Paint paint) {
@@ -109,6 +110,7 @@ public abstract class Unit extends GameObject {
 
     public void meleeAttack() {
         if(!hasAttackedMelee && !hasAttackedRanged) {
+            hasAttackedMelee = true;
 
         }
     }
@@ -124,6 +126,12 @@ public abstract class Unit extends GameObject {
                     this.getPosition().y + (int) GameActivity.getTileSize() / 2,
                     this.ranged.getSize(), this.ranged.getColor());
             this.getLevel().addGameObject(projectile);
+
+            /*for(Player.UnitArray and enemy.UnitArray){*/
+            //    if (projectile.getPosition().x > /*Unithitbox.x*/1 && projectile.getPosition().y > /*Unithitbox.y*/1 && projectile.getPosition().x < /*Unithitbox.x*/1 && projectile.getPosition().y < /*Unithitbox.y*/1) {
+            //        projectile = null;
+            //    }
+            //}
         }
     }
 
