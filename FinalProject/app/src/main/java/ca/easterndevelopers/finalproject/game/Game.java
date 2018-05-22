@@ -30,7 +30,7 @@ public class Game {
         System.out.println();
 
         player = new Player();
-        player.addUnit(new Soldier(new Point(480, 480)));
+        player.addUnit(new Soldier(new Point((int)(GameActivity.getTileSize()*7), (int)(GameActivity.getTileSize()*5))));
         player.playLevel(LevelManager.getLevel(0));
         player.startTurn();
     }

@@ -23,8 +23,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        Intent i = new Intent(this, GameActivity.class);
-        // Start our GameActivity class via the Intent
+        Intent i = new Intent(this, MainScreen.class);
+
         startActivity(i);
         finish();
     }
