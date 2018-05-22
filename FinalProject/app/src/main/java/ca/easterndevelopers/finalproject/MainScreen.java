@@ -6,9 +6,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+<<<<<<< HEAD
 public class MainScreen extends Activity implements View.OnClickListener{
 
     private int missionSelect = 0; // will default start on mission one if you don't manually pick one
+=======
+import ca.easterndevelopers.finalproject.level.LevelManager;
+import ca.easterndevelopers.finalproject.level.gameobject.Soldier;
+import ca.easterndevelopers.finalproject.player.Player;
+
+public class MainScreen extends Activity implements View.OnClickListener{
+
+    private static int missionSelect = 0; // will default start on mission one if you don't manually pick one
+    private static Player player = new Player();
+>>>>>>> 83f0a9fd15766e477a1c935f0cd967711c400176
 
 
     @Override
@@ -182,5 +193,15 @@ public class MainScreen extends Activity implements View.OnClickListener{
         super.onResume();
     }
 
+<<<<<<< HEAD
 
+=======
+    public static Player getPlayer() {
+        return player;
+    }
+
+    public static int getMissionSelected() {
+        return missionSelect;
+    }
+>>>>>>> 83f0a9fd15766e477a1c935f0cd967711c400176
 }

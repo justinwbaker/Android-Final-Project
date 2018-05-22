@@ -1,5 +1,14 @@
 package ca.easterndevelopers.finalproject.GUI;
 
-public class GUI {
+import android.graphics.Canvas;
+import android.graphics.Paint;
+
+public abstract class GUI {
+
+    public static boolean isOnGUI = false;
+
+    public abstract void update();
+
+    public abstract void render(Canvas canvas, Paint paint);
 
 }

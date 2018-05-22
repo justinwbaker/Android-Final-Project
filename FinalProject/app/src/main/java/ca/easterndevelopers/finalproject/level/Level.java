@@ -8,6 +8,7 @@ import android.graphics.Point;
 import java.util.ArrayList;
 
 import ca.easterndevelopers.finalproject.GameActivity;
+import ca.easterndevelopers.finalproject.MainActivity;
 import ca.easterndevelopers.finalproject.game.Game;
 import ca.easterndevelopers.finalproject.level.gameobject.GameObject;
 import ca.easterndevelopers.finalproject.level.gameobject.Soldier;
@@ -34,7 +35,7 @@ public class Level {
         tiles = new Tile[width*height];
         objects = new ArrayList<GameObject>();
         this.enemy = new Enemy();
-        enemy.addUnit(new Soldier(new Point((int)(GameActivity.getTileSize()*5),(int)(GameActivity.getTileSize()*7))));
+        enemy.addUnit(new Soldier(new Point((int)(MainActivity.getTileSize()*5),(int)(MainActivity.getTileSize()*7))));
     }
 
     public void init(Player player){

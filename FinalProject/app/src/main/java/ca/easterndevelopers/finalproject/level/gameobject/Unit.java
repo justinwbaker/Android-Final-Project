@@ -7,7 +7,9 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 
+import ca.easterndevelopers.finalproject.GUI.GUI;
 import ca.easterndevelopers.finalproject.GameActivity;
+import ca.easterndevelopers.finalproject.MainActivity;
 import ca.easterndevelopers.finalproject.game.Game;
 import ca.easterndevelopers.finalproject.level.gameobject.projectile.Projectile;
 import ca.easterndevelopers.finalproject.level.gameobject.weapon.RangedWeapon;
@@ -45,9 +47,9 @@ public abstract class Unit extends GameObject {
     }
 
     public void update(double fps) {
-        if(this.isActiveUnit && timesHasMoved < timeCanMove) {
+        if(this.isActiveUnit && timesHasMoved < timeCanMove && !GUI.isOnGUI) {
             if(Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), Utils.toTiledPosition(GameRenderer.getTouchedPoint()))) < movementRange) {
-                this.setPosition(Utils.toWorldPosition(Utils.toTiledPosition(GameRenderer.getTouchedPoint())));
+                this.setPosition(Utils.toWorldPosition(Utils.toTiledPosition(GameRenderer.getWorldTouchedPoint())));
                 this.timesHasMoved++;
             }
         }
@@ -89,7 +91,7 @@ public abstract class Unit extends GameObject {
                 if(Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), tilePosition)) < movementRange){
                     //draw transparent squares
                     paint.setColor(Color.argb(100, 0, 153, 204));
-                    canvas.drawRect(tilePosition.x*GameActivity.getTileSize(), tilePosition.y*GameActivity.getTileSize(), tilePosition.x*GameActivity.getTileSize() + GameActivity.getTileSize(), tilePosition.y*GameActivity.getTileSize() + GameActivity.getTileSize(),  paint);
+                    canvas.drawRect(tilePosition.x* MainActivity.getTileSize(), tilePosition.y*MainActivity.getTileSize(), tilePosition.x*MainActivity.getTileSize() + MainActivity.getTileSize(), tilePosition.y*MainActivity.getTileSize() + MainActivity.getTileSize(),  paint);
                 }
             }
         }
@@ -102,7 +104,7 @@ public abstract class Unit extends GameObject {
                 if(Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), tilePosition)) < ranged.getRange()){
                     //draw transparent squares
                     paint.setColor(Color.argb(150, 153, 50, 0));
-                    canvas.drawRect(tilePosition.x*GameActivity.getTileSize(), tilePosition.y*GameActivity.getTileSize(), tilePosition.x*GameActivity.getTileSize() + GameActivity.getTileSize(), tilePosition.y*GameActivity.getTileSize() + GameActivity.getTileSize(),  paint);
+                    canvas.drawRect(tilePosition.x*MainActivity.getTileSize(), tilePosition.y*MainActivity.getTileSize(), tilePosition.x*MainActivity.getTileSize() + MainActivity.getTileSize(), tilePosition.y*MainActivity.getTileSize() + MainActivity.getTileSize(),  paint);
                 }
             }
         }
@@ -122,8 +124,8 @@ public abstract class Unit extends GameObject {
             Projectile projectile = new Projectile(
                     GameRenderer.getTouchedPoint().x,
                     GameRenderer.getTouchedPoint().y,
-                    this.getPosition().x + (int) GameActivity.getTileSize() / 2,
-                    this.getPosition().y + (int) GameActivity.getTileSize() / 2,
+                    this.getPosition().x + (int) MainActivity.getTileSize() / 2,
+                    this.getPosition().y + (int) MainActivity.getTileSize() / 2,
                     this.ranged.getSize(), this.ranged.getColor());
             this.getLevel().addGameObject(projectile);
 
