@@ -37,7 +37,6 @@ public class LevelManager {
                     case 0xfff7e26b:
                         level.setTile(j, i, new VerticalRoadLineTile(new Point(j, i), level));
                         break;
-
                     case 0xff0f0f0f:
                         level.setTile(j, i, new VerticalLeftSideRoadTile(new Point(j, i), level));
                         break;
