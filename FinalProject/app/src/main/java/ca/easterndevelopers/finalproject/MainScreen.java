@@ -2,11 +2,11 @@ package ca.easterndevelopers.finalproject;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+<<<<<<< HEAD
 import ca.easterndevelopers.finalproject.level.LevelManager;
 import ca.easterndevelopers.finalproject.level.gameobject.Soldier;
 import ca.easterndevelopers.finalproject.player.Player;
@@ -15,12 +15,17 @@ public class MainScreen extends Activity implements View.OnClickListener{
 
     private static int missionSelect = 0; // will default start on mission one if you don't manually pick one
     private static Player player = new Player();
+=======
+public class MainScreen extends Activity implements View.OnClickListener{
+
+    private int missionSelect = 0; // will default start on mission one if you don't manually pick one
+>>>>>>> parent of 700ead8... Merge branch 'master' of https://github.com/justinwbaker/Android-Final-Project
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
 
         final Intent z = new Intent(this, MainActivity.class);
@@ -188,6 +193,7 @@ public class MainScreen extends Activity implements View.OnClickListener{
         super.onResume();
     }
 
+<<<<<<< HEAD
     public static Player getPlayer() {
         return player;
     }
@@ -195,4 +201,7 @@ public class MainScreen extends Activity implements View.OnClickListener{
     public static int getMissionSelected() {
         return missionSelect;
     }
+=======
+
+>>>>>>> parent of 700ead8... Merge branch 'master' of https://github.com/justinwbaker/Android-Final-Project
 }
