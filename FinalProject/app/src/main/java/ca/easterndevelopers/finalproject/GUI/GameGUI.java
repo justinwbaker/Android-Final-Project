@@ -35,7 +35,7 @@ public class GameGUI extends GUI {
     @Override
     public void render(Canvas canvas, Paint paint) {
         canvas.restore();
-        paint.setColor(Color.BLUE);
+        paint.setColor(Color.argb(135, 0, 0, 255));
         canvas.drawRect(viewMap, paint);
         paint.setColor(Color.BLACK);
         paint.setTextSize(50);

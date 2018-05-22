@@ -78,7 +78,7 @@ public abstract class Unit extends GameObject {
         canvas.drawBitmap(image, getPosition().x, getPosition().y, paint);
 
         if(Game.debug){
-            paint.setColor(Color.BLACK);
+            paint.setColor(Color.argb(100, 255, 20, 20));
             canvas.drawRect(this.getPosition().x + 1, this.getPosition().y + 1, this.getSize().x + this.getPosition().x - 1, getSize().y + this.getPosition().y - 1, paint);
 
         }
@@ -122,8 +122,8 @@ public abstract class Unit extends GameObject {
             hasAttackedRanged = true;
             ranged.setAmmo(ranged.getAmmo() - 1);
             Projectile projectile = new Projectile(
-                    GameRenderer.getTouchedPoint().x,
-                    GameRenderer.getTouchedPoint().y,
+                    GameRenderer.getWorldTouchedPoint().x,
+                    GameRenderer.getWorldTouchedPoint().y,
                     this.getPosition().x + (int) MainActivity.getTileSize() / 2,
                     this.getPosition().y + (int) MainActivity.getTileSize() / 2,
                     this.ranged.getSize(), this.ranged.getColor());

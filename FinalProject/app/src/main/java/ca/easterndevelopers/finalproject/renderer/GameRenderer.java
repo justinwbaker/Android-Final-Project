@@ -144,8 +144,9 @@ public class GameRenderer extends SurfaceView implements Runnable{
     }
 
     public static Point getWorldTouchedPoint() {
-        int x = touchedPoint.x - canvasOffset.x;
-        int y = touchedPoint.y - canvasOffset.y;
+        System.out.println(touchedPoint.x + ":" + canvasOffset.x);
+        int x = touchedPoint.x + (-canvasOffset.x);
+        int y = touchedPoint.y + (-canvasOffset.y);
         return new Point(x, y);
     }
 
