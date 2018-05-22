@@ -9,8 +9,6 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import java.util.Timer;
-
 import ca.easterndevelopers.finalproject.GameActivity;
 import ca.easterndevelopers.finalproject.game.Game;
 
@@ -29,7 +27,7 @@ public class GameRenderer extends SurfaceView implements Runnable{
     private Game game;
 
     private static Point touchedPoint;
-    private Point preveousTouchedPoint;
+    private Point previousTouchedPoint;
     private static Point dragAmt;
 
     private Point canvasOffset;
@@ -41,7 +39,7 @@ public class GameRenderer extends SurfaceView implements Runnable{
         this.context = context;
 
         touchedPoint = new Point(-1, -1);
-        preveousTouchedPoint = new Point(-1, -1);
+        previousTouchedPoint = new Point(-1, -1);
         canvasOffset = new Point();
 
         paint = new Paint();
@@ -108,9 +106,9 @@ public class GameRenderer extends SurfaceView implements Runnable{
         float y = e.getY();
         switch (e.getAction()){
             case MotionEvent.ACTION_MOVE:
-                if(preveousTouchedPoint != null && Game.isLookingAtMap()) {
-                    float dx = x - preveousTouchedPoint.x;
-                    float dy = y - preveousTouchedPoint.y;
+                if(previousTouchedPoint != null && Game.isLookingAtMap()) {
+                    float dx = x - previousTouchedPoint.x;
+                    float dy = y - previousTouchedPoint.y;
                     dragAmt = new Point((int)dx, (int)dy);
                     if(game.getPlayer().getCurrentLevel() != null) {
                         canvasOffset.x += dx;
@@ -136,7 +134,7 @@ public class GameRenderer extends SurfaceView implements Runnable{
                 }
                 break;
         }
-        preveousTouchedPoint = new Point((int)x, (int)y);
+        previousTouchedPoint = new Point((int)x, (int)y);
         return true;
     }
 

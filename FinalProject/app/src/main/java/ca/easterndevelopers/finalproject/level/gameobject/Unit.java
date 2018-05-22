@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Rect;
 
 import ca.easterndevelopers.finalproject.GameActivity;
 import ca.easterndevelopers.finalproject.level.gameobject.projectile.Projectile;
@@ -30,6 +31,7 @@ public abstract class Unit extends GameObject {
     private Bitmap image;
     protected Weapon melee;
     protected RangedWeapon ranged;
+    private Rect hitbox;
 
     public Unit(Point position, Point size) {
         super(position, size);
@@ -48,7 +50,7 @@ public abstract class Unit extends GameObject {
                 this.timesHasMoved++;
             }
         }
-        else /*if(!hasAttackedRanged && !hasAttackedMelee)*/{ // will also need " && shoot option is selected"
+        else /* if(!hasAttackedRanged && !hasAttackedMelee)*/{ // will also need " && shoot option is selected"
             if(ranged.getAmmo() != 0) {
 
                 rangedAttack();
@@ -64,6 +66,7 @@ public abstract class Unit extends GameObject {
     public void render(Canvas canvas, Paint paint){
         if(this.isActiveUnit && timesHasMoved != timeCanMove) {
             this.showMovementRange(canvas, paint);
+            this.showAttackRange(canvas, paint); // need to change this to only check if we want to attack
         }
         paint.setColor(Color.WHITE);
         canvas.drawBitmap(image, getPosition().x, getPosition().y, paint);
@@ -79,7 +82,20 @@ public abstract class Unit extends GameObject {
                 Point tilePosition = new Point(j, i);
                 if(Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), tilePosition)) < movementRange){
                     //draw transparent squares
-                    paint.setColor(Color.argb(150, 0, 153, 204));
+                    paint.setColor(Color.argb(100, 0, 153, 204));
+                    canvas.drawRect(tilePosition.x*GameActivity.getTileSize(), tilePosition.y*GameActivity.getTileSize(), tilePosition.x*GameActivity.getTileSize() + GameActivity.getTileSize(), tilePosition.y*GameActivity.getTileSize() + GameActivity.getTileSize(),  paint);
+                }
+            }
+        }
+    }
+
+    public void showAttackRange(Canvas canvas, Paint paint) {
+        for(int i = 0; i < this.getLevel().getHeight(); i++) {
+            for(int j = 0; j < this.getLevel().getWidth(); j++) {
+                Point tilePosition = new Point(j, i);
+                if(Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), tilePosition)) < ranged.getRange()){
+                    //draw transparent squares
+                    paint.setColor(Color.argb(150, 153, 50, 0));
                     canvas.drawRect(tilePosition.x*GameActivity.getTileSize(), tilePosition.y*GameActivity.getTileSize(), tilePosition.x*GameActivity.getTileSize() + GameActivity.getTileSize(), tilePosition.y*GameActivity.getTileSize() + GameActivity.getTileSize(),  paint);
                 }
             }
@@ -87,20 +103,23 @@ public abstract class Unit extends GameObject {
     }
 
     public void meleeAttack() {
+        if(!hasAttackedMelee && !hasAttackedRanged) {
 
+        }
     }
 
     public void rangedAttack() {
-
-        hasAttackedRanged = true;
-        ranged.setAmmo(ranged.getAmmo() - 1);
-        Projectile projectile = new Projectile(
-                GameRenderer.getTouchedPoint().x,
-                GameRenderer.getTouchedPoint().y,
-                this.getPosition().x + (int) GameActivity.getTileSize() / 2,
-                this.getPosition().y + (int) GameActivity.getTileSize() / 2,
-                this.ranged.getSize(), this.ranged.getColor());
-        this.getLevel().addGameObject(projectile);
+        if(!hasAttackedMelee && !hasAttackedRanged) {
+            hasAttackedRanged = true;
+            ranged.setAmmo(ranged.getAmmo() - 1);
+            Projectile projectile = new Projectile(
+                    GameRenderer.getTouchedPoint().x,
+                    GameRenderer.getTouchedPoint().y,
+                    this.getPosition().x + (int) GameActivity.getTileSize() / 2,
+                    this.getPosition().y + (int) GameActivity.getTileSize() / 2,
+                    this.ranged.getSize(), this.ranged.getColor());
+            this.getLevel().addGameObject(projectile);
+        }
     }
 
     public void levelUp() {
@@ -116,6 +135,11 @@ public abstract class Unit extends GameObject {
 
     public void setActive() {
         this.isActiveUnit = true;
+    }
+
+    public void initHitbox(){
+        hitbox = new Rect(this.getPosition().x, this.getPosition().y, this.getSize().x, this.getSize().y);
+
     }
 
 }
