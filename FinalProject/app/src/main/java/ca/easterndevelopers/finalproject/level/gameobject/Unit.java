@@ -47,24 +47,25 @@ public abstract class Unit extends GameObject {
     }
 
     public void update(double fps) {
-        if(this.isActiveUnit && timesHasMoved < timeCanMove && !GUI.isOnGUI) {
-            if(Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), Utils.toTiledPosition(GameRenderer.getTouchedPoint()))) < movementRange) {
-                this.setPosition(Utils.toWorldPosition(Utils.toTiledPosition(GameRenderer.getWorldTouchedPoint())));
-                this.timesHasMoved++;
-            }
-        }
-        else if(!hasAttackedRanged && !hasAttackedMelee){ // will also need " && shoot option is selected"
-            //if(Ranged option is selected){
+        if(this.isActiveUnit) {
+            if (timesHasMoved < timeCanMove && !GUI.isOnGUI) {
+                if (Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), Utils.toTiledPosition(GameRenderer.getTouchedPoint()))) < movementRange) {
+                    this.setPosition(Utils.toWorldPosition(Utils.toTiledPosition(GameRenderer.getWorldTouchedPoint())));
+                    this.timesHasMoved++;
+                }
+            } else if (!hasAttackedRanged && !hasAttackedMelee) { // will also need " && shoot option is selected"
+                //if(Ranged option is selected){
                 if (ranged.getAmmo() != 0) {
 
                     rangedAttack();
                 }
-            //}
+                //}
 
-        //    else /*if (melee option is selected)*/ {
-        //        meleeAttack();
-        //    }
+                //    else /*if (melee option is selected)*/ {
+                //        meleeAttack();
+                //    }
 
+            }
         }
 
     }

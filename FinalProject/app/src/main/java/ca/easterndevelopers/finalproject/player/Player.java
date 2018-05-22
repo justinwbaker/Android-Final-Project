@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import ca.easterndevelopers.finalproject.level.Level;
 import ca.easterndevelopers.finalproject.level.gameobject.Unit;
+import ca.easterndevelopers.finalproject.renderer.GameRenderer;
 
 public class Player {
 
@@ -28,9 +29,6 @@ public class Player {
 
     public void startTurn() {
         this.isPlayersTurn = true;
-        if(this.units.size() != 0) {
-            this.units.get(indexOfActiveUnit).setActive();
-        }
     }
 
     public boolean isPlayersTurn() {
@@ -58,6 +56,9 @@ public class Player {
     public void updateUnits() {
         for(Unit u : units){
             u.update(0.0);
+            if(GameRenderer.getTouchedPoint() != null) {
+                
+            }
         }
     }
 }
