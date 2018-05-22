@@ -9,6 +9,7 @@ import android.view.Display;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import ca.easterndevelopers.finalproject.level.LevelManager;
 import ca.easterndevelopers.finalproject.renderer.GameRenderer;
 
 public class GameActivity extends Activity {
@@ -22,6 +23,24 @@ public class GameActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         context = this;
+
+        System.out.println(MainScreen.getMissionSelected());
+
+        switch(MainScreen.getMissionSelected()){
+            case 1:
+                LevelManager.loadLevel(GameActivity.getContext(), R.drawable.level1);
+                break;
+            case 2:
+                LevelManager.loadLevel(GameActivity.getContext(), R.drawable.level2);
+                break;
+            case 3:
+                LevelManager.loadLevel(GameActivity.getContext(), R.drawable.level3);
+                break;
+            default:
+                LevelManager.loadLevel(GameActivity.getContext(), R.drawable.level1);
+                break;
+        }
+
         renderer = new GameRenderer(this);
         setContentView(renderer);
     }

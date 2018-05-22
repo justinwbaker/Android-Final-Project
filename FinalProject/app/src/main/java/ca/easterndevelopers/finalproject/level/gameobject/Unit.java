@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 
+import ca.easterndevelopers.finalproject.GUI.GUI;
 import ca.easterndevelopers.finalproject.GameActivity;
 import ca.easterndevelopers.finalproject.MainActivity;
 import ca.easterndevelopers.finalproject.game.Game;
@@ -46,9 +47,9 @@ public abstract class Unit extends GameObject {
     }
 
     public void update(double fps) {
-        if(this.isActiveUnit && timesHasMoved < timeCanMove) {
+        if(this.isActiveUnit && timesHasMoved < timeCanMove && !GUI.isOnGUI) {
             if(Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), Utils.toTiledPosition(GameRenderer.getTouchedPoint()))) < movementRange) {
-                this.setPosition(Utils.toWorldPosition(Utils.toTiledPosition(GameRenderer.getTouchedPoint())));
+                this.setPosition(Utils.toWorldPosition(Utils.toTiledPosition(GameRenderer.getWorldTouchedPoint())));
                 this.timesHasMoved++;
             }
         }

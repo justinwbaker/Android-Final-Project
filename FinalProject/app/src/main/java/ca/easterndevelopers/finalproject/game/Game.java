@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 
+import ca.easterndevelopers.finalproject.GUI.GUI;
+import ca.easterndevelopers.finalproject.GUI.GameGUI;
 import ca.easterndevelopers.finalproject.GameActivity;
 import ca.easterndevelopers.finalproject.MainActivity;
 import ca.easterndevelopers.finalproject.MainScreen;
@@ -19,6 +21,7 @@ import ca.easterndevelopers.finalproject.player.Player;
 public class Game {
 
     private Context context;
+    private static GUI gui;
 
     private static boolean isLookingAtMap = false;
 
@@ -26,10 +29,10 @@ public class Game {
 
     public Game(Context context) {
         this.context = context;
-        System.out.println();
+        gui = new GameGUI();
 
         MainScreen.getPlayer().addUnit(new Soldier(new Point((int) MainActivity.getTileSize()*3, (int)MainActivity.getTileSize()*3)));
-        MainScreen.getPlayer().playLevel(LevelManager.getLevel(MainScreen.getMissionSelected()));
+        MainScreen.getPlayer().playLevel(LevelManager.getLevel(0));
         MainScreen.getPlayer().startTurn();
     }
 
@@ -39,6 +42,7 @@ public class Game {
 
     public void render(Canvas canvas, Paint paint) {
         MainScreen.getPlayer().getCurrentLevel().render(canvas, paint);
+        gui.render(canvas, paint);
     }
 
     public static Player getPlayer() {
@@ -47,6 +51,12 @@ public class Game {
 
     public static boolean isLookingAtMap() {
         return isLookingAtMap;
+    }
+
+    public static void setIsLookingAtMap(boolean _isLookingAtMap) {isLookingAtMap = _isLookingAtMap; }
+
+    public static GUI getGameGUI() {
+        return gui;
     }
 
 }

@@ -21,11 +21,6 @@ public class MainScreen extends Activity implements View.OnClickListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-        LevelManager.loadLevel(GameActivity.getContext(), R.drawable.level1);
-        LevelManager.loadLevel(GameActivity.getContext(), R.drawable.level2);
-        LevelManager.loadLevel(GameActivity.getContext(), R.drawable.level3);
-
         setContentView(R.layout.activity_main_screen);
 
         final Intent z = new Intent(this, MainActivity.class);

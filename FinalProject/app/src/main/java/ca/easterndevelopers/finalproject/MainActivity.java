@@ -9,6 +9,8 @@ import android.view.Display;
 import android.view.View;
 import android.widget.Button;
 
+import ca.easterndevelopers.finalproject.level.LevelManager;
+
 public class MainActivity extends Activity implements View.OnClickListener {
 
     private static Point resolution;
