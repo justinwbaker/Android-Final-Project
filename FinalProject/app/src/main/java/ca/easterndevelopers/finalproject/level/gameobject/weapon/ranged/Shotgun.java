@@ -10,7 +10,7 @@ public class Shotgun extends RangedWeapon{
     public Shotgun(Unit unit) {
         super(unit, 0xffff00ff, new Point(10, 10));
         this.damage = 7;
-        this.range = 8;
+        this.range = 5;
         this.speed = 6;
         this.ammoCapacity = 2;
         this.ammo = ammoCapacity;

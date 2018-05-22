@@ -10,7 +10,7 @@ public class RocketLauncher extends RangedWeapon{
     public RocketLauncher(Unit unit) {
         super(unit, 0xffff00ff, new Point(10, 10));
         this.damage = 15;
-        this.range = 13;
+        this.range = 9;
         this.speed = 1;
         this.ammoCapacity = 1;
         this.ammo = ammoCapacity;

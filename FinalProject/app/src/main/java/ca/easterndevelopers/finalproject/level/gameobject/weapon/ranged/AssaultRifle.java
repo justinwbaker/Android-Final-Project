@@ -10,7 +10,7 @@ public class AssaultRifle extends RangedWeapon{
     public AssaultRifle(Unit unit) {
         super(unit, 0xffff00ff, new Point(10, 10));
         this.damage = 5;
-        this.range = 12;
+        this.range = 8;
         this.speed = 5;
         this.ammoCapacity = 4;
         this.ammo = ammoCapacity;

@@ -9,18 +9,8 @@ import android.graphics.Point;
 import ca.easterndevelopers.finalproject.GUI.GUI;
 import ca.easterndevelopers.finalproject.GUI.GameGUI;
 import ca.easterndevelopers.finalproject.GameActivity;
-<<<<<<< HEAD
-<<<<<<< HEAD
 import ca.easterndevelopers.finalproject.MainActivity;
 import ca.easterndevelopers.finalproject.MainScreen;
-=======
->>>>>>> parent of 700ead8... Merge branch 'master' of https://github.com/justinwbaker/Android-Final-Project
-=======
-=======
-import ca.easterndevelopers.finalproject.MainActivity;
-import ca.easterndevelopers.finalproject.MainScreen;
->>>>>>> 83f0a9fd15766e477a1c935f0cd967711c400176
->>>>>>> f2edd97f7b2176c6ba1d3a143e9b2fb0a9eadbbf
 import ca.easterndevelopers.finalproject.R;
 import ca.easterndevelopers.finalproject.level.Level;
 import ca.easterndevelopers.finalproject.level.LevelManager;
@@ -35,55 +25,12 @@ public class Game {
 
     private static boolean isLookingAtMap = false;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
     public static boolean debug = true;
 
-=======
-    private static Player player;
-
-    public static boolean debug = true;
-
-    float x = 0;
-
->>>>>>> parent of 700ead8... Merge branch 'master' of https://github.com/justinwbaker/Android-Final-Project
-=======
-    private static Player player;
-
-    public static boolean debug = true;
-
-    float x = 0;
-
-=======
-    public static boolean debug = true;
-
->>>>>>> 83f0a9fd15766e477a1c935f0cd967711c400176
->>>>>>> f2edd97f7b2176c6ba1d3a143e9b2fb0a9eadbbf
     public Game(Context context) {
         this.context = context;
         gui = new GameGUI();
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-        player = new Player();
-        player.addUnit(new Soldier(new Point((int)(GameActivity.getTileSize()*7), (int)(GameActivity.getTileSize()*5))));
-        player.playLevel(LevelManager.getLevel(0));
-        player.startTurn();
-    }
-
-    public void update(double fps) {
-        x += GameActivity.getTileSize()*2/fps;
-        if(x > GameActivity.getResolution().x - GameActivity.getTileSize()) {
-            x = 0;
-        }
-        player.getCurrentLevel().update(fps);
-    }
-
-    public void render(Canvas canvas, Paint paint) {
-        player.getCurrentLevel().render(canvas, paint);
-=======
->>>>>>> f2edd97f7b2176c6ba1d3a143e9b2fb0a9eadbbf
         MainScreen.getPlayer().addUnit(new Soldier(new Point((int) MainActivity.getTileSize()*3, (int)MainActivity.getTileSize()*3)));
         MainScreen.getPlayer().playLevel(LevelManager.getLevel(0));
         MainScreen.getPlayer().startTurn();
@@ -96,32 +43,10 @@ public class Game {
     public void render(Canvas canvas, Paint paint) {
         MainScreen.getPlayer().getCurrentLevel().render(canvas, paint);
         gui.render(canvas, paint);
-<<<<<<< HEAD
-=======
-        player = new Player();
-        player.addUnit(new Soldier(new Point((int)(GameActivity.getTileSize()*7), (int)(GameActivity.getTileSize()*5))));
-        player.playLevel(LevelManager.getLevel(0));
-        player.startTurn();
-    }
-
-    public void update(double fps) {
-        x += GameActivity.getTileSize()*2/fps;
-        if(x > GameActivity.getResolution().x - GameActivity.getTileSize()) {
-            x = 0;
-        }
-        player.getCurrentLevel().update(fps);
-    }
-
-    public void render(Canvas canvas, Paint paint) {
-        player.getCurrentLevel().render(canvas, paint);
->>>>>>> parent of 700ead8... Merge branch 'master' of https://github.com/justinwbaker/Android-Final-Project
-=======
->>>>>>> 83f0a9fd15766e477a1c935f0cd967711c400176
->>>>>>> f2edd97f7b2176c6ba1d3a143e9b2fb0a9eadbbf
     }
 
     public static Player getPlayer() {
-        return player;
+        return MainScreen.getPlayer();
     }
 
     public static boolean isLookingAtMap() {
