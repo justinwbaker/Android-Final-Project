@@ -11,9 +11,13 @@ import ca.easterndevelopers.finalproject.utils.Utils;
 
 public class Soldier extends Unit {
 
-    public Soldier(Point position) {
+    public Soldier(Point position, boolean isEnemy) {
         super(position, new Point((int) MainActivity.getTileSize(), (int)MainActivity.getTileSize()));
-        this.setBitmap(Utils.loadBitmap(GameActivity.getContext(), R.drawable.soldier));
+        if(!isEnemy)
+            this.setBitmap(Utils.loadBitmap(GameActivity.getContext(), R.drawable.soldier));
+        else
+            this.setBitmap(Utils.loadBitmap(GameActivity.getContext(), R.drawable.enemy_soldier));
+
         this.timeCanMove = 1;
         this.movementRange = 5;
         this.ranged = new Pistol(this);

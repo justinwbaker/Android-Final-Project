@@ -6,6 +6,8 @@ import android.graphics.Point;
 
 import java.util.ArrayList;
 
+import ca.easterndevelopers.finalproject.MainActivity;
+import ca.easterndevelopers.finalproject.level.gameobject.Soldier;
 import ca.easterndevelopers.finalproject.level.tile.BuildingTile;
 import ca.easterndevelopers.finalproject.level.tile.GrassTile;
 import ca.easterndevelopers.finalproject.level.tile.VerticalLeftSideRoadTile;
@@ -18,6 +20,9 @@ public class LevelManager {
     public static ArrayList<Level> levels = new ArrayList<Level>();
 
     /* Tiles:
+
+             player start area: ffbe2633
+                 enemy soldier: ffe06f8b
 
                          grass: ff00ff00
               verticalRoadLine: fff7e26b
@@ -50,6 +55,16 @@ public class LevelManager {
                     case 0xff00ff00:
                         level.setTile(j, i, new GrassTile(new Point(j, i), level));
                         break;
+                    case 0xffbe2633:
+                        level.setTile(j, i, new GrassTile(new Point(j, i), level));
+                        // do player start area stuff....
+                        break;
+                    case 0xffe06f8b:
+                        level.setTile(j, i, new GrassTile(new Point(j, i), level));
+                        // add enemy solder
+                        level.getEnemy().addUnit(new Soldier(new Point((int)(MainActivity.getTileSize()*j),(int)(MainActivity.getTileSize()*i)), true));
+                        break;
+                    //roads
                     case 0xfff7e26b:
                         level.setTile(j, i, new VerticalRoadLineTile(new Point(j, i), level));
                         break;
@@ -60,7 +75,7 @@ public class LevelManager {
                     case 0xff000000:
                         level.setTile(j, i, new VerticalRightSideRoadTile(new Point(j, i), level));
                         break;
-                        // bulding
+                    // bulding
                     case 0xff31a2f2:
                         level.setTile(j, i, new BuildingTile(new Point(j, i),0, level));
                         break;
@@ -94,6 +109,7 @@ public class LevelManager {
                     case 0xff4f4f4f:
                         level.setTile(j, i, new BuildingTile(new Point(j, i),1, level));
                         break;
+                    // fences
                 }
             }
         }

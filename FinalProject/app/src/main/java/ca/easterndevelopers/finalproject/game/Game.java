@@ -25,14 +25,14 @@ public class Game {
 
     private static boolean isLookingAtMap = false;
 
-    public static boolean debug = true;
+    public static boolean debug = false;
 
     public Game(Context context) {
         this.context = context;
         gui = new GameGUI();
 
-        MainScreen.getPlayer().addUnit(new Soldier(new Point((int) MainActivity.getTileSize()*6, (int)MainActivity.getTileSize()*6)));
-        MainScreen.getPlayer().addUnit(new Soldier(new Point((int) MainActivity.getTileSize()*12, (int)MainActivity.getTileSize()*12)));
+        MainScreen.getPlayer().addUnit(new Soldier(new Point((int) MainActivity.getTileSize()*6, (int)MainActivity.getTileSize()*6), false));
+        MainScreen.getPlayer().addUnit(new Soldier(new Point((int) MainActivity.getTileSize()*12, (int)MainActivity.getTileSize()*12), false));
         MainScreen.getPlayer().playLevel(LevelManager.getLevel(0));
         MainScreen.getPlayer().startTurn();
     }

@@ -38,7 +38,6 @@ public class Level {
         tiles = new Tile[width*height];
         objects = new ArrayList<GameObject>();
         this.enemy = new Enemy();
-        enemy.addUnit(new Soldier(new Point((int)(MainActivity.getTileSize()*5),(int)(MainActivity.getTileSize()*7))));
     }
 
     public void init(Player player){
@@ -109,5 +108,9 @@ public class Level {
     public void addGameObject(GameObject GO){
         GO.init(this);
         objects.add(GO);
+    }
+
+    public Enemy getEnemy() {
+        return enemy;
     }
 }
