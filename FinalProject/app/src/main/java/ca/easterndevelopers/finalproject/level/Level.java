@@ -52,6 +52,9 @@ public class Level {
     public void update(double fps) {
         for (GameObject go: objects) {
             go.update(fps);
+
+            if((go instanceof Projectile)  )
+
             if(go.isRemoved()) {
                 objects.remove(go);
             }

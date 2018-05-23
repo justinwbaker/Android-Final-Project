@@ -4,8 +4,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Rect;
 
 import ca.easterndevelopers.finalproject.level.gameobject.GameObject;
+import ca.easterndevelopers.finalproject.level.gameobject.Unit;
 
 public class Projectile extends GameObject {
 
@@ -20,10 +22,12 @@ public class Projectile extends GameObject {
     private float changeY;
     private int startX;
     private int startY;
+    private Unit unit;
+    private Rect rect;
 
     int color;
 
-    public Projectile(int targetX, int targetY, int startX, int startY, Point size, int color) {
+    public Projectile(int targetX, int targetY, int startX, int startY, Point size, int color, Unit unit) {
 
         super(new Point(startX, startY), new Point (size));
 
@@ -35,6 +39,7 @@ public class Projectile extends GameObject {
         this.targetX = targetX;
         this.targetY = targetY;
         this.color = color;
+        this.unit = unit;
 
         distance = Math.sqrt(Math.pow((startX-targetX), 2) + Math.pow((startY-targetY), 2));
 
@@ -42,33 +47,26 @@ public class Projectile extends GameObject {
 
         changeX = (float)Math.cos(direction);
         changeY = (float)Math.sin(direction);
-    }
 
-    public Projectile(Projectile projectile){
-        super(new Point(projectile.startX, projectile.startY), new Point(10, 10));
-
-        this.setSize(projectile.getSize());
-        this.x = projectile.x;
-        this.y = projectile.y;
-        this.distance = projectile.distance;
-        this.targetX = projectile.targetX;
-        this.targetY = projectile.targetY;
-        this.speed = projectile.speed;
-        this.direction = projectile.direction;
-        this.changeX = projectile.changeX;
-        this.changeY = projectile.changeY;
 
     }
+
 
     public void update(double fps){
 
         x = x + (int)(speed * changeX/fps);
         y = y + (int)(speed * changeY/fps);
+        this.rect = new Rect((this.x - this.getSize().x/2), (this.y- this.getSize().y/2), (this.x + this.getSize().x/2), (this.y + this.getSize().y/2));
+
     }
 
     @Override
     public void render(Canvas canvas, Paint paint) {
         paint.setColor(this.color);
         canvas.drawRect(this.x - this.getSize().x/2, this.y- this.getSize().y/2, this.x + this.getSize().x/2, this.y + this.getSize().y/2, paint);
+    }
+
+    public Rect getHitbox(){
+        return rect;
     }
 }
