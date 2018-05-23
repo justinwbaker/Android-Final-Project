@@ -54,7 +54,7 @@ public class Projectile extends GameObject {
         this.position.x += (int)(speed * changeX/fps);
         this.position.y += (int)(speed * changeY/fps);
 
-        if(this.position.x < 0 || this.position.y < 0 || this.position.x > MainActivity.getResolution().x ||  this.position.y > MainActivity.getResolution().y)
+        if(this.position.x < 0 || this.position.y < 0 || this.position.x > level.getWidth()*MainActivity.getTileSize() ||  this.position.y > level.getHeight()*MainActivity.getTileSize())
             this.remove();
 
     }
