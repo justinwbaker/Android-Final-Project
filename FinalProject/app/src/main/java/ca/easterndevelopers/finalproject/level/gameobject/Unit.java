@@ -13,9 +13,11 @@ import ca.easterndevelopers.finalproject.GUI.GUI;
 import ca.easterndevelopers.finalproject.GameActivity;
 import ca.easterndevelopers.finalproject.MainActivity;
 import ca.easterndevelopers.finalproject.game.Game;
+import ca.easterndevelopers.finalproject.level.Level;
 import ca.easterndevelopers.finalproject.level.gameobject.projectile.Projectile;
 import ca.easterndevelopers.finalproject.level.gameobject.weapon.RangedWeapon;
 import ca.easterndevelopers.finalproject.level.gameobject.weapon.Weapon;
+import ca.easterndevelopers.finalproject.player.Enemy;
 import ca.easterndevelopers.finalproject.renderer.GameRenderer;
 import ca.easterndevelopers.finalproject.utils.Utils;
 
@@ -28,7 +30,7 @@ public abstract class Unit extends GameObject {
     protected int timesHasMoved;
     private boolean hasAttackedRanged;
     private boolean hasAttackedMelee;
-
+    protected int health;
 
     protected boolean isActiveUnit;
 
@@ -39,6 +41,7 @@ public abstract class Unit extends GameObject {
     protected RangedWeapon ranged;
     private Rect hitbox;
 
+
     public Unit(Point position, Point size) {
         super(position, size);
         this.baseDamage = 1;
@@ -47,6 +50,7 @@ public abstract class Unit extends GameObject {
         this.timeCanMove = 1;
         this.isActiveUnit = false;
         this.costToLevel = 10;
+        this.health = 7;
     }
 
     public void update(double fps) {
@@ -57,30 +61,33 @@ public abstract class Unit extends GameObject {
                     int y = GameRenderer.getWorldTouchedPoint().y;
 
                     Rect tilePosition = new Rect(x, y, x + 1, y + 1);
-                    if (Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), Utils.toTiledPosition(new Point(x, y)))) < movementRange) {
+                    if (Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), Utils.toTiledPosition(new Point(x, y)))) < movementRange){
                         int xpos = GameRenderer.getWorldTouchedPoint().x - (int)(GameRenderer.getWorldTouchedPoint().x%MainActivity.getTileSize());
                         int ypos = GameRenderer.getWorldTouchedPoint().y - (int)(GameRenderer.getWorldTouchedPoint().y%MainActivity.getTileSize());
 
                         this.setPosition(new Point(xpos, ypos));
                         this.timesHasMoved++;
                         if(Game.debug) System.out.println("Is in range");
+
+                        for(Unit u : this.getLevel().getEnemy().getUnits()){
+                            if((Math.abs(Math.sqrt(Math.pow((this.getPosition().x-u.getPosition().x), 2) +
+                                    Math.pow((this.getPosition().y-u.getPosition().y), 2)))) <= MainActivity.getTileSize()){
+                                meleeAttack();
+                                u.takeDamage(this.melee.getDamage());
+                                System.out.println("melee attack performed!");
+                                System.out.println(u.getHealth());
+
+                            } // melee attack check and action upon move
+                        }
                     }
                 }
-            } else if (!hasAttackedRanged && !hasAttackedMelee) { // will also need " && shoot option is selected"
-                //if(Ranged option is selected){
+
                 if (ranged.getAmmo() != 0) {
 
                     rangedAttack();
                 }
-                //}
-
-                //    else /*if (melee option is selected)*/ {
-                //        meleeAttack();
-                //    }
-
             }
         }
-
     }
 
     public void render(Canvas canvas, Paint paint){
@@ -132,7 +139,7 @@ public abstract class Unit extends GameObject {
     }
 
     public void rangedAttack() {
-        if(!hasAttackedMelee && !hasAttackedRanged) {
+        if(!hasAttackedRanged) {
             hasAttackedRanged = true;
             ranged.setAmmo(ranged.getAmmo() - 1);
             Projectile projectile = new Projectile(
@@ -142,18 +149,23 @@ public abstract class Unit extends GameObject {
                     this.getPosition().y + (int) MainActivity.getTileSize() / 2,
                     this.ranged.getSize(), this.ranged.getColor(), this);
             this.getLevel().addGameObject(projectile);
-
-            /*for(Player.UnitArray and enemy.UnitArray){*/
-            //    if (projectile.getPosition().x > /*Unithitbox.x*/1 && projectile.getPosition().y > /*Unithitbox.y*/1 && projectile.getPosition().x < /*Unithitbox.x*/1 && projectile.getPosition().y < /*Unithitbox.y*/1) {
-            //        projectile = null;
-            //    }
-            //}
         }
     }
 
     public void levelUp() {
 
     }
+
+    public void takeDamage(int damage){
+
+        this.health -= damage;
+
+        if(health <= 0){
+            this.isRemoved();
+        }
+    }
+
+
 
     public void setBitmap(Bitmap image) {
         this.image = image;
@@ -188,4 +200,11 @@ public abstract class Unit extends GameObject {
         return MainActivity.getTileSize()/16;
     }
 
+    public RangedWeapon getRangedWeapon(){
+        return this.ranged;
+    }
+
+    public int getHealth(){
+        return health;
+    }
 }

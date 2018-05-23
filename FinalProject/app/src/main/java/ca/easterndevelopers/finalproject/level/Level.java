@@ -19,6 +19,8 @@ import ca.easterndevelopers.finalproject.level.tile.Tile;
 import ca.easterndevelopers.finalproject.player.Enemy;
 import ca.easterndevelopers.finalproject.player.Player;
 
+import static ca.easterndevelopers.finalproject.MainActivity.friendlyFire;
+
 public class Level {
 
     private int width, height;
@@ -63,6 +65,7 @@ public class Level {
                         Projectile projectile2 = (Projectile) go;
                         if(projectile != projectile2 && Rect.intersects(projectile.getHitbox(), projectile2.getHitbox())) {
                             projectile.remove();
+                            
                             if (Game.debug) {
                                 System.out.println("HIT");
                             }
@@ -80,9 +83,13 @@ public class Level {
 
                 for(Unit unit: player.getUnits()) {
                     if(unit != projectile.getUnit() && Rect.intersects(unit.getHitbox(), projectile.getHitbox())) {
-                        projectile.remove();
-                        if (Game.debug) {
-                            System.out.println("HIT");
+                        if(friendlyFire) {
+                            projectile.remove();
+
+                            if (Game.debug) {
+                                System.out.println("HIT Friendly");
+
+                            }
                         }
                     }
                 }
@@ -90,8 +97,11 @@ public class Level {
                 for(Unit unit: enemy.getUnits()) {
                     if(unit != projectile.getUnit() && Rect.intersects(unit.getHitbox(), projectile.getHitbox())) {
                         projectile.remove();
+                        unit.takeDamage(projectile.getUnit().getRangedWeapon().getDamage());
+
                         if (Game.debug) {
-                            System.out.println("HIT");
+                            System.out.println("HIT Enemy");
+                            System.out.println(unit.getHealth());
                         }
                     }
                 }
