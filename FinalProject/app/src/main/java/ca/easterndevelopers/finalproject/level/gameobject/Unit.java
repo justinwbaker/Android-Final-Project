@@ -93,7 +93,7 @@ public abstract class Unit extends GameObject {
 
         if(Game.debug){
             paint.setColor(Color.argb(100, 255, 20, 20));
-            canvas.drawRect(this.getPosition().x + 1, this.getPosition().y + 1, this.getSize().x + this.getPosition().x - 1, getSize().y + this.getPosition().y - 1, paint);
+            canvas.drawRect(this.getHitbox(), paint);
 
         }
     }
@@ -171,7 +171,7 @@ public abstract class Unit extends GameObject {
     }
 
     public Rect getHitbox(){
-        hitbox = new Rect(this.getPosition().x+1, this.getPosition().y+1, this.getSize().x-1, this.getSize().y-1);
+        hitbox = new Rect(this.getPosition().x+((int)getPixelSize()*3), this.getPosition().y+((int)getPixelSize()), this.getPosition().x + this.getSize().x-((int)getPixelSize()*3), this.getPosition().y+this.getSize().y-((int)getPixelSize()));
         return hitbox;
     }
 
@@ -182,6 +182,10 @@ public abstract class Unit extends GameObject {
 
     public boolean isDoneTurn() {
         return (this.hasAttackedMelee && this.hasAttackedRanged && (this.timeCanMove == this.timesHasMoved));
+    }
+
+    public float getPixelSize() {
+        return MainActivity.getTileSize()/16;
     }
 
 }

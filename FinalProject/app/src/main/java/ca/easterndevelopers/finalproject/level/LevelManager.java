@@ -6,6 +6,7 @@ import android.graphics.Point;
 
 import java.util.ArrayList;
 
+import ca.easterndevelopers.finalproject.level.tile.BuildingTile;
 import ca.easterndevelopers.finalproject.level.tile.GrassTile;
 import ca.easterndevelopers.finalproject.level.tile.VerticalLeftSideRoadTile;
 import ca.easterndevelopers.finalproject.level.tile.VerticalRightSideRoadTile;
@@ -18,11 +19,26 @@ public class LevelManager {
 
     /* Tiles:
 
-        grass = ff00ff00
-        verticalRoadLine = fff7e26b
-        verticalLeftSideRoad = ff0f0f0f
-        verticalRightSideRoad = ff000000
+                         grass: ff00ff00
+              verticalRoadLine: fff7e26b
+          verticalLeftSideRoad: ff0f0f0f
+         verticalRightSideRoad: ff000000
 
+        building:
+                          door: ff31a2f2
+                 window_bottom: ff5e5e5e
+                 window_top_00: ff6e6e6e
+                 window_top_01: ff7e7e7e
+                 window_top_02: ff8e8e8e
+
+              roof_bottom_left: ff5f5f5f
+             roof_bottom_right: ff6f6f6f
+
+                 roof_top_left: ff7f7f7f
+                roof_top_right: ff8f8f8f
+
+                      roof_top: ff9f9f9f
+                   roof_middle: ff4f4f4f
      */
 
     public static void loadLevel(Context context, int bitmapIndex) {
@@ -43,6 +59,40 @@ public class LevelManager {
                         break;
                     case 0xff000000:
                         level.setTile(j, i, new VerticalRightSideRoadTile(new Point(j, i), level));
+                        break;
+                        // bulding
+                    case 0xff31a2f2:
+                        level.setTile(j, i, new BuildingTile(new Point(j, i),0, level));
+                        break;
+                    case 0xff5e5e5e:
+                        level.setTile(j, i, new BuildingTile(new Point(j, i),13, level));
+                        break;
+                    case 0xff6e6e6e:
+                        level.setTile(j, i, new BuildingTile(new Point(j, i),10, level));
+                        break;
+                    case 0xff7e7e7e:
+                        level.setTile(j, i, new BuildingTile(new Point(j, i),11, level));
+                        break;
+                    case 0xff8e8e8e:
+                        level.setTile(j, i, new BuildingTile(new Point(j, i),12, level));
+                        break;
+                    case 0xff5f5f5f:
+                        level.setTile(j, i, new BuildingTile(new Point(j, i),2, level));
+                        break;
+                    case 0xff6f6f6f:
+                        level.setTile(j, i, new BuildingTile(new Point(j, i),3, level));
+                        break;
+                    case 0xff7f7f7f:
+                        level.setTile(j, i, new BuildingTile(new Point(j, i),8, level));
+                        break;
+                    case 0xff8f8f8f:
+                        level.setTile(j, i, new BuildingTile(new Point(j, i),9, level));
+                        break;
+                    case 0xff9f9f9f:
+                        level.setTile(j, i, new BuildingTile(new Point(j, i),7, level));
+                        break;
+                    case 0xff4f4f4f:
+                        level.setTile(j, i, new BuildingTile(new Point(j, i),1, level));
                         break;
                 }
             }

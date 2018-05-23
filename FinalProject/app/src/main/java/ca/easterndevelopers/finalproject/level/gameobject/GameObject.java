@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Rect;
 
 import ca.easterndevelopers.finalproject.level.Level;
 
@@ -55,5 +56,9 @@ public abstract class GameObject {
 
     public Level getLevel() {
         return this.level;
+    }
+
+    public Rect getHitbox() {
+        return new Rect(this.position.x, this.position.y, this.position.x + this.size.x, this.position.y + this.size.y);
     }
 }

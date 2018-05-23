@@ -28,7 +28,7 @@ public class GameActivity extends Activity {
 
         switch(MainScreen.getMissionSelected()){
             case 1:
-                LevelManager.loadLevel(GameActivity.getContext(), R.drawable.level1);
+                LevelManager.loadLevel(GameActivity.getContext(), R.drawable.level1_small);
                 break;
             case 2:
                 LevelManager.loadLevel(GameActivity.getContext(), R.drawable.level2);
