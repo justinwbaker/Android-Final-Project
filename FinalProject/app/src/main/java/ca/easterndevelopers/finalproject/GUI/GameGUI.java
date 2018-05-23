@@ -16,6 +16,8 @@ public class GameGUI extends GUI {
     private Rect nextUnit;
     private Rect endTurn;
 
+    private double fps;
+
     public GameGUI() {
         viewMap = new Rect((int)MainActivity.getTileSize(), (int)MainActivity.getTileSize(), (int)(MainActivity.getTileSize()*2.5f), (int)(MainActivity.getTileSize()*2.5f));
         nextUnit = new Rect((int)MainActivity.getResolution().x - (int)MainActivity.getTileSize()*4, MainActivity.getResolution().y - (int)(MainActivity.getTileSize()*2.5f), (int)MainActivity.getResolution().x - (int)MainActivity.getTileSize()*2, MainActivity.getResolution().y - (int)MainActivity.getTileSize());
@@ -23,8 +25,9 @@ public class GameGUI extends GUI {
     }
 
     @Override
-    public void update() {
+    public void update(double fps) {
         isOnGUI = false;
+        this.fps = fps;
         if(GameRenderer.getTouchedPoint() != null) {
             int x = GameRenderer.getTouchedPoint().x;
             int y = GameRenderer.getTouchedPoint().y;
@@ -59,6 +62,8 @@ public class GameGUI extends GUI {
         canvas.drawText("  MAP ", (int)MainActivity.getTileSize() + (int)MainActivity.getTileSize()/8, (int)MainActivity.getTileSize()*1.7f, paint);
         canvas.drawText(" NEXT ", nextUnit.left + MainActivity.getTileSize()/2, nextUnit.bottom - MainActivity.getTileSize()/2, paint);
         canvas.drawText("  END ", endTurn.left + MainActivity.getTileSize()/2, endTurn.bottom - MainActivity.getTileSize()/2, paint);
+        if(Game.debug)
+            canvas.drawText("" + fps, MainActivity.getResolution().x/2 , MainActivity.getTileSize(), paint);
     }
 
     // esc button will deselect unit if unit is selected, else will open up main menu

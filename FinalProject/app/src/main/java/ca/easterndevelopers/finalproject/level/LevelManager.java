@@ -77,6 +77,7 @@ public class LevelManager {
                         level.setTile(j, i, new GrassTile(new Point(j, i), level));
                         break;
                     case 0xffbe2633:
+
                         level.setTile(j, i, new GrassTile(new Point(j, i), level));
                         // do player start area stuff....
                         break;

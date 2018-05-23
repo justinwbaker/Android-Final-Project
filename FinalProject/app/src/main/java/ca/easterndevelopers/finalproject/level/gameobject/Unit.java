@@ -54,8 +54,8 @@ public abstract class Unit extends GameObject {
     }
 
     public void update(double fps) {
-        if(this.isActiveUnit) {
-            if (timesHasMoved < timeCanMove && !GUI.isOnGUI) {
+        if(this.isActiveUnit && !GUI.isOnGUI) {
+            if (timesHasMoved < timeCanMove) {
                 if(GameRenderer.getWorldTouchedPoint() != null) {
                     int x = GameRenderer.getWorldTouchedPoint().x;
                     int y = GameRenderer.getWorldTouchedPoint().y;
@@ -74,26 +74,25 @@ public abstract class Unit extends GameObject {
                                     Math.pow((this.getPosition().y-u.getPosition().y), 2)))) <= MainActivity.getTileSize()){
                                 meleeAttack();
                                 u.takeDamage(this.melee.getDamage());
-                                System.out.println("melee attack performed!");
-                                System.out.println(u.getHealth());
+                                u.update(0);
 
                             } // melee attack check and action upon move
                         }
                     }
                 }
-
-                if (ranged.getAmmo() != 0) {
-
-                    rangedAttack();
-                }
+            }else if (ranged.getAmmo() != 0&& GameRenderer.getWorldTouchedPoint() != null) {
+                rangedAttack();
             }
+
         }
     }
 
     public void render(Canvas canvas, Paint paint){
+        if(this.isActiveUnit) {
+            this.showAttackRange(canvas, paint); // need to change this to only check if we want to attack
+        }
         if(this.isActiveUnit && timesHasMoved != timeCanMove) {
             this.showMovementRange(canvas, paint);
-            this.showAttackRange(canvas, paint); // need to change this to only check if we want to attack
         }
         paint.setColor(Color.WHITE);
         canvas.drawBitmap(image, getPosition().x, getPosition().y, paint);
@@ -111,7 +110,7 @@ public abstract class Unit extends GameObject {
                 Point tilePosition = new Point(j, i);
                 if(Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), tilePosition)) < movementRange){
                     //draw transparent squares
-                    paint.setColor(Color.argb(100, 0, 153, 204));
+                    paint.setColor(Color.argb(200, 0, 153, 204));
                     canvas.drawRect(tilePosition.x* MainActivity.getTileSize(), tilePosition.y*MainActivity.getTileSize(), tilePosition.x*MainActivity.getTileSize() + MainActivity.getTileSize(), tilePosition.y*MainActivity.getTileSize() + MainActivity.getTileSize(),  paint);
                 }
             }
@@ -124,7 +123,7 @@ public abstract class Unit extends GameObject {
                 Point tilePosition = new Point(j, i);
                 if(Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), tilePosition)) < ranged.getRange()){
                     //draw transparent squares
-                    paint.setColor(Color.argb(150, 153, 50, 0));
+                    paint.setColor(Color.argb(70, 0, 0, 0));
                     canvas.drawRect(tilePosition.x*MainActivity.getTileSize(), tilePosition.y*MainActivity.getTileSize(), tilePosition.x*MainActivity.getTileSize() + MainActivity.getTileSize(), tilePosition.y*MainActivity.getTileSize() + MainActivity.getTileSize(),  paint);
                 }
             }
@@ -134,7 +133,6 @@ public abstract class Unit extends GameObject {
     public void meleeAttack() {
         if(!hasAttackedMelee && !hasAttackedRanged) {
             hasAttackedMelee = true;
-
         }
     }
 
@@ -160,8 +158,11 @@ public abstract class Unit extends GameObject {
 
         this.health -= damage;
 
+        if(Game.debug) System.out.println(this.health);
+
         if(health <= 0){
-            this.isRemoved();
+            if(Game.debug) System.out.println("Unit has died");
+            this.remove();
         }
     }
 

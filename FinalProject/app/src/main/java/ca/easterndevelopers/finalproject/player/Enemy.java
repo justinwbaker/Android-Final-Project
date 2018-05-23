@@ -10,4 +10,15 @@ public class Enemy extends Player {
         this.isPlayersTurn = false;
         this.units = new ArrayList<Unit>();
     }
+
+    @Override
+    public void updateUnits() {
+        for (int i = 0; i < units.size(); i++) {
+            Unit u = units.get(i);
+            u.update(0.0);
+            if (u.isRemoved()) {
+                this.units.remove(u);
+            }
+        }
+    }
 }

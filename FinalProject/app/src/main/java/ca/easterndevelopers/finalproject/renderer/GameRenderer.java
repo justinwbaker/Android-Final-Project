@@ -130,10 +130,6 @@ public class GameRenderer extends SurfaceView implements Runnable{
                 break;
             case MotionEvent.ACTION_UP:
                 touchedPoint = new Point((int) x, (int) y);
-                Game.getGameGUI().update();
-                if(!Game.isLookingAtMap() && !GUI.isOnGUI) {
-                    Game.getPlayer().updateUnits();
-                }
                 break;
         }
         previousTouchedPoint = new Point((int)x, (int)y);

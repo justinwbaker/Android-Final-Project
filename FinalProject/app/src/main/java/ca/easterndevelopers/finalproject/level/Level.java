@@ -40,6 +40,7 @@ public class Level {
         tiles = new Tile[width*height];
         objects = new ArrayList<GameObject>();
         this.enemy = new Enemy();
+        this.enemy.playLevel(this);
     }
 
     public void init(Player player){
@@ -53,8 +54,12 @@ public class Level {
     }
 
     public void update(double fps) {
+        this.player.updateUnits();
+        this.enemy.updateUnits();
         for (GameObject go: objects) {
             go.update(fps);
+
+
 
             if( (go instanceof Projectile)  ){
                 Projectile projectile = (Projectile) go;
@@ -96,8 +101,9 @@ public class Level {
 
                 for(Unit unit: enemy.getUnits()) {
                     if(unit != projectile.getUnit() && Rect.intersects(unit.getHitbox(), projectile.getHitbox())) {
-                        projectile.remove();
+                        System.out.println(projectile.getUnit().getRangedWeapon().getDamage());
                         unit.takeDamage(projectile.getUnit().getRangedWeapon().getDamage());
+                        projectile.remove();
 
                         if (Game.debug) {
                             System.out.println("HIT Enemy");

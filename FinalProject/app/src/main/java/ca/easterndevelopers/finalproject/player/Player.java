@@ -4,9 +4,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.icu.util.UniversalTimeScale;
 
 import java.util.ArrayList;
 
+import ca.easterndevelopers.finalproject.GUI.GUI;
 import ca.easterndevelopers.finalproject.game.Game;
 import ca.easterndevelopers.finalproject.level.Level;
 import ca.easterndevelopers.finalproject.level.gameobject.Unit;
@@ -27,6 +29,7 @@ public class Player {
     }
 
     public void addUnit(Unit unit) {
+        unit.init(this.getCurrentLevel());
         units.add(unit);
     }
 
@@ -53,31 +56,21 @@ public class Player {
     public void renderUnits(Canvas canvas, Paint paint) {
         for (Unit u : units) {
             u.render(canvas, paint);
-            if(Game.debug) {
-                if (GameRenderer.getWorldTouchedPoint() != null) {
-                    int x = GameRenderer.getWorldTouchedPoint().x;
-                    int y = GameRenderer.getWorldTouchedPoint().y;
-                    paint.setColor(Color.BLUE);
-                    Rect hitBox = new Rect((int) (u.getPosition().x), (int) (u.getPosition().y), (int) (u.getPosition().x) + u.getSize().x, (int) (u.getPosition().y) + u.getSize().y);
-                    canvas.drawRect(hitBox, paint);
-                }
-            }
         }
-
-
     }
 
     public void updateUnits() {
         int index = 0;
-        for(Unit u : units){
+        for (int i = 0; i < units.size(); i++) {
+            Unit u = units.get(i);
             u.update(0.0);
-            if(GameRenderer.getWorldTouchedPoint() != null) {
+            if (GameRenderer.getWorldTouchedPoint() != null && !Game.isLookingAtMap()) {
                 int x = GameRenderer.getWorldTouchedPoint().x;
                 int y = GameRenderer.getWorldTouchedPoint().y;
 
-                Rect hitBox = new Rect((int) (u.getPosition().x), (int) (u.getPosition().y ), (int) (u.getPosition().x) + u.getSize().x, (int) (u.getPosition().y ) + u.getSize().y);
-                if(Rect.intersects(hitBox, new Rect(x, y, x+1, y+1))){
-                    for(Unit unit : units){
+                Rect hitBox = new Rect((int) (u.getPosition().x), (int) (u.getPosition().y), (int) (u.getPosition().x) + u.getSize().x, (int) (u.getPosition().y) + u.getSize().y);
+                if (Rect.intersects(hitBox, new Rect(x, y, x + 1, y + 1))) {
+                    for (Unit unit : units) {
                         unit.setNotActive();
                     }
                     this.indexOfActiveUnit = index;
@@ -85,31 +78,37 @@ public class Player {
                 }
             }
             index++;
+
+            if (u.isRemoved()) {
+                this.units.remove(u);
+            }
         }
     }
 
     public void setNextActiveUnit() {
-        int unitsDone = 0;
-        for(Unit u : units){
-            if(u.isDoneTurn()) unitsDone++;
-        }
-
-        if(unitsDone == this.units.size()) {
-            this.endTurn();
-        }else {
-
-            this.indexOfActiveUnit++;
-            if (this.indexOfActiveUnit >= this.units.size()) {
-                this.indexOfActiveUnit = 0;
+        if(!Game.isLookingAtMap()) {
+            int unitsDone = 0;
+            for (Unit u : units) {
+                if (u.isDoneTurn()) unitsDone++;
             }
 
-            if (this.units.get(indexOfActiveUnit).isDoneTurn()) {
-                setNextActiveUnit();
+            if (unitsDone == this.units.size()) {
+                this.endTurn();
             } else {
-                for (Unit unit : units) {
-                    unit.setNotActive();
+
+                this.indexOfActiveUnit++;
+                if (this.indexOfActiveUnit >= this.units.size()) {
+                    this.indexOfActiveUnit = 0;
                 }
-                units.get(indexOfActiveUnit).setActive();
+
+                if (this.units.get(indexOfActiveUnit).isDoneTurn()) {
+                    setNextActiveUnit();
+                } else {
+                    for (Unit unit : units) {
+                        unit.setNotActive();
+                    }
+                    units.get(indexOfActiveUnit).setActive();
+                }
             }
         }
     }

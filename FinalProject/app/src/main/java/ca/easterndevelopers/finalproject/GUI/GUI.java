@@ -7,7 +7,7 @@ public abstract class GUI {
 
     public static boolean isOnGUI = false;
 
-    public abstract void update();
+    public abstract void update(double fps);
 
     public abstract void render(Canvas canvas, Paint paint);
 
