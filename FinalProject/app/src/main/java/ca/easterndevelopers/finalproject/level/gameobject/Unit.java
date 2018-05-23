@@ -7,6 +7,8 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 
+import junit.runner.TestSuiteLoader;
+
 import ca.easterndevelopers.finalproject.GUI.GUI;
 import ca.easterndevelopers.finalproject.GameActivity;
 import ca.easterndevelopers.finalproject.MainActivity;
@@ -26,6 +28,7 @@ public abstract class Unit extends GameObject {
     protected int timesHasMoved;
     private boolean hasAttackedRanged;
     private boolean hasAttackedMelee;
+
 
     protected boolean isActiveUnit;
 
@@ -54,13 +57,14 @@ public abstract class Unit extends GameObject {
                     int y = GameRenderer.getWorldTouchedPoint().y;
 
                     Rect tilePosition = new Rect(x, y, x + 1, y + 1);
-                    if (Rect.intersects(tilePosition, tilePosition)) {
+                    if (Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), Utils.toTiledPosition(new Point(x, y)))) < movementRange) {
+                        int xpos = GameRenderer.getWorldTouchedPoint().x - (int)(GameRenderer.getWorldTouchedPoint().x%MainActivity.getTileSize());
+                        int ypos = GameRenderer.getWorldTouchedPoint().y - (int)(GameRenderer.getWorldTouchedPoint().y%MainActivity.getTileSize());
 
+                        this.setPosition(new Point(xpos, ypos));
+                        this.timesHasMoved++;
+                        if(Game.debug) System.out.println("Is in range");
                     }
-                }
-                if (Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), Utils.toTiledPosition(GameRenderer.getWorldTouchedPoint()))) < movementRange) {
-                    this.setPosition(Utils.toWorldPosition(Utils.toTiledPosition(GameRenderer.getWorldTouchedPoint())));
-                    this.timesHasMoved++;
                 }
             } else if (!hasAttackedRanged && !hasAttackedMelee) { // will also need " && shoot option is selected"
                 //if(Ranged option is selected){
@@ -174,6 +178,10 @@ public abstract class Unit extends GameObject {
     public Rect getWorldHitbox(){
         hitbox = new Rect(this.getPosition().x+1, this.getPosition().y+1, this.getSize().x-1, this.getSize().y-1);
         return hitbox;
+    }
+
+    public boolean isDoneTurn() {
+        return (this.hasAttackedMelee && this.hasAttackedRanged && (this.timeCanMove == this.timesHasMoved));
     }
 
 }

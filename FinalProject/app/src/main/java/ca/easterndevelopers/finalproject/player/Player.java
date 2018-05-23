@@ -17,7 +17,7 @@ public class Player {
     protected ArrayList<Unit> units;
     protected boolean isPlayersTurn;
 
-    protected int indexOfActiveUnit = 0;
+    protected int indexOfActiveUnit = -1;
 
     protected Level currentLevel;
 
@@ -68,6 +68,7 @@ public class Player {
     }
 
     public void updateUnits() {
+        int index = 0;
         for(Unit u : units){
             u.update(0.0);
             if(GameRenderer.getWorldTouchedPoint() != null) {
@@ -76,13 +77,44 @@ public class Player {
 
                 Rect hitBox = new Rect((int) (u.getPosition().x), (int) (u.getPosition().y ), (int) (u.getPosition().x) + u.getSize().x, (int) (u.getPosition().y ) + u.getSize().y);
                 if(Rect.intersects(hitBox, new Rect(x, y, x+1, y+1))){
-                    System.out.println("lasdkjhfa");
                     for(Unit unit : units){
                         unit.setNotActive();
                     }
+                    this.indexOfActiveUnit = index;
                     u.setActive();
                 }
             }
+            index++;
         }
+    }
+
+    public void setNextActiveUnit() {
+        int unitsDone = 0;
+        for(Unit u : units){
+            if(u.isDoneTurn()) unitsDone++;
+        }
+
+        if(unitsDone == this.units.size()) {
+            this.endTurn();
+        }else {
+
+            this.indexOfActiveUnit++;
+            if (this.indexOfActiveUnit >= this.units.size()) {
+                this.indexOfActiveUnit = 0;
+            }
+
+            if (this.units.get(indexOfActiveUnit).isDoneTurn()) {
+                setNextActiveUnit();
+            } else {
+                for (Unit unit : units) {
+                    unit.setNotActive();
+                }
+                units.get(indexOfActiveUnit).setActive();
+            }
+        }
+    }
+
+    public void endTurn(){
+        this.isPlayersTurn = false;
     }
 }

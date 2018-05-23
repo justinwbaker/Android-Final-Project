@@ -36,6 +36,7 @@ public class GameGUI extends GUI {
 
             if(Rect.intersects(nextUnit, new Rect(x, y, x+1, y+1))){
                 isOnGUI = true;
+                MainScreen.getPlayer().setNextActiveUnit();
                 // select next unit
             }
 
