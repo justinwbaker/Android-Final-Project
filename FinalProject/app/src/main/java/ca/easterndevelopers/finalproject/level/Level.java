@@ -57,16 +57,41 @@ public class Level {
             if( (go instanceof Projectile)  ){
                 Projectile projectile = (Projectile) go;
 
-                for(GameObject GO: objects) {
-                    if( (go instanceof Unit)  ) {
-                        Unit unit = (Unit) GO;
-                        if (Rect.intersects((projectile.getHitbox()), (unit.getHitbox()))) {
 
-                            if (projectile.getUnit() != unit) {
-                                if (Game.debug) {
-                                    System.out.println("HIT");
-                                }
+                for(GameObject object: objects) {
+                    if( (object instanceof Projectile)  ) {
+                        Projectile projectile2 = (Projectile) go;
+                        if(projectile != projectile2 && Rect.intersects(projectile.getHitbox(), projectile2.getHitbox())) {
+                            projectile.remove();
+                            if (Game.debug) {
+                                System.out.println("HIT");
                             }
+                        }
+                    }
+                    else {
+                        if(Rect.intersects(projectile.getHitbox(), go.getHitbox())) {
+                            projectile.remove();
+                            if (Game.debug) {
+                                System.out.println("HIT");
+                            }
+                        }
+                    }
+                }
+
+                for(Unit unit: player.getUnits()) {
+                    if(unit != projectile.getUnit() && Rect.intersects(unit.getHitbox(), projectile.getHitbox())) {
+                        projectile.remove();
+                        if (Game.debug) {
+                            System.out.println("HIT");
+                        }
+                    }
+                }
+
+                for(Unit unit: enemy.getUnits()) {
+                    if(unit != projectile.getUnit() && Rect.intersects(unit.getHitbox(), projectile.getHitbox())) {
+                        projectile.remove();
+                        if (Game.debug) {
+                            System.out.println("HIT");
                         }
                     }
                 }

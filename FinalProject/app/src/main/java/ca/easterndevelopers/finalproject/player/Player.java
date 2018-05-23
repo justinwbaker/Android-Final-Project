@@ -117,4 +117,8 @@ public class Player {
     public void endTurn(){
         this.isPlayersTurn = false;
     }
+
+    public ArrayList<Unit> getUnits() {
+        return units;
+    }
 }

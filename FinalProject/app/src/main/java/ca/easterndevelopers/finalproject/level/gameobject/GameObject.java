@@ -10,12 +10,12 @@ import ca.easterndevelopers.finalproject.level.Level;
 
 public abstract class GameObject {
 
-    private Point position;
-    private Point size;
+    protected Point position;
+    protected Point size;
 
-    private boolean isRemoved;
+    protected boolean isRemoved;
 
-    private Level level;
+    protected Level level;
 
     public GameObject(Point position, Point size) {
         this.isRemoved = false;
