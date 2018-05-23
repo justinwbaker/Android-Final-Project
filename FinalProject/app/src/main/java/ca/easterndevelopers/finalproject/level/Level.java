@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Rect;
 
 import java.util.ArrayList;
 
@@ -12,6 +13,7 @@ import ca.easterndevelopers.finalproject.MainActivity;
 import ca.easterndevelopers.finalproject.game.Game;
 import ca.easterndevelopers.finalproject.level.gameobject.GameObject;
 import ca.easterndevelopers.finalproject.level.gameobject.Soldier;
+import ca.easterndevelopers.finalproject.level.gameobject.Unit;
 import ca.easterndevelopers.finalproject.level.gameobject.projectile.Projectile;
 import ca.easterndevelopers.finalproject.level.tile.Tile;
 import ca.easterndevelopers.finalproject.player.Enemy;
@@ -53,7 +55,23 @@ public class Level {
         for (GameObject go: objects) {
             go.update(fps);
 
-            if((go instanceof Projectile)  )
+            if( (go instanceof Projectile)  ){
+                Projectile projectile = (Projectile) go;
+
+                for(GameObject GO: objects) {
+                    if( (go instanceof Unit)  ) {
+                        Unit unit = (Unit) GO;
+                        if (Rect.intersects((projectile.getHitbox()), (unit.getHitbox()))) {
+
+                            if (projectile.getUnit() != unit) {
+                                if (Game.debug) {
+                                    System.out.println("HIT");
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
             if(go.isRemoved()) {
                 objects.remove(go);

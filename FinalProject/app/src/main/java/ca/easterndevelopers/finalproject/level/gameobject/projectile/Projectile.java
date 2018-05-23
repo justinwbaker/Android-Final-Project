@@ -8,6 +8,7 @@ import android.graphics.Rect;
 
 import ca.easterndevelopers.finalproject.level.gameobject.GameObject;
 import ca.easterndevelopers.finalproject.level.gameobject.Unit;
+import ca.easterndevelopers.finalproject.renderer.GameRenderer;
 
 public class Projectile extends GameObject {
 
@@ -56,7 +57,7 @@ public class Projectile extends GameObject {
 
         x = x + (int)(speed * changeX/fps);
         y = y + (int)(speed * changeY/fps);
-        this.rect = new Rect((this.x - this.getSize().x/2), (this.y- this.getSize().y/2), (this.x + this.getSize().x/2), (this.y + this.getSize().y/2));
+
 
     }
 
@@ -64,9 +65,19 @@ public class Projectile extends GameObject {
     public void render(Canvas canvas, Paint paint) {
         paint.setColor(this.color);
         canvas.drawRect(this.x - this.getSize().x/2, this.y- this.getSize().y/2, this.x + this.getSize().x/2, this.y + this.getSize().y/2, paint);
+        updateRect(        (this.x - this.getSize().x/2),   (this.y- this.getSize().y/2),    (this.x + this.getSize().x/2),      (this.y + this.getSize().y/2));
+
     }
 
     public Rect getHitbox(){
         return rect;
+    }
+
+    public void updateRect(int x, int y, int x2, int y2){
+        this.rect = new Rect(x, y, x2, y2);
+    }
+
+    public Unit getUnit(){
+        return unit;
     }
 }
