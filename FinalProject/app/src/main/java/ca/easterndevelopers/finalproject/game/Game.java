@@ -32,6 +32,7 @@ public class Game {
         gui = new GameGUI();
 
         MainScreen.getPlayer().addUnit(new Soldier(new Point((int) MainActivity.getTileSize()*6, (int)MainActivity.getTileSize()*6)));
+        MainScreen.getPlayer().addUnit(new Soldier(new Point((int) MainActivity.getTileSize()*12, (int)MainActivity.getTileSize()*12)));
         MainScreen.getPlayer().playLevel(LevelManager.getLevel(0));
         MainScreen.getPlayer().startTurn();
     }

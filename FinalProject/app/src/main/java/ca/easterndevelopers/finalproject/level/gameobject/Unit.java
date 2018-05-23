@@ -49,7 +49,16 @@ public abstract class Unit extends GameObject {
     public void update(double fps) {
         if(this.isActiveUnit) {
             if (timesHasMoved < timeCanMove && !GUI.isOnGUI) {
-                if (Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), Utils.toTiledPosition(GameRenderer.getTouchedPoint()))) < movementRange) {
+                if(GameRenderer.getWorldTouchedPoint() != null) {
+                    int x = GameRenderer.getWorldTouchedPoint().x;
+                    int y = GameRenderer.getWorldTouchedPoint().y;
+
+                    Rect tilePosition = new Rect(x, y, x + 1, y + 1);
+                    if (Rect.intersects(tilePosition, tilePosition)) {
+
+                    }
+                }
+                if (Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), Utils.toTiledPosition(GameRenderer.getWorldTouchedPoint()))) < movementRange) {
                     this.setPosition(Utils.toWorldPosition(Utils.toTiledPosition(GameRenderer.getWorldTouchedPoint())));
                     this.timesHasMoved++;
                 }
@@ -127,7 +136,7 @@ public abstract class Unit extends GameObject {
                     GameRenderer.getWorldTouchedPoint().y,
                     this.getPosition().x + (int) MainActivity.getTileSize() / 2,
                     this.getPosition().y + (int) MainActivity.getTileSize() / 2,
-                    this.ranged.getSize(), this.ranged.getColor());
+                    this.ranged.getSize(), this.ranged.getColor(), this);
             this.getLevel().addGameObject(projectile);
 
             /*for(Player.UnitArray and enemy.UnitArray){*/
@@ -153,11 +162,18 @@ public abstract class Unit extends GameObject {
         this.isActiveUnit = true;
     }
 
-    public void initHitbox(){
-        hitbox = new Rect(this.getPosition().x+1, this.getPosition().y+1, this.getSize().x-1, this.getSize().y-1);
-
+    public void setNotActive() {
+        this.isActiveUnit = false;
     }
 
+    public Rect getHitbox(){
+        hitbox = new Rect(this.getPosition().x+1, this.getPosition().y+1, this.getSize().x-1, this.getSize().y-1);
+        return hitbox;
+    }
 
+    public Rect getWorldHitbox(){
+        hitbox = new Rect(this.getPosition().x+1, this.getPosition().y+1, this.getSize().x-1, this.getSize().y-1);
+        return hitbox;
+    }
 
 }
