@@ -10,8 +10,6 @@ import ca.easterndevelopers.finalproject.MainActivity;
 import ca.easterndevelopers.finalproject.level.gameobject.Soldier;
 import ca.easterndevelopers.finalproject.level.tile.BuildingTile;
 import ca.easterndevelopers.finalproject.level.tile.GrassTile;
-import ca.easterndevelopers.finalproject.level.tile.VerticalLeftSideRoadTile;
-import ca.easterndevelopers.finalproject.level.tile.VerticalRightSideRoadTile;
 import ca.easterndevelopers.finalproject.level.tile.RoadTile;
 import ca.easterndevelopers.finalproject.utils.Utils;
 
