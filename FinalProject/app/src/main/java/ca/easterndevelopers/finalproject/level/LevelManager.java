@@ -12,7 +12,7 @@ import ca.easterndevelopers.finalproject.level.tile.BuildingTile;
 import ca.easterndevelopers.finalproject.level.tile.GrassTile;
 import ca.easterndevelopers.finalproject.level.tile.VerticalLeftSideRoadTile;
 import ca.easterndevelopers.finalproject.level.tile.VerticalRightSideRoadTile;
-import ca.easterndevelopers.finalproject.level.tile.VerticalRoadLineTile;
+import ca.easterndevelopers.finalproject.level.tile.RoadTile;
 import ca.easterndevelopers.finalproject.utils.Utils;
 
 public class LevelManager {
@@ -25,9 +25,27 @@ public class LevelManager {
                  enemy soldier: ffe06f8b
 
                          grass: ff00ff00
+
+        Road:
+
               verticalRoadLine: fff7e26b
+            horizontalRoadLine: fff5dc49
+
           verticalLeftSideRoad: ff0f0f0f
          verticalRightSideRoad: ff000000
+
+          horizontalBottomRoad: ff3f3f3f
+             horizontalTopRoad: ff2f2f2f
+
+              t_junction_right: fff9e887
+               t_junction_left: fff8e57a
+
+       road_corner_bottom_left: ff909090
+      road_corner_bottom_right: ff9a9a9a
+          road_corner_top_left: ff9b9b9b
+         road_corner_top_right: ff9c9c9c
+
+                      sidewalk: ff876a73
 
         building:
                           door: ff31a2f2
@@ -44,6 +62,11 @@ public class LevelManager {
 
                       roof_top: ff9f9f9f
                    roof_middle: ff4f4f4f
+
+                     roof_left: ff5a5a5a
+                      roof_mid: ff6a6a6a
+                    roof_right: ff7a7a7a
+
      */
 
     public static void loadLevel(Context context, int bitmapIndex) {
@@ -66,14 +89,45 @@ public class LevelManager {
                         break;
                     //roads
                     case 0xfff7e26b:
-                        level.setTile(j, i, new VerticalRoadLineTile(new Point(j, i), level));
+                        level.setTile(j, i, new RoadTile(new Point(j, i), level, 0));
                         break;
 
                     case 0xff0f0f0f:
-                        level.setTile(j, i, new VerticalLeftSideRoadTile(new Point(j, i), level));
+                        level.setTile(j, i, new RoadTile(new Point(j, i), level, 1));
                         break;
                     case 0xff000000:
-                        level.setTile(j, i, new VerticalRightSideRoadTile(new Point(j, i), level));
+                        level.setTile(j, i, new RoadTile(new Point(j, i), level, 2));
+                        break;
+                    case 0xfff9e887:
+                        level.setTile(j, i, new RoadTile(new Point(j, i), level, 3));
+                        break;
+                    case 0xfff8e57a:
+                        level.setTile(j, i, new RoadTile(new Point(j, i), level, 4));
+                        break;
+                    case 0xff3f3f3f:
+                        level.setTile(j, i, new RoadTile(new Point(j, i), level, 5));
+                        break;
+                    case 0xff2f2f2f:
+                        level.setTile(j, i, new RoadTile(new Point(j, i), level, 6));
+                        break;
+                    case 0xfff5dc49:
+                        level.setTile(j, i, new RoadTile(new Point(j, i), level, 7));
+                        break;
+
+                    case 0xff909090:
+                        level.setTile(j, i, new RoadTile(new Point(j, i), level, 8));
+                        break;
+                    case 0xff9a9a9a:
+                        level.setTile(j, i, new RoadTile(new Point(j, i), level, 9));
+                        break;
+                    case 0xff9b9b9b:
+                        level.setTile(j, i, new RoadTile(new Point(j, i), level, 10));
+                        break;
+                    case 0xff9c9c9c:
+                        level.setTile(j, i, new RoadTile(new Point(j, i), level, 11));
+                        break;
+                    case 0xff876a73:
+                        level.setTile(j, i, new RoadTile(new Point(j, i), level, 12));
                         break;
                     // bulding
                     case 0xff31a2f2:
@@ -109,7 +163,20 @@ public class LevelManager {
                     case 0xff4f4f4f:
                         level.setTile(j, i, new BuildingTile(new Point(j, i),1, level));
                         break;
+                    case 0xff5a5a5a:
+                        level.setTile(j, i, new BuildingTile(new Point(j, i),4, level));
+                        break;
+                    case 0xff6a6a6a:
+                        level.setTile(j, i, new BuildingTile(new Point(j, i),5, level));
+                        break;
+                    case 0xff7a7a7a:
+                        level.setTile(j, i, new BuildingTile(new Point(j, i),6, level));
+                        break;
                     // fences
+
+                    default:
+                        level.setTile(j, i, new GrassTile(new Point(j, i), level));
+                        break;
                 }
             }
         }
