@@ -59,8 +59,6 @@ public class Level {
         for (GameObject go: objects) {
             go.update(fps);
 
-
-
             if( (go instanceof Projectile)  ){
                 Projectile projectile = (Projectile) go;
 

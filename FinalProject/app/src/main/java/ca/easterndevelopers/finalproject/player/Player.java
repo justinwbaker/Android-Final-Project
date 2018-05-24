@@ -74,13 +74,20 @@ public class Player {
                         unit.setNotActive();
                     }
                     this.indexOfActiveUnit = index;
-                    u.setActive();
+                    if(!u.isDoneTurn())
+                        u.setActive();
                 }
             }
             index++;
 
             if (u.isRemoved()) {
                 this.units.remove(u);
+            }
+        }
+
+        if(Game.isLookingAtMap()) {
+            for (Unit unit : units) {
+                unit.setNotActive();
             }
         }
     }

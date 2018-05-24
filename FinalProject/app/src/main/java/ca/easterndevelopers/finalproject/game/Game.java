@@ -38,8 +38,8 @@ public class Game {
     }
 
     public void update(double fps) {
-        MainScreen.getPlayer().getCurrentLevel().update(fps);
         gui.update(fps);
+        MainScreen.getPlayer().getCurrentLevel().update(fps);
     }
 
     public void render(Canvas canvas, Paint paint) {
