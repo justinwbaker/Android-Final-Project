@@ -25,7 +25,7 @@ public class Game {
 
     private static boolean isLookingAtMap = false;
 
-    public static boolean debug = true;
+    public static boolean debug = false;
 
     public Game(Context context) {
         this.context = context;
@@ -43,6 +43,7 @@ public class Game {
     }
 
     public void render(Canvas canvas, Paint paint) {
+        paint.setColor(Color.WHITE);
         MainScreen.getPlayer().getCurrentLevel().render(canvas, paint);
         gui.render(canvas, paint);
     }

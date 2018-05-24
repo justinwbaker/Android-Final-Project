@@ -28,16 +28,16 @@ public class GameActivity extends Activity {
 
         switch(MainScreen.getMissionSelected()){
             case 1:
-                LevelManager.loadLevel(GameActivity.getContext(), R.drawable.level1_small);
+                LevelManager.loadLevel(GameActivity.getContext(), R.drawable.level1_small, R.drawable.level1_small_go);
                 break;
             case 2:
-                LevelManager.loadLevel(GameActivity.getContext(), R.drawable.level2);
+                LevelManager.loadLevel(GameActivity.getContext(), R.drawable.level2, R.drawable.level1_small_go);
                 break;
             case 3:
-                LevelManager.loadLevel(GameActivity.getContext(), R.drawable.level3);
+                LevelManager.loadLevel(GameActivity.getContext(), R.drawable.level3, R.drawable.level1_small_go);
                 break;
             default:
-                LevelManager.loadLevel(GameActivity.getContext(), R.drawable.level1);
+                LevelManager.loadLevel(GameActivity.getContext(), R.drawable.level1, R.drawable.level1_small_go);
                 break;
         }
 

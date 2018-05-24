@@ -2,6 +2,7 @@ package ca.easterndevelopers.finalproject.level;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -123,6 +124,7 @@ public class Level {
         }
 
         for (GameObject go: objects) {
+            paint.setColor(Color.argb(255, 255, 255, 255));
             go.render(canvas, paint);
         }
 

@@ -7,6 +7,9 @@ import android.graphics.Point;
 import java.util.ArrayList;
 
 import ca.easterndevelopers.finalproject.MainActivity;
+import ca.easterndevelopers.finalproject.level.gameobject.Bin;
+import ca.easterndevelopers.finalproject.level.gameobject.Car;
+import ca.easterndevelopers.finalproject.level.gameobject.Collider;
 import ca.easterndevelopers.finalproject.level.gameobject.Soldier;
 import ca.easterndevelopers.finalproject.level.tile.BuildingTile;
 import ca.easterndevelopers.finalproject.level.tile.GrassTile;
@@ -67,25 +70,13 @@ public class LevelManager {
 
      */
 
-    public static void loadLevel(Context context, int bitmapIndex) {
+    public static void loadLevel(Context context, int bitmapIndex, int goBitmapIndex) {
         Bitmap levelBitmap = Utils.loadBitmap(context, bitmapIndex);
+        Bitmap goBitmap = Utils.loadBitmap(context, goBitmapIndex);
         Level level = new Level(levelBitmap.getWidth(), levelBitmap.getHeight(), context);
         for(int i = 0; i < levelBitmap.getHeight(); i++) {
             for(int j = 0; j < levelBitmap.getWidth(); j++) {
                 switch (levelBitmap.getPixel(j, i)) {
-                    case 0xff00ff00:
-                        level.setTile(j, i, new GrassTile(new Point(j, i), level));
-                        break;
-                    case 0xffbe2633:
-
-                        level.setTile(j, i, new GrassTile(new Point(j, i), level));
-                        // do player start area stuff....
-                        break;
-                    case 0xffe06f8b:
-                        level.setTile(j, i, new GrassTile(new Point(j, i), level));
-                        // add enemy solder
-                        level.getEnemy().addUnit(new Soldier(new Point((int)(MainActivity.getTileSize()*j),(int)(MainActivity.getTileSize()*i)), true));
-                        break;
                     //roads
                     case 0xfff7e26b:
                         level.setTile(j, i, new RoadTile(new Point(j, i), level, 0));
@@ -175,6 +166,43 @@ public class LevelManager {
 
                     default:
                         level.setTile(j, i, new GrassTile(new Point(j, i), level));
+                        break;
+                }
+            }
+        }
+
+        /*game objects
+
+        player start: ffbe2633
+        collider: ffb2dcef
+        red bin : ffff0000
+        green bin : ff00ff00
+
+         */
+
+        for(int i = 0; i < goBitmap.getHeight(); i++) {
+            for(int j = 0; j < goBitmap.getWidth(); j++) {
+                switch (goBitmap.getPixel(j, i)) {
+                    case 0xffbe2633:
+                        // do player start area stuff....
+                        break;
+                    case 0xffe06f8b:
+                        level.getEnemy().addUnit(new Soldier(new Point((int)(MainActivity.getTileSize()*j),(int)(MainActivity.getTileSize()*i)), true));
+                        break;
+                    case 0xffff0000:
+                        level.addGameObject(new Bin(new Point((int)(MainActivity.getTileSize()*j),(int)(MainActivity.getTileSize()*i)), false));
+                        break;
+                    case 0xff00ff00:
+                        level.addGameObject(new Bin(new Point((int)(MainActivity.getTileSize()*j),(int)(MainActivity.getTileSize()*i)), true));
+                        break;
+                    case 0xffb2dcef:
+                        level.addGameObject(new Collider(new Point((int)(MainActivity.getTileSize()*j),(int)(MainActivity.getTileSize()*i)), new Point((int) MainActivity.getTileSize(), (int)MainActivity.getTileSize())));
+                        break;
+                    case 0xff981e27:
+                        level.addGameObject(new Car(new Point((int)(MainActivity.getTileSize()*j),(int)(MainActivity.getTileSize()*i)), 3));
+                        break;
+                    case 0xff44891a:
+                        level.addGameObject(new Car(new Point((int)(MainActivity.getTileSize()*j),(int)(MainActivity.getTileSize()*i)), 4));
                         break;
                 }
             }

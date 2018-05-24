@@ -16,9 +16,9 @@ public class Bin extends GameObject {
     public Bin(Point position, boolean greenBin) {
         super(position, new Point(16, 16));
         if(greenBin) {
-            this.binImage = Utils.loadBitmap(GameActivity.getContext(), R.drawable.green_bin);
+            this.binImage = Utils.loadTileBitmap(GameActivity.getContext(), R.drawable.green_bin);
         }else {
-            this.binImage = Utils.loadBitmap(GameActivity.getContext(), R.drawable.green_bin);
+            this.binImage = Utils.loadTileBitmap(GameActivity.getContext(), R.drawable.red_bin);
         }
     }
 
