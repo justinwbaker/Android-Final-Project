@@ -31,6 +31,8 @@ public abstract class Unit extends GameObject {
     protected int timesHasMoved;
     private boolean hasAttackedRanged;
     protected int health;
+    protected int totalHealth;
+    protected float healthPercent;
 
     protected boolean isActiveUnit;
 
@@ -51,6 +53,8 @@ public abstract class Unit extends GameObject {
         this.isActiveUnit = false;
         this.costToLevel = 10;
         this.health = 7;
+        this.totalHealth = health;
+        this.healthPercent = health / totalHealth;
         this.hasAttackedRanged = false;
     }
 
@@ -96,6 +100,25 @@ public abstract class Unit extends GameObject {
         }
         paint.setColor(Color.WHITE);
         canvas.drawBitmap(image, getPosition().x, getPosition().y, paint);
+
+        paint.setColor(Color.BLACK);
+        canvas.drawRect(getPosition().x  + (getPixelSize() * 2),
+                getPosition().y - (getPixelSize() * 3),
+                getPosition().x + MainActivity.getTileSize() - (getPixelSize() * 2),
+                getPosition().y , paint );
+
+        paint.setColor(Color.RED);
+        canvas.drawRect(getPosition().x  + (getPixelSize() * 3),
+                getPosition().y - (getPixelSize() * 2),
+                getPosition().x + MainActivity.getTileSize() - (getPixelSize() * 3),
+                getPosition().y - (getPixelSize() * 1) , paint );
+
+
+        paint.setColor(Color.GREEN);
+        canvas.drawRect(getPosition().x  + (getPixelSize() * 3),
+                getPosition().y - (getPixelSize() * 2),
+                ((getPosition().x + (getPixelSize() * 3)) + (healthPercent * ((MainActivity.getTileSize() - (getPixelSize() * 6))))),
+                getPosition().y - (getPixelSize() * 1) , paint );
 
         if(Game.debug){
             paint.setColor(Color.argb(100, 255, 20, 20));
@@ -150,6 +173,9 @@ public abstract class Unit extends GameObject {
     public void takeDamage(int damage){
 
         this.health -= damage;
+        this.healthPercent = (float)health / (float)totalHealth;
+        if(Game.debug) System.out.println("Health Percent: " + this.healthPercent);
+        if(Game.debug) System.out.println("Health" + this.health);
 
         if(Game.debug) System.out.println(this.health);
 
@@ -200,5 +226,9 @@ public abstract class Unit extends GameObject {
 
     public int getHealth(){
         return health;
+    }
+
+    public float getHealthPercent(){
+        return healthPercent;
     }
 }
