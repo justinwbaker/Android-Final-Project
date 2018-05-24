@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import ca.easterndevelopers.finalproject.GameActivity;
 import ca.easterndevelopers.finalproject.MainActivity;
 import ca.easterndevelopers.finalproject.game.Game;
+import ca.easterndevelopers.finalproject.level.gameobject.Collider;
 import ca.easterndevelopers.finalproject.level.gameobject.GameObject;
 import ca.easterndevelopers.finalproject.level.gameobject.Soldier;
 import ca.easterndevelopers.finalproject.level.gameobject.Unit;
@@ -75,7 +76,7 @@ public class Level {
                             }
                         }
                     }
-                    else {
+                    else if(go instanceof Collider){
                         if(Rect.intersects(projectile.getHitbox(), go.getHitbox())) {
                             projectile.remove();
                             if (Game.debug) {

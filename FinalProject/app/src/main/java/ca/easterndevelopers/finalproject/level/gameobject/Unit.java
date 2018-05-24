@@ -12,6 +12,7 @@ import junit.runner.TestSuiteLoader;
 import ca.easterndevelopers.finalproject.GUI.GUI;
 import ca.easterndevelopers.finalproject.GameActivity;
 import ca.easterndevelopers.finalproject.MainActivity;
+import ca.easterndevelopers.finalproject.MainScreen;
 import ca.easterndevelopers.finalproject.game.Game;
 import ca.easterndevelopers.finalproject.level.Level;
 import ca.easterndevelopers.finalproject.level.gameobject.projectile.Projectile;
@@ -50,38 +51,40 @@ public abstract class Unit extends GameObject {
         this.isActiveUnit = false;
         this.costToLevel = 10;
         this.health = 7;
+        this.hasAttackedRanged = false;
     }
 
     public void update(double fps) {
-            if (this.isActiveUnit && !GUI.isOnGUI) {
-                if (timesHasMoved < timeCanMove) {
-                    if (GameRenderer.getWorldTouchedPoint() != null) {
-                        int x = GameRenderer.getWorldTouchedPoint().x;
-                        int y = GameRenderer.getWorldTouchedPoint().y;
+        if(this.isDoneTurn()) this.isActiveUnit = false;
+        if (this.isActiveUnit && !GUI.isOnGUI) {
+            if (timesHasMoved < timeCanMove) {
+                if (GameRenderer.getWorldTouchedPoint() != null) {
+                    int x = GameRenderer.getWorldTouchedPoint().x;
+                    int y = GameRenderer.getWorldTouchedPoint().y;
 
-                        Rect tilePosition = new Rect(x, y, x + 1, y + 1);
-                        if (Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), Utils.toTiledPosition(new Point(x, y)))) < movementRange) {
-                            int xpos = GameRenderer.getWorldTouchedPoint().x - (int) (GameRenderer.getWorldTouchedPoint().x % MainActivity.getTileSize());
-                            int ypos = GameRenderer.getWorldTouchedPoint().y - (int) (GameRenderer.getWorldTouchedPoint().y % MainActivity.getTileSize());
+                    Rect tilePosition = new Rect(x, y, x + 1, y + 1);
+                    if (Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), Utils.toTiledPosition(new Point(x, y)))) < movementRange) {
+                        int xpos = GameRenderer.getWorldTouchedPoint().x - (int) (GameRenderer.getWorldTouchedPoint().x % MainActivity.getTileSize());
+                        int ypos = GameRenderer.getWorldTouchedPoint().y - (int) (GameRenderer.getWorldTouchedPoint().y % MainActivity.getTileSize());
 
-                            this.setPosition(new Point(xpos, ypos));
-                            this.timesHasMoved++;
-                            if (Game.debug) System.out.println("Is in range");
+                        this.setPosition(new Point(xpos, ypos));
+                        this.timesHasMoved++;
+                        if (Game.debug) System.out.println("Is in range");
 
-                            for (Unit u : this.getLevel().getEnemy().getUnits()) {
-                                if ((Math.abs(Math.sqrt(Math.pow((this.getPosition().x - u.getPosition().x), 2) +
-                                        Math.pow((this.getPosition().y - u.getPosition().y), 2)))) <= MainActivity.getTileSize()) {
-                                    u.takeDamage(this.melee.getDamage());
-                                    u.update(0);
+                        for (Unit u : this.getLevel().getEnemy().getUnits()) {
+                            if ((Math.abs(Math.sqrt(Math.pow((this.getPosition().x - u.getPosition().x), 2) +
+                                    Math.pow((this.getPosition().y - u.getPosition().y), 2)))) <= MainActivity.getTileSize()) {
+                                u.takeDamage(this.melee.getDamage());
+                                u.update(0);
 
-                                } // melee attack check and action upon move
-                            }
+                            } // melee attack check and action upon move
                         }
                     }
-                } else if (ranged.getAmmo() != 0 && GameRenderer.getWorldTouchedPoint() != null && !hasAttackedRanged) {
-                    rangedAttack();
                 }
+            } else if (ranged.getAmmo() != 0 && GameRenderer.getWorldTouchedPoint() != null && !hasAttackedRanged) {
+                rangedAttack();
             }
+        }
     }
 
     public void render(Canvas canvas, Paint paint){
@@ -137,6 +140,7 @@ public abstract class Unit extends GameObject {
                 this.getPosition().y + (int) MainActivity.getTileSize() / 2,
                 this.ranged.getSize(), this.ranged.getColor(), this);
         this.getLevel().addGameObject(projectile);
+        MainScreen.getPlayer().setNextActiveUnit();
     }
 
     public void levelUp() {
