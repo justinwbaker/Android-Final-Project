@@ -185,16 +185,18 @@ public abstract class Unit extends GameObject {
     public void takeDamage(int damage){
 
         this.health -= damage;
+        if(health <= 0) {
+            if(Game.debug) System.out.println("Unit has died");
+            this.health = 0;
+            this.remove();
+        }
         this.healthPercent = (float)health / (float)totalHealth;
         if(Game.debug) System.out.println("Health Percent: " + this.healthPercent);
         if(Game.debug) System.out.println("Health" + this.health);
 
         if(Game.debug) System.out.println(this.health);
 
-        if(health <= 0){
-            if(Game.debug) System.out.println("Unit has died");
-            this.remove();
-        }
+
     }
 
     public void levelUp() {
