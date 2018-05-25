@@ -36,7 +36,6 @@ public class Player {
     public void startTurn() {
         this.isPlayersTurn = true;
         if(Game.debug) System.out.println("Started Turn");
-
     }
 
     public boolean isPlayersTurn() {
@@ -66,7 +65,7 @@ public class Player {
         for (int i = 0; i < units.size(); i++) {
             Unit u = units.get(i);
             u.update(0.0);
-            if (GameRenderer.getWorldTouchedPoint() != null && !Game.isLookingAtMap()) {
+            if (GameRenderer.getWorldTouchedPoint() != null && !Game.isLookingAtMap() && this.isPlayersTurn) {
                 int x = GameRenderer.getWorldTouchedPoint().x;
                 int y = GameRenderer.getWorldTouchedPoint().y;
 
@@ -124,6 +123,9 @@ public class Player {
 
     public void endTurn(){
         this.isPlayersTurn = false;
+        for (Unit unit : this.getUnits()) {
+            unit.setNotActive();
+        }
         if(Game.debug) System.out.println("Ended Turn");
 
     }

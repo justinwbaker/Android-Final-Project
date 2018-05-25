@@ -45,7 +45,7 @@ public class GameGUI extends GUI {
 
             if(Rect.intersects(endTurn, new Rect(x, y, x+1, y+1))){
                 isOnGUI = true;
-                MainScreen.endTurn();
+                MainScreen.getPlayer().getCurrentLevel().endPlayersTurn();
                 // go to enemy's turn
             }
         }

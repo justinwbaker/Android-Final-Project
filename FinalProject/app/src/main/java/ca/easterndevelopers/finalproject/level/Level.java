@@ -155,4 +155,9 @@ public class Level {
     public Enemy getEnemy() {
         return enemy;
     }
+
+    public void endPlayersTurn() {
+        this.player.endTurn();
+        this.enemy.startTurn();
+    }
 }
