@@ -108,7 +108,6 @@ public abstract class Unit extends GameObject {
 
             //getting the closes player unit:
             if (this.isActiveUnit) {
-                System.out.println("Moved to " + this.position.x + ":" + this.position.y);
                 if (timesHasMoved < timeCanMove) {
                     int distance = Integer.MAX_VALUE;
                     Unit closest = null;
@@ -135,7 +134,7 @@ public abstract class Unit extends GameObject {
                     }
                     this.position.x = (int) (closestTile.getPosition().x * MainActivity.getTileSize());
                     this.position.y = (int) (closestTile.getPosition().y * MainActivity.getTileSize());
-                    System.out.println("Moved to " + this.position.x + ":" + this.position.y);
+                    if(Game.debug) System.out.println(this + " Moved to " + this.position.x + ":" + this.position.y);
                     this.timesHasMoved++;
                 }else {
                     this.level.getEnemy().setNextActiveUnit();
