@@ -55,7 +55,16 @@ public class Level {
         }
     }
 
+    public Tile getTile(int x, int y) {
+        if(x >= 0 && y >= 0 && x < width && y < height) {
+            return tiles[x+y*width];
+        }else {
+            return null;
+        }
+    }
+
     public void update(double fps) {
+
         this.player.updateUnits();
         this.enemy.updateUnits();
         for (GameObject go: objects) {
@@ -117,6 +126,7 @@ public class Level {
                 objects.remove(go);
             }
         }
+
     }
 
     public void render(Canvas canvas, Paint paint) {
@@ -157,7 +167,13 @@ public class Level {
     }
 
     public void endPlayersTurn() {
-        this.player.endTurn();
-        this.enemy.startTurn();
+        if(this.player.isPlayersTurn()) {
+            this.player.endTurn();
+            this.enemy.startTurn();
+            this.enemy.setNextActiveUnit();
+        }else {
+            this.enemy.endTurn();
+            this.player.startTurn();
+        }
     }
 }

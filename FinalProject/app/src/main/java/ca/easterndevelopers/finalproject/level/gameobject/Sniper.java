@@ -13,7 +13,7 @@ import ca.easterndevelopers.finalproject.utils.Utils;
 public class Sniper extends Unit {
 
     public Sniper(Point position, boolean isEnemy) {
-        super(position, new Point((int) MainActivity.getTileSize(), (int)MainActivity.getTileSize()));
+        super(position, new Point((int) MainActivity.getTileSize(), (int)MainActivity.getTileSize()), isEnemy);
         if(!isEnemy)
             this.setBitmap(Utils.loadBitmap(GameActivity.getContext(), R.drawable.soldier));
         else

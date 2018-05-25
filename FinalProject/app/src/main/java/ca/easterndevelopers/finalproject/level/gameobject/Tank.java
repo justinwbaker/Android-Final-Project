@@ -14,7 +14,7 @@ import ca.easterndevelopers.finalproject.utils.Utils;
 public class Tank extends Unit {
 
     public Tank(Point position, boolean isEnemy) {
-        super(position, new Point((int) MainActivity.getTileSize(), (int)MainActivity.getTileSize()));
+        super(position, new Point((int) MainActivity.getTileSize(), (int)MainActivity.getTileSize()), isEnemy);
         if(!isEnemy)
             this.setBitmap(Utils.loadBitmap(GameActivity.getContext(), R.drawable.soldier));
         else

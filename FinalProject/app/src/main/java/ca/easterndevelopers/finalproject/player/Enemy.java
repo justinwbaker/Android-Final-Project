@@ -16,6 +16,7 @@ public class Enemy extends Player {
         for (int i = 0; i < units.size(); i++) {
             Unit u = units.get(i);
             u.update(0.0);
+
             if (u.isRemoved()) {
                 this.units.remove(u);
             }

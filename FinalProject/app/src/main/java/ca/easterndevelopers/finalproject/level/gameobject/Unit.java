@@ -16,6 +16,7 @@ import ca.easterndevelopers.finalproject.level.Level;
 import ca.easterndevelopers.finalproject.level.gameobject.projectile.Projectile;
 import ca.easterndevelopers.finalproject.level.gameobject.weapon.RangedWeapon;
 import ca.easterndevelopers.finalproject.level.gameobject.weapon.Weapon;
+import ca.easterndevelopers.finalproject.level.tile.Tile;
 import ca.easterndevelopers.finalproject.player.Enemy;
 import ca.easterndevelopers.finalproject.renderer.GameRenderer;
 import ca.easterndevelopers.finalproject.utils.Utils;
@@ -44,8 +45,10 @@ public abstract class Unit extends GameObject {
     protected RangedWeapon ranged2;
     private Rect hitbox;
 
+    private boolean isEnemyUnit;
 
-    public Unit(Point position, Point size) {
+
+    public Unit(Point position, Point size, boolean isEnemyUnit) {
         super(position, size);
         this.baseDamage = 1;
         this.movementRange = 2;
@@ -58,39 +61,85 @@ public abstract class Unit extends GameObject {
         this.healthPercent = health / totalHealth;
         this.hasAttackedRanged = false;
         this.unitLevel = 1;
+        this.isEnemyUnit = isEnemyUnit;
     }
 
 
     // Core Methods  ***************************************************
     public void update(double fps) {
         if(this.isDoneTurn()) this.isActiveUnit = false;
-        if (this.isActiveUnit && !GUI.isOnGUI) {
-            if (timesHasMoved < timeCanMove) {
-                if (GameRenderer.getWorldTouchedPoint() != null) {
-                    int x = GameRenderer.getWorldTouchedPoint().x;
-                    int y = GameRenderer.getWorldTouchedPoint().y;
+        if(!this.isEnemyUnit) {
+            // player ai
+            if (this.isActiveUnit && !GUI.isOnGUI) {
+                if (timesHasMoved < timeCanMove) {
+                    if (GameRenderer.getWorldTouchedPoint() != null) {
+                        int x = GameRenderer.getWorldTouchedPoint().x;
+                        int y = GameRenderer.getWorldTouchedPoint().y;
 
-                    Rect tilePosition = new Rect(x, y, x + 1, y + 1);
-                    if (Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), Utils.toTiledPosition(new Point(x, y)))) < movementRange) {
-                        int xpos = GameRenderer.getWorldTouchedPoint().x - (int) (GameRenderer.getWorldTouchedPoint().x % MainActivity.getTileSize());
-                        int ypos = GameRenderer.getWorldTouchedPoint().y - (int) (GameRenderer.getWorldTouchedPoint().y % MainActivity.getTileSize());
+                        Rect tilePosition = new Rect(x, y, x + 1, y + 1);
+                        if (Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), Utils.toTiledPosition(new Point(x, y)))) < movementRange) {
+                            int xpos = GameRenderer.getWorldTouchedPoint().x - (int) (GameRenderer.getWorldTouchedPoint().x % MainActivity.getTileSize());
+                            int ypos = GameRenderer.getWorldTouchedPoint().y - (int) (GameRenderer.getWorldTouchedPoint().y % MainActivity.getTileSize());
 
-                        this.setPosition(new Point(xpos, ypos));
-                        this.timesHasMoved++;
-                        if (Game.debug) System.out.println("Is in range");
+                            this.setPosition(new Point(xpos, ypos));
+                            this.timesHasMoved++;
+                            if (Game.debug) System.out.println("Is in range");
 
-                        for (Unit u : this.getLevel().getEnemy().getUnits()) {
-                            if ((Math.abs(Math.sqrt(Math.pow((this.getPosition().x - u.getPosition().x), 2) +
-                                    Math.pow((this.getPosition().y - u.getPosition().y), 2)))) <= MainActivity.getTileSize()) {
-                                u.takeDamage(this.melee.getDamage());
-                                u.update(0);
+                            for (Unit u : this.getLevel().getEnemy().getUnits()) {
+                                if ((Math.abs(Math.sqrt(Math.pow((this.getPosition().x - u.getPosition().x), 2) +
+                                        Math.pow((this.getPosition().y - u.getPosition().y), 2)))) <= MainActivity.getTileSize()) {
+                                    u.takeDamage(this.melee.getDamage());
+                                    u.update(0);
 
-                            } // melee attack check and action upon move
+                                } // melee attack check and action upon move
+                            }
                         }
                     }
+                } else if (ranged.getAmmo() != 0 && GameRenderer.getWorldTouchedPoint() != null && !hasAttackedRanged) {
+                    rangedAttack();
                 }
-            } else if (ranged.getAmmo() != 0 && GameRenderer.getWorldTouchedPoint() != null && !hasAttackedRanged) {
-                rangedAttack();
+            }
+        }else {
+            //do enemy ai here
+
+            //get colsest player unit
+            //move closer to it
+            //shoot it
+
+            //getting the closes player unit:
+            if (this.isActiveUnit) {
+                System.out.println("Moved to " + this.position.x + ":" + this.position.y);
+                if (timesHasMoved < timeCanMove) {
+                    int distance = Integer.MAX_VALUE;
+                    Unit closest = null;
+                    for (int i = 0; i < MainScreen.getPlayer().getUnits().size(); i++) {
+                        Unit playersUnit = MainScreen.getPlayer().getUnits().get(i);
+                        if (Utils.getDistance(this.getPosition(), playersUnit.getPosition()) < distance) {
+                            distance = (int) Utils.getDistance(this.getPosition(), playersUnit.getPosition());
+                            closest = playersUnit;
+                        }
+                    }
+
+                    Tile closestTile = null;
+                    int closestTileDistance = Integer.MAX_VALUE;
+                    for (int i = 0; i < this.getLevel().getHeight(); i++) {
+                        for (int j = 0; j < this.getLevel().getWidth(); j++) {
+                            Tile tile = this.getLevel().getTile(i, j);
+                            if (Utils.getDistance(Utils.toTiledPosition(this.getPosition()), tile.getPosition()) < this.movementRange) {
+                                if (Utils.getDistance(Utils.toTiledPosition(closest.getPosition()), tile.getPosition()) < closestTileDistance) {
+                                    closestTileDistance = (int) Utils.getDistance(Utils.toTiledPosition(closest.getPosition()), tile.getPosition());
+                                    closestTile = tile;
+                                }
+                            }
+                        }
+                    }
+                    this.position.x = (int) (closestTile.getPosition().x * MainActivity.getTileSize());
+                    this.position.y = (int) (closestTile.getPosition().y * MainActivity.getTileSize());
+                    System.out.println("Moved to " + this.position.x + ":" + this.position.y);
+                    this.timesHasMoved++;
+                }else {
+                    this.level.getEnemy().setNextActiveUnit();
+                }
             }
         }
     }
@@ -192,9 +241,7 @@ public abstract class Unit extends GameObject {
         }
         this.healthPercent = (float)health / (float)totalHealth;
         if(Game.debug) System.out.println("Health Percent: " + this.healthPercent);
-        if(Game.debug) System.out.println("Health" + this.health);
-
-        if(Game.debug) System.out.println(this.health);
+        if(Game.debug) System.out.println("Health: " + this.health);
 
 
     }
@@ -230,6 +277,10 @@ public abstract class Unit extends GameObject {
 
 
     // Simple Getter/Setter Methods  **************************************************
+
+    public boolean isActive() {
+        return this.isActiveUnit;
+    }
 
     public void setActive() {
         this.isActiveUnit = true;

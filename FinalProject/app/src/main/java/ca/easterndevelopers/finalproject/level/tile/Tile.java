@@ -25,4 +25,8 @@ public abstract class Tile {
         canvas.drawBitmap(image, position.x * MainActivity.getTileSize(), position.y * MainActivity.getTileSize(), paint);
     }
 
+    public Point getPosition() {
+        return this.position;
+    }
+
 }
