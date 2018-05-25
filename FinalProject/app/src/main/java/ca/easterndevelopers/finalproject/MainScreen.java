@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import ca.easterndevelopers.finalproject.game.Game;
 import ca.easterndevelopers.finalproject.level.LevelManager;
 import ca.easterndevelopers.finalproject.level.gameobject.Soldier;
 import ca.easterndevelopers.finalproject.player.Player;
@@ -190,6 +191,12 @@ public class MainScreen extends Activity implements View.OnClickListener{
 
     public static Player getPlayer() {
         return player;
+    }
+
+    public static void endTurn(){
+        getPlayer().endTurn();
+        LevelManager.getLevel(0).getEnemy().startTurn();
+
     }
 
     public static int getMissionSelected() {

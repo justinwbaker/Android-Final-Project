@@ -35,6 +35,8 @@ public class Player {
 
     public void startTurn() {
         this.isPlayersTurn = true;
+        if(Game.debug) System.out.println("Started Turn");
+
     }
 
     public boolean isPlayersTurn() {
@@ -122,6 +124,8 @@ public class Player {
 
     public void endTurn(){
         this.isPlayersTurn = false;
+        if(Game.debug) System.out.println("Ended Turn");
+
     }
 
     public ArrayList<Unit> getUnits() {

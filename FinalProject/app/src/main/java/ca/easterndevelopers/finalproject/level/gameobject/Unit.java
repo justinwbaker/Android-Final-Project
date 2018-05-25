@@ -6,9 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-
 import junit.runner.TestSuiteLoader;
-
 import ca.easterndevelopers.finalproject.GUI.GUI;
 import ca.easterndevelopers.finalproject.GameActivity;
 import ca.easterndevelopers.finalproject.MainActivity;
@@ -21,6 +19,7 @@ import ca.easterndevelopers.finalproject.level.gameobject.weapon.Weapon;
 import ca.easterndevelopers.finalproject.player.Enemy;
 import ca.easterndevelopers.finalproject.renderer.GameRenderer;
 import ca.easterndevelopers.finalproject.utils.Utils;
+import java.util.Random;
 
 public abstract class Unit extends GameObject {
 
@@ -37,10 +36,12 @@ public abstract class Unit extends GameObject {
     protected boolean isActiveUnit;
 
     int costToLevel;
+    int unitLevel;
 
     private Bitmap image;
     protected Weapon melee;
     protected RangedWeapon ranged;
+    protected RangedWeapon ranged2;
     private Rect hitbox;
 
 
@@ -56,8 +57,11 @@ public abstract class Unit extends GameObject {
         this.totalHealth = health;
         this.healthPercent = health / totalHealth;
         this.hasAttackedRanged = false;
+        this.unitLevel = 1;
     }
 
+
+    // Core Methods  ***************************************************
     public void update(double fps) {
         if(this.isDoneTurn()) this.isActiveUnit = false;
         if (this.isActiveUnit && !GUI.isOnGUI) {
@@ -127,6 +131,15 @@ public abstract class Unit extends GameObject {
         }
     }
 
+    // Grapical related Methods  *****************************************************
+
+    public void setBitmap(Bitmap image) {
+        this.image = image;
+        if(this.getSize().x != image.getWidth() || this.getSize().x != image.getWidth()){
+            this.image = Utils.getResizedBitmap(image, getSize().x, getSize().y, true);
+        }
+    }
+
     public void showMovementRange(Canvas canvas, Paint paint) {
         for(int i = 0; i < this.getLevel().getHeight(); i++) {
             for(int j = 0; j < this.getLevel().getWidth(); j++) {
@@ -153,6 +166,9 @@ public abstract class Unit extends GameObject {
         }
     }
 
+
+    // Action Methods  ****************************************************
+
     public void rangedAttack() {
         hasAttackedRanged = true;
         ranged.setAmmo(ranged.getAmmo() - 1);
@@ -164,10 +180,6 @@ public abstract class Unit extends GameObject {
                 this.ranged.getSize(), this.ranged.getColor(), this);
         this.getLevel().addGameObject(projectile);
         MainScreen.getPlayer().setNextActiveUnit();
-    }
-
-    public void levelUp() {
-
     }
 
     public void takeDamage(int damage){
@@ -185,14 +197,37 @@ public abstract class Unit extends GameObject {
         }
     }
 
+    public void levelUp() {
+        Random rand = new Random();
+        int number = rand.nextInt(4) + 1;
+        this.health += number;
+        this.baseDamage++;
+        this.movementRange += 1;
 
+        if(unitLevel >= 4){
+            this.timeCanMove += 1;
 
-    public void setBitmap(Bitmap image) {
-        this.image = image;
-        if(this.getSize().x != image.getWidth() || this.getSize().x != image.getWidth()){
-            this.image = Utils.getResizedBitmap(image, getSize().x, getSize().y, true);
+        }
+        this.costToLevel = 10 * ((unitLevel + 10) * 5);
+        this.totalHealth = health;
+        this.healthPercent = health / totalHealth;
+        this.unitLevel++;
+
+    }
+
+    public void switchWeapon(){
+
+        if(this.ranged2 != null) {
+            if (Game.debug) System.out.println("" + ranged);
+            RangedWeapon rangedTemp = this.ranged;
+            this.ranged = this.ranged2;
+            this.ranged2 = rangedTemp;
+            if (Game.debug) System.out.println("" + ranged);
         }
     }
+
+
+    // Simple Getter/Setter Methods  **************************************************
 
     public void setActive() {
         this.isActiveUnit = true;
