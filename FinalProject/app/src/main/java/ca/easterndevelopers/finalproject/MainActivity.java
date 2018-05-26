@@ -21,7 +21,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private static int tilesInWidth = 20;
     public static boolean friendlyFire = true;
 
-    private static SharedPreferences localPrefs;
+    public static SharedPreferences localPrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
