@@ -110,7 +110,6 @@ public class Level {
 
                 for(Unit unit: enemy.getUnits()) {
                     if(unit != projectile.getUnit() && Rect.intersects(unit.getHitbox(), projectile.getHitbox())) {
-                        System.out.println(projectile.getUnit().getRangedWeapon().getDamage());
                         unit.takeDamage(projectile.getUnit().getRangedWeapon().getDamage());
                         projectile.remove();
 
@@ -175,5 +174,16 @@ public class Level {
             this.enemy.endTurn();
             this.player.startTurn();
         }
+    }
+
+    public boolean containsProjectiles() {
+        boolean contains = false;
+        for(int i = 0; i < objects.size(); i++) {
+            if(objects.get(i) instanceof Projectile) {
+                contains = true;
+                break;
+            }
+        }
+        return contains;
     }
 }

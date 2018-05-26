@@ -70,7 +70,7 @@ public abstract class Unit extends GameObject {
         if(this.isDoneTurn()) this.isActiveUnit = false;
         if(!this.isEnemyUnit) {
             // player ai
-            if (this.isActiveUnit && !GUI.isOnGUI) {
+            if (this.isActiveUnit && !GUI.isOnGUI && !this.level.containsProjectiles()) {
                 if (timesHasMoved < timeCanMove) {
                     if (GameRenderer.getWorldTouchedPoint() != null) {
                         int x = GameRenderer.getWorldTouchedPoint().x;
@@ -107,7 +107,7 @@ public abstract class Unit extends GameObject {
             //shoot it
 
             //getting the closes player unit:
-            if (this.isActiveUnit) {
+            if (this.isActiveUnit && !this.level.containsProjectiles()) {
                 if (timesHasMoved < timeCanMove) {
                     int distance = Integer.MAX_VALUE;
                     Unit closest = null;
@@ -118,24 +118,36 @@ public abstract class Unit extends GameObject {
                             closest = playersUnit;
                         }
                     }
-
-                    Tile closestTile = null;
-                    int closestTileDistance = Integer.MAX_VALUE;
-                    for (int i = 0; i < this.getLevel().getHeight(); i++) {
-                        for (int j = 0; j < this.getLevel().getWidth(); j++) {
-                            Tile tile = this.getLevel().getTile(i, j);
-                            if (Utils.getDistance(Utils.toTiledPosition(this.getPosition()), tile.getPosition()) < this.movementRange) {
-                                if (Utils.getDistance(Utils.toTiledPosition(closest.getPosition()), tile.getPosition()) < closestTileDistance) {
-                                    closestTileDistance = (int) Utils.getDistance(Utils.toTiledPosition(closest.getPosition()), tile.getPosition());
-                                    closestTile = tile;
+                    if(closest != null) {
+                        Tile closestTile = null;
+                        int closestTileDistance = Integer.MAX_VALUE;
+                        for (int i = 0; i < this.getLevel().getHeight(); i++) {
+                            for (int j = 0; j < this.getLevel().getWidth(); j++) {
+                                Tile tile = this.getLevel().getTile(i, j);
+                                if (Utils.getDistance(Utils.toTiledPosition(this.getPosition()), tile.getPosition()) < this.movementRange) {
+                                    if (Utils.getDistance(Utils.toTiledPosition(closest.getPosition()), tile.getPosition()) < closestTileDistance) {
+                                        closestTileDistance = (int) Utils.getDistance(Utils.toTiledPosition(closest.getPosition()), tile.getPosition());
+                                        closestTile = tile;
+                                    }
                                 }
                             }
                         }
+                        this.position.x = (int) (closestTile.getPosition().x * MainActivity.getTileSize());
+                        this.position.y = (int) (closestTile.getPosition().y * MainActivity.getTileSize());
+                        if (Game.debug)
+                            System.out.println(this + " Moved to " + this.position.x + ":" + this.position.y);
+
+                        for (Unit u : MainScreen.getPlayer().getUnits()) {
+                            if ((Math.abs(Math.sqrt(Math.pow((this.getPosition().x - u.getPosition().x), 2) +
+                                    Math.pow((this.getPosition().y - u.getPosition().y), 2)))) <= MainActivity.getTileSize()) {
+                                u.takeDamage(this.melee.getDamage());
+                                u.update(0);
+
+                            } // melee attack check and action upon move
+                        }
+
+                        this.timesHasMoved++;
                     }
-                    this.position.x = (int) (closestTile.getPosition().x * MainActivity.getTileSize());
-                    this.position.y = (int) (closestTile.getPosition().y * MainActivity.getTileSize());
-                    if(Game.debug) System.out.println(this + " Moved to " + this.position.x + ":" + this.position.y);
-                    this.timesHasMoved++;
                 }else {
                     this.level.getEnemy().setNextActiveUnit();
                 }
