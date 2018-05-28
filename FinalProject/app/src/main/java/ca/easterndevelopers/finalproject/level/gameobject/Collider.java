@@ -25,4 +25,6 @@ public class Collider extends GameObject {
             canvas.drawRect(this.getHitbox(), paint);
         }
     }
+
+
 }

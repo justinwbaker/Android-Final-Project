@@ -19,9 +19,9 @@ public class MainScreen extends Activity implements View.OnClickListener{
     private static int missionSelect = 0; // will default start on mission one if you don't manually pick one
     private static Player player = new Player();
 
-    private static int numSoldiers = 0;
-    private static int numSnipers = 0;
-    private static int numTanks = 0;
+    private static int numSoldiers = 5;
+    private static int numSnipers = 2;
+    private static int numTanks = 2;
     private static int costSoldier = 100;
     private static int costSniper = 100;
     private static int costTank = 100;
@@ -37,9 +37,9 @@ public class MainScreen extends Activity implements View.OnClickListener{
 
         final Intent z = new Intent(this, MainActivity.class);
 
-        numSoldiers = MainActivity.localPrefs.getInt("numSoldiers", 0);
-        numSnipers = MainActivity.localPrefs.getInt("numSnipers", 0);
-        numTanks = MainActivity.localPrefs.getInt("numTanks", 0);
+        numSoldiers = MainActivity.localPrefs.getInt("numSoldiers", 5);
+        numSnipers = MainActivity.localPrefs.getInt("numSnipers", 2);
+        numTanks = MainActivity.localPrefs.getInt("numTanks", 2);
         gold = MainActivity.localPrefs.getInt("gold", 1000);
 
 

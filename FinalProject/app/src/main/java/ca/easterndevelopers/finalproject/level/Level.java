@@ -67,6 +67,7 @@ public class Level {
 
         this.player.updateUnits();
         this.enemy.updateUnits();
+
         for (GameObject go: objects) {
             go.update(fps);
 
@@ -75,22 +76,19 @@ public class Level {
 
 
                 for(GameObject object: objects) {
-                    if( (object instanceof Projectile)  ) {
-                        Projectile projectile2 = (Projectile) go;
-                        if(projectile != projectile2 && Rect.intersects(projectile.getHitbox(), projectile2.getHitbox())) {
+                    if( (go instanceof Projectile || object instanceof Collider)  ) {
+                        GameObject go2 = object;
+                        if(projectile != go2 && Rect.intersects(projectile.getHitbox(), go2.getHitbox())) {
                             projectile.remove();
-                            
-                            if (Game.debug) {
-                                System.out.println("HIT");
-                            }
                         }
-                    }
-                    else if(go instanceof Collider){
-                        if(Rect.intersects(projectile.getHitbox(), go.getHitbox())) {
+                        // if ( abs of((projectile location) + unit location ) > weapon range
+                        else if((Math.abs(Math.sqrt(Math.pow((projectile.getPosition().x - projectile.getUnit().getPosition().x), 2)
+                                + Math.pow((projectile.getPosition().y - projectile.getUnit().getPosition().y), 2))))
+                                >= (projectile.getUnit().getRangedWeapon().getRange() * MainActivity.getTileSize())){
+
                             projectile.remove();
-                            if (Game.debug) {
-                                System.out.println("HIT");
-                            }
+                            if(Game.debug) System.out.println("Projectile removed due to out of range!");
+
                         }
                     }
                 }
@@ -125,6 +123,7 @@ public class Level {
                         }
                     }
                 }
+
             }
 
             if(go.isRemoved()) {
