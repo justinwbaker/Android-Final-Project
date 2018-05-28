@@ -102,7 +102,7 @@ public abstract class Unit extends GameObject {
         }else {
             //do enemy ai here
 
-            //get colsest player unit
+            //get closest player unit
             //move closer to it
             //shoot it
 
@@ -139,7 +139,9 @@ public abstract class Unit extends GameObject {
 
                         for (Unit u : MainScreen.getPlayer().getUnits()) {
                             if ((Math.abs(Math.sqrt(Math.pow((this.getPosition().x - u.getPosition().x), 2) +
-                                    Math.pow((this.getPosition().y - u.getPosition().y), 2)))) <= MainActivity.getTileSize()) {
+                                    Math.pow((this.getPosition().y - u.getPosition().y), 2))))
+                                    <= MainActivity.getTileSize()) {
+
                                 u.takeDamage(this.melee.getDamage());
                                 u.update(0);
 
@@ -147,8 +149,22 @@ public abstract class Unit extends GameObject {
                         }
 
                         this.timesHasMoved++;
+
+                        if(closest != null && timesHasMoved == timeCanMove) {
+                            int targetX = closest.getPosition().x;
+                            int targetY = closest.getPosition().y;
+
+                            if((Math.abs(Math.sqrt(Math.pow((this.getPosition().x - targetX), 2)
+                                    + Math.pow((this.getPosition().y - targetY), 2))))
+                                    <= (this.ranged.getRange() * MainActivity.getTileSize())){
+
+                                rangedAttack(targetX, targetY);
+                                if(Game.debug)System.out.println("Ai fired a shot");
+                            }
+                        }
                     }
-                }else {
+                }
+                else {
                     this.level.getEnemy().setNextActiveUnit();
                 }
             }
@@ -241,6 +257,19 @@ public abstract class Unit extends GameObject {
         this.getLevel().addGameObject(projectile);
         MainScreen.getPlayer().setNextActiveUnit();
     }
+
+    public void rangedAttack(int targetX, int targetY){
+        hasAttackedRanged = true;
+        ranged.setAmmo(ranged.getAmmo() - 1);
+        Projectile projectile = new Projectile(
+                targetX,
+                targetY,
+                this.getPosition().x + (int) MainActivity.getTileSize() / 2,
+                this.getPosition().y + (int) MainActivity.getTileSize() / 2,
+                this.ranged.getSize(), this.ranged.getColor(), this);
+        this.getLevel().addGameObject(projectile);
+        getLevel().getEnemy().setNextActiveUnit();
+    } // ai ranged attack
 
     public void takeDamage(int damage){
 

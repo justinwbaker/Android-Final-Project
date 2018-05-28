@@ -101,7 +101,9 @@ public class Player {
             }
 
             if (unitsDone == this.units.size()) {
+
                 this.getCurrentLevel().endPlayersTurn();
+
             } else {
 
                 this.indexOfActiveUnit++;

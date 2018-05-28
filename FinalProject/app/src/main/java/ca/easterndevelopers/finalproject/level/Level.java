@@ -97,13 +97,19 @@ public class Level {
 
                 for(Unit unit: player.getUnits()) {
                     if(unit != projectile.getUnit() && Rect.intersects(unit.getHitbox(), projectile.getHitbox())) {
-                        if(friendlyFire) {
-                            projectile.remove();
-
-                            if (Game.debug) {
-                                System.out.println("HIT Friendly");
+                        if(player.isPlayersTurn()) {
+                            if (friendlyFire) {
+                                unit.takeDamage(projectile.getUnit().getRangedWeapon().getDamage());
+                                projectile.remove();
+                                if (Game.debug) System.out.println("HIT Friendly!");
 
                             }
+                        }
+
+                        else{
+                            if (Game.debug) System.out.println("HIT by Enemy!");
+                            unit.takeDamage(projectile.getUnit().getRangedWeapon().getDamage());
+                            projectile.remove();
                         }
                     }
                 }
