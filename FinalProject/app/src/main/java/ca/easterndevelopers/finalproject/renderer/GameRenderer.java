@@ -101,7 +101,7 @@ public class GameRenderer extends SurfaceView implements Runnable{
                 canvasOffset.x = (int)-(Game.getPlayer().getCurrentLevel().getWidth() * MainActivity.getTileSize()) + MainActivity.getResolution().x;
             if (canvasOffset.y <= -Game.getPlayer().getCurrentLevel().getHeight() * MainActivity.getTileSize() + MainActivity.getResolution().y)
                 canvasOffset.y = (int)-(Game.getPlayer().getCurrentLevel().getHeight() * MainActivity.getTileSize())+ MainActivity.getResolution().y;
-            
+
             canvas.translate(canvasOffset.x, canvasOffset.y);
 
             paint.setColor(Color.BLACK);
