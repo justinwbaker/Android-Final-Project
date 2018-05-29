@@ -108,6 +108,8 @@ public class MainScreen extends Activity{
 
     public static void setNumSoldiers(int numSoldiers) {
         MainScreen.numSoldiers -= numSoldiers;
+
+        MainActivity.localPrefs.edit().putInt("numSoldiers", numSoldiers).apply();
     }
 
     public static int getNumSnipers() {
@@ -116,6 +118,8 @@ public class MainScreen extends Activity{
 
     public static void setNumSnipers(int numSnipers) {
         MainScreen.numSnipers -= numSnipers;
+
+        MainActivity.localPrefs.edit().putInt("numSnipers", numSnipers).apply();
     }
 
     public static int getNumTanks() {
@@ -124,6 +128,8 @@ public class MainScreen extends Activity{
 
     public static void setNumTanks(int numTanks) {
         MainScreen.numTanks -= numTanks;
+
+        MainActivity.localPrefs.edit().putInt("numTanks", numTanks).apply();
     }
 
     public static int getGold() {
@@ -131,33 +137,36 @@ public class MainScreen extends Activity{
     }
 
     public static boolean buySolder() {
-        if(gold >= costSoldier) {
-            gold -= costSoldier;
+        if(gold >= costSoldier || Game.debug) {
+            if(!Game.debug)
+                gold -= costSoldier;
             numSoldiers++;
             MainActivity.localPrefs.edit().putInt("gold", gold).apply();
             MainActivity.localPrefs.edit().putInt("numSoldiers", numSoldiers).apply();
         }
-        return gold >= costSoldier;
+        return gold >= costSoldier|| Game.debug;
     }
 
     public static boolean buySniper() {
-        if(gold >= costSniper) {
+        if(gold >= costSniper|| Game.debug) {
+            if(!Game.debug)
             gold -= costSniper;
             numSnipers++;
             MainActivity.localPrefs.edit().putInt("gold", gold).apply();
             MainActivity.localPrefs.edit().putInt("numSnipers", numSnipers).apply();
         }
-        return gold >= costSniper;
+        return gold >= costSniper|| Game.debug;
     }
 
     public static boolean buyTank() {
-        if(gold >= costTank) {
+        if(gold >= costTank|| Game.debug) {
+            if(!Game.debug)
             gold -= costTank;
             numTanks++;
             MainActivity.localPrefs.edit().putInt("gold", gold).apply();
             MainActivity.localPrefs.edit().putInt("numTanks", numTanks).apply();
         }
-        return gold >= costTank;
+        return gold >= costTank|| Game.debug;
     }
 
     public static boolean checkGold(int gold, int cost) {

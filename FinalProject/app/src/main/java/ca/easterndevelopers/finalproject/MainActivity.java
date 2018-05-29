@@ -17,7 +17,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
     private static Point resolution;
     //for tile size calculations
-    private static float zoom = 1.0f;
+    private static float zoom = 0.6f;
     private static int tilesInWidth = 20;
     public static boolean friendlyFire = true;
 

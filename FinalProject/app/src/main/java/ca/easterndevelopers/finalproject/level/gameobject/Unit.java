@@ -320,6 +320,16 @@ public abstract class Unit extends GameObject {
 
     }
 
+    @Override
+    public void remove() {
+        super.remove();
+        if(!this.isEnemyUnit) {
+            if(this instanceof Soldier) MainScreen.setNumSoldiers(MainScreen.getNumSoldiers()-1);
+            if(this instanceof Tank) MainScreen.setNumTanks(MainScreen.getNumTanks()-1);
+            if(this instanceof Sniper) MainScreen.setNumSnipers(MainScreen.getNumSnipers()-1);
+        }
+    }
+
     public void levelUp() {
         Random rand = new Random();
         int number = rand.nextInt(4) + 1;
