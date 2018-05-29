@@ -14,8 +14,8 @@ import ca.easterndevelopers.finalproject.renderer.GameRenderer;
 public class Projectile extends GameObject {
 
     private double distance;
-    private int targetX;
-    private int targetY;
+    private double targetX;
+    private double targetY;
     private int speed = 1000;
     private float direction;
     private float changeX;
@@ -26,7 +26,7 @@ public class Projectile extends GameObject {
 
     int color;
 
-    public Projectile(int targetX, int targetY, int startX, int startY, Point size, int color, Unit unit) {
+    public Projectile(double targetX, double targetY, int startX, int startY, Point size, int color, Unit unit) {
 
         super(new Point(startX, startY), new Point (size));
 

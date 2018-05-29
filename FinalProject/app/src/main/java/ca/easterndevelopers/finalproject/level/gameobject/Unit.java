@@ -35,6 +35,7 @@ public abstract class Unit extends GameObject {
     protected float healthPercent;
 
     protected boolean isActiveUnit;
+    protected boolean isOnLevel;
 
     int costToLevel;
     int unitLevel;
@@ -62,6 +63,7 @@ public abstract class Unit extends GameObject {
         this.hasAttackedRanged = false;
         this.unitLevel = 1;
         this.isEnemyUnit = isEnemyUnit;
+        this.isOnLevel = false;
     }
 
 
@@ -269,8 +271,8 @@ public abstract class Unit extends GameObject {
         hasAttackedRanged = true;
         ranged.setAmmo(ranged.getAmmo() - 1);
         Projectile projectile = new Projectile(
-                targetX,
-                targetY,
+                targetX + Utils.getRadians(Utils.getRandom()),
+                targetY + Utils.getRadians(Utils.getRandom()),
                 this.getPosition().x + (int) MainActivity.getTileSize() / 2,
                 this.getPosition().y + (int) MainActivity.getTileSize() / 2,
                 this.ranged.getSize(), this.ranged.getColor(), this);

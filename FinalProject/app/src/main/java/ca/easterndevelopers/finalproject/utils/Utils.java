@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.graphics.Point;
 
+import java.util.Random;
+
 import ca.easterndevelopers.finalproject.GameActivity;
 import ca.easterndevelopers.finalproject.MainActivity;
 
@@ -70,6 +72,21 @@ public class Utils {
         double dx = b.x - a.x;
         double dy = b.y - a.y;
         return Math.sqrt((dx*dx)+(dy*dy));
+    }
+
+    public static double getRadians(int degree){
+        double radians = degree * Math.PI / 180;
+        return radians;
+    }
+
+    public static int getRandom(){
+        Random rand = new Random();
+        int number = rand.nextInt(5) + 1;
+        int negative = rand.nextInt(2) + 1;
+        if(negative == 1){
+            number = -number;
+        }
+        return number;
     }
 
 }
