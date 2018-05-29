@@ -380,6 +380,11 @@ public abstract class Unit extends GameObject {
         this.position = null;
     }
 
+    public void endTurn() {
+        this.hasAttackedRanged = false;
+        this.timesHasMoved = 0;
+    }
+
     @Override
     public void init(Level level) {
         super.init(level);

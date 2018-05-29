@@ -127,7 +127,7 @@ public class Player {
         this.isPlayersTurn = false;
         for (Unit unit : this.getUnits()) {
             unit.setNotActive();
-            unit.resetUnit();
+            unit.endTurn();
         }
         if(Game.debug) System.out.println("Ended Turn");
 
