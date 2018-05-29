@@ -20,6 +20,8 @@ public class LevelManager {
 
     public static ArrayList<Level> levels = new ArrayList<Level>();
 
+    public static  ArrayList<int[]> levelIndexes = new ArrayList<int[]>();
+
     /* Tiles:
 
              player start area: ffbe2633
@@ -70,7 +72,11 @@ public class LevelManager {
 
      */
 
-    public static void loadLevel(Context context, int bitmapIndex, int goBitmapIndex) {
+    public static Level loadLevel(Context context, int bitmapIndex, int goBitmapIndex) {
+        int indexes[] = new int[2];
+        indexes[0] = bitmapIndex;
+        indexes[1] = goBitmapIndex;
+        levelIndexes.add(indexes);
         Bitmap levelBitmap = Utils.loadBitmap(context, bitmapIndex);
         Bitmap goBitmap = Utils.loadBitmap(context, goBitmapIndex);
         Level level = new Level(levelBitmap.getWidth(), levelBitmap.getHeight(), context);
@@ -208,10 +214,22 @@ public class LevelManager {
             }
         }
         levels.add(level);
+        return level;
     }
 
     public static Level getLevel(int id){
         return levels.get(id);
+    }
+
+    public static void resetLevels(Context context) {
+        for(int i = 0; i < levels.size(); i++) {
+            resetLevel(context, i);
+        }
+    }
+
+    public static void resetLevel(Context context, int index) {
+        int[] indexes = levelIndexes.get(index);
+        levels.set(index, loadLevel(context, indexes[0], indexes[1]));
     }
 
 }
