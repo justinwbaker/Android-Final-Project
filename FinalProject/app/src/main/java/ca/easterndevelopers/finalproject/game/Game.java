@@ -19,6 +19,7 @@ import ca.easterndevelopers.finalproject.level.gameobject.Soldier;
 import ca.easterndevelopers.finalproject.level.gameobject.Tank;
 import ca.easterndevelopers.finalproject.level.tile.GrassTile;
 import ca.easterndevelopers.finalproject.player.Player;
+import ca.easterndevelopers.finalproject.renderer.GameRenderer;
 
 public class Game {
 
@@ -45,6 +46,8 @@ public class Game {
         for(int i = 0; i < MainScreen.getNumTanks(); i++) {
             MainScreen.getPlayer().addUnit(new Tank(null, false));
         }
+
+        GameRenderer.setCanvasOffset(LevelManager.getLevel(0).getCameraOffset());
 
         MainScreen.getPlayer().playLevel(LevelManager.getLevel(0));
     }

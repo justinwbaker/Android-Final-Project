@@ -92,6 +92,16 @@ public class GameRenderer extends SurfaceView implements Runnable{
             //First we lock the area of memory we will be drawing to
             canvas = ourHolder.lockCanvas();
             canvas.save();
+
+            if (canvasOffset.x > 0)
+                canvasOffset.x = 0;
+            if (canvasOffset.y > 0)
+                canvasOffset.y = 0;
+            if (canvasOffset.x <= -Game.getPlayer().getCurrentLevel().getWidth() * MainActivity.getTileSize() + MainActivity.getResolution().x)
+                canvasOffset.x = (int)-(Game.getPlayer().getCurrentLevel().getWidth() * MainActivity.getTileSize()) + MainActivity.getResolution().x;
+            if (canvasOffset.y <= -Game.getPlayer().getCurrentLevel().getHeight() * MainActivity.getTileSize() + MainActivity.getResolution().y)
+                canvasOffset.y = (int)-(Game.getPlayer().getCurrentLevel().getHeight() * MainActivity.getTileSize())+ MainActivity.getResolution().y;
+            
             canvas.translate(canvasOffset.x, canvasOffset.y);
 
             paint.setColor(Color.BLACK);
@@ -117,15 +127,6 @@ public class GameRenderer extends SurfaceView implements Runnable{
                         canvasOffset.x += dx;
                         canvasOffset.y += dy;
                     }
-
-                    if (canvasOffset.x > 0)
-                        canvasOffset.x = 0;
-                    if (canvasOffset.y > 0)
-                        canvasOffset.y = 0;
-                    if (canvasOffset.x <= -Game.getPlayer().getCurrentLevel().getWidth() * MainActivity.getTileSize() + MainActivity.getResolution().x)
-                        canvasOffset.x = (int)-(Game.getPlayer().getCurrentLevel().getWidth() * MainActivity.getTileSize()) + MainActivity.getResolution().x;
-                    if (canvasOffset.y <= -Game.getPlayer().getCurrentLevel().getHeight() * MainActivity.getTileSize() + MainActivity.getResolution().y)
-                        canvasOffset.y = (int)-(Game.getPlayer().getCurrentLevel().getHeight() * MainActivity.getTileSize())+ MainActivity.getResolution().y;
                 }
                 break;
             case MotionEvent.ACTION_UP:
@@ -156,5 +157,9 @@ public class GameRenderer extends SurfaceView implements Runnable{
 
     public static Point getCanvasOffset() {
         return canvasOffset;
+    }
+
+    public static void setCanvasOffset(Point offset) {
+        canvasOffset = offset;
     }
 }

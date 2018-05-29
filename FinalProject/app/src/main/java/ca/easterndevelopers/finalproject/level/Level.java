@@ -147,9 +147,10 @@ public class Level {
 
                 int x = Utils.toTiledPosition(GameRenderer.getWorldTouchedPoint()).x;
                 int y = Utils.toTiledPosition(GameRenderer.getWorldTouchedPoint()).y;
-
-                if(startingArea[x+y*width]) {
-                    player.placeUnit(unplaced, x, y);
+                if(x >= 0 && y >= 0 && x < width && y < height) {
+                    if (startingArea[x + y * width]) {
+                        player.placeUnit(unplaced, x, y);
+                    }
                 }
 
                 if(player.hasPlacedAllUnits()) {
@@ -239,5 +240,14 @@ public class Level {
             }
         }
         return contains;
+    }
+
+    public Point getCameraOffset() {
+        for(int i = 0;i < height; i++) {
+            for(int j = 0; j < width; j++) {
+                if(startingArea[j+i*width]) return new Point(-j*(int)MainActivity.getTileSize(), -i*(int)MainActivity.getTileSize());
+            }
+        }
+        return new Point(0, 0);
     }
 }
