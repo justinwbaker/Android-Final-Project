@@ -256,7 +256,27 @@ public abstract class Unit extends GameObject {
 
     // Action Methods  ****************************************************
 
-    public void rangedAttack() {
+        public void rangedAttack() {
+        if(this.ranged instanceof Shotgun){
+            System.out.println("SHOOT DAH SHOTGUN");
+            System.out.println(Utils.getRandom());
+            rangedAttackShotgun();
+        }
+        else {
+            hasAttackedRanged = true;
+            ranged.setAmmo(ranged.getAmmo() - 1);
+            Projectile projectile = new Projectile(
+                    GameRenderer.getWorldTouchedPoint().x,
+                    GameRenderer.getWorldTouchedPoint().y,
+                    this.getPosition().x + (int) MainActivity.getTileSize() / 2,
+                    this.getPosition().y + (int) MainActivity.getTileSize() / 2,
+                    this.ranged.getSize(), this.ranged.getColor(), this);
+            this.getLevel().addGameObject(projectile);
+            MainScreen.getPlayer().setNextActiveUnit();
+        }
+    }
+
+    public void rangedAttackShotgun() {
         hasAttackedRanged = true;
         ranged.setAmmo(ranged.getAmmo() - 1);
         Projectile projectile = new Projectile(
@@ -264,7 +284,25 @@ public abstract class Unit extends GameObject {
                 GameRenderer.getWorldTouchedPoint().y,
                 this.getPosition().x + (int) MainActivity.getTileSize() / 2,
                 this.getPosition().y + (int) MainActivity.getTileSize() / 2,
-                this.ranged.getSize(), this.ranged.getColor(), this);
+                this.ranged.getSize(), this.ranged.getColor(), this, (Utils.getRadians(Utils.getRandom()) + Utils.getRadians(Utils.getRandom())));
+        Projectile projectile1 = new Projectile(
+                GameRenderer.getWorldTouchedPoint().x,
+                GameRenderer.getWorldTouchedPoint().y,
+                this.getPosition().x + (int) MainActivity.getTileSize() / 2,
+                this.getPosition().y + (int) MainActivity.getTileSize() / 2,
+                this.ranged.getSize(), this.ranged.getColor(), this, (Utils.getRadians(Utils.getRandom()) + Utils.getRadians(Utils.getRandom())));
+        Projectile projectile2 = new Projectile(
+                GameRenderer.getWorldTouchedPoint().x,
+                GameRenderer.getWorldTouchedPoint().y,
+                this.getPosition().x + (int) MainActivity.getTileSize() / 2,
+                this.getPosition().y + (int) MainActivity.getTileSize() / 2,
+                this.ranged.getSize(), this.ranged.getColor(), this, (Utils.getRadians(Utils.getRandom()) + Utils.getRadians(Utils.getRandom())));
+        Projectile projectile3 = new Projectile(
+                GameRenderer.getWorldTouchedPoint().x,
+                GameRenderer.getWorldTouchedPoint().y,
+                this.getPosition().x + (int) MainActivity.getTileSize() / 2,
+                this.getPosition().y + (int) MainActivity.getTileSize() / 2,
+                this.ranged.getSize(), this.ranged.getColor(), this, (Utils.getRadians(Utils.getRandom()) + Utils.getRadians(Utils.getRandom())));
         this.getLevel().addGameObject(projectile);
         MainScreen.getPlayer().setNextActiveUnit();
     }
