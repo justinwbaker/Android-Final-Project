@@ -152,6 +152,7 @@ public class Player {
         else{
             // bring to title
             Intent i = new Intent(this.currentLevel.getContext(), MainActivity.class);
+            MainActivity.getLocalPrefs().edit().clear().apply();
             GameActivity.getContext().startActivity(i);
         }
     }
