@@ -162,6 +162,13 @@ public abstract class Unit extends GameObject {
                                 if(Game.debug)System.out.println("Ai fired a shot");
                             }
                         }
+
+                        else{
+                            MainScreen.getPlayer().soldierWipe(); // end game call
+                        }
+                    }
+                    else{
+                        MainScreen.getPlayer().soldierWipe(); // end game call
                     }
                 }
                 else {
@@ -358,5 +365,10 @@ public abstract class Unit extends GameObject {
 
     public float getHealthPercent(){
         return healthPercent;
+    }
+
+    public void resetUnit(){
+        this.hasAttackedRanged = false;
+        this.timesHasMoved = 0;
     }
 }

@@ -2,6 +2,7 @@ package ca.easterndevelopers.finalproject;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -59,5 +60,9 @@ public class GameActivity extends Activity {
 
     public static Context getContext() {
         return context;
+    }
+
+    public static void changeIntent(Intent intent){
+        getContext().startActivity(intent);
     }
 }

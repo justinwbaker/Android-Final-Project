@@ -1,5 +1,6 @@
 package ca.easterndevelopers.finalproject.player;
 
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -9,6 +10,10 @@ import android.icu.util.UniversalTimeScale;
 import java.util.ArrayList;
 
 import ca.easterndevelopers.finalproject.GUI.GUI;
+import ca.easterndevelopers.finalproject.GameActivity;
+import ca.easterndevelopers.finalproject.MainActivity;
+import ca.easterndevelopers.finalproject.MainScreen;
+import ca.easterndevelopers.finalproject.ShopActivity;
 import ca.easterndevelopers.finalproject.game.Game;
 import ca.easterndevelopers.finalproject.level.Level;
 import ca.easterndevelopers.finalproject.level.gameobject.Unit;
@@ -127,6 +132,7 @@ public class Player {
         this.isPlayersTurn = false;
         for (Unit unit : this.getUnits()) {
             unit.setNotActive();
+            unit.resetUnit();
         }
         if(Game.debug) System.out.println("Ended Turn");
 
@@ -134,5 +140,19 @@ public class Player {
 
     public ArrayList<Unit> getUnits() {
         return units;
+    }
+
+    public void soldierWipe(){
+        if(MainScreen.getGold() >= 100){
+            // bring to store
+            Intent i = new Intent(this.currentLevel.getContext(), ShopActivity.class);
+            GameActivity.getContext().startActivity(i);
+
+        }
+        else{
+            // bring to title
+            Intent i = new Intent(this.currentLevel.getContext(), MainActivity.class);
+            GameActivity.getContext().startActivity(i);
+        }
     }
 }

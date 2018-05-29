@@ -177,7 +177,12 @@ public class Level {
             this.enemy.setNextActiveUnit();
         }else {
             this.enemy.endTurn();
-            this.player.startTurn();
+
+            if (this.player.getUnits().size() != 0) {
+                this.player.startTurn();
+            } else {
+                this.player.soldierWipe();
+            }
         }
     }
 
