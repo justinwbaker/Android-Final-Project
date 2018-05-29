@@ -33,9 +33,7 @@ public class Game {
         this.context = context;
         gui = new GameGUI();
 
-        MainScreen.getPlayer().addUnit(new Soldier(new Point((int) MainActivity.getTileSize()*6, (int)MainActivity.getTileSize()*6), false));
         MainScreen.getPlayer().playLevel(LevelManager.getLevel(0));
-        MainScreen.getPlayer().startTurn();
     }
 
     public void update(double fps) {

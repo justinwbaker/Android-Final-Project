@@ -372,5 +372,19 @@ public abstract class Unit extends GameObject {
     public void resetUnit(){
         this.hasAttackedRanged = false;
         this.timesHasMoved = 0;
+        this.level = null;
+        this.isOnLevel = false;
+        this.health = this.totalHealth;
+        this.position = null;
+    }
+
+    @Override
+    public void init(Level level) {
+        super.init(level);
+        this.isOnLevel = true;
+    }
+
+    public boolean isOnLevel() {
+        return isOnLevel;
     }
 }

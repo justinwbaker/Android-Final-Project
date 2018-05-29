@@ -29,6 +29,7 @@ public class Level {
     private Context context;
 
     private Tile tiles[];
+    private boolean startingArea[];
     private ArrayList<GameObject> objects;
 
     private Enemy enemy;
@@ -40,6 +41,10 @@ public class Level {
         this.context = context;
 
         tiles = new Tile[width*height];
+        startingArea = new boolean[width*height];
+
+        for(int i = 0; i < width*height; i++) startingArea[i] = false;
+
         objects = new ArrayList<GameObject>();
         this.enemy = new Enemy();
         this.enemy.playLevel(this);
@@ -64,73 +69,78 @@ public class Level {
     }
 
     public void update(double fps) {
+        if(player.hasPlacedAllUnits()) {
+            this.player.updateUnits();
+            this.enemy.updateUnits();
 
-        this.player.updateUnits();
-        this.enemy.updateUnits();
+            for (GameObject go : objects) {
+                go.update(fps);
 
-        for (GameObject go: objects) {
-            go.update(fps);
+                if ((go instanceof Projectile)) {
+                    Projectile projectile = (Projectile) go;
 
-            if( (go instanceof Projectile)  ){
-                Projectile projectile = (Projectile) go;
-
-
-                for(GameObject object: objects) {
-                    if( (go instanceof Projectile || object instanceof Collider)  ) {
-                        GameObject go2 = object;
-                        if(projectile != go2 && Rect.intersects(projectile.getHitbox(), go2.getHitbox())) {
-                            projectile.remove();
-                        }
-                        // if ( abs of((projectile location) + unit location ) > weapon range
-                        else if((Math.abs(Math.sqrt(Math.pow((projectile.getPosition().x - projectile.getUnit().getPosition().x), 2)
-                                + Math.pow((projectile.getPosition().y - projectile.getUnit().getPosition().y), 2))))
-                                >= (projectile.getUnit().getRangedWeapon().getRange() * MainActivity.getTileSize())){
-
-                            projectile.remove();
-                            if(Game.debug) System.out.println("Projectile removed due to out of range!");
-
-                        }
-                    }
-                }
-
-                for(Unit unit: player.getUnits()) {
-                    if(unit != projectile.getUnit() && Rect.intersects(unit.getHitbox(), projectile.getHitbox())) {
-                        if(player.isPlayersTurn()) {
-                            if (friendlyFire) {
-                                unit.takeDamage(projectile.getUnit().getRangedWeapon().getDamage());
+                    for (GameObject object : objects) {
+                        if ((go instanceof Projectile || object instanceof Collider)) {
+                            GameObject go2 = object;
+                            if (projectile != go2 && Rect.intersects(projectile.getHitbox(), go2.getHitbox())) {
                                 projectile.remove();
-                                if (Game.debug) System.out.println("HIT Friendly!");
+                            }
+                            // if ( abs of((projectile location) + unit location ) > weapon range
+                            else if ((Math.abs(Math.sqrt(Math.pow((projectile.getPosition().x - projectile.getUnit().getPosition().x), 2)
+                                    + Math.pow((projectile.getPosition().y - projectile.getUnit().getPosition().y), 2))))
+                                    >= (projectile.getUnit().getRangedWeapon().getRange() * MainActivity.getTileSize())) {
+
+                                projectile.remove();
+                                if (Game.debug)
+                                    System.out.println("Projectile removed due to out of range!");
 
                             }
                         }
+                    }
 
-                        else{
-                            if (Game.debug) System.out.println("HIT by Enemy!");
+                    for (Unit unit : player.getUnits()) {
+                        if (unit != projectile.getUnit() && Rect.intersects(unit.getHitbox(), projectile.getHitbox())) {
+                            if (player.isPlayersTurn()) {
+                                if (friendlyFire) {
+                                    unit.takeDamage(projectile.getUnit().getRangedWeapon().getDamage());
+                                    projectile.remove();
+                                    if (Game.debug) System.out.println("HIT Friendly!");
+
+                                }
+                            } else {
+                                if (Game.debug) System.out.println("HIT by Enemy!");
+                                unit.takeDamage(projectile.getUnit().getRangedWeapon().getDamage());
+                                projectile.remove();
+                            }
+                        }
+                    }
+
+                    for (Unit unit : enemy.getUnits()) {
+                        if (unit != projectile.getUnit() && Rect.intersects(unit.getHitbox(), projectile.getHitbox())) {
                             unit.takeDamage(projectile.getUnit().getRangedWeapon().getDamage());
                             projectile.remove();
+
+                            if (Game.debug) {
+                                System.out.println("HIT Enemy");
+                                System.out.println(unit.getHealth());
+                            }
                         }
                     }
+
                 }
 
-                for(Unit unit: enemy.getUnits()) {
-                    if(unit != projectile.getUnit() && Rect.intersects(unit.getHitbox(), projectile.getHitbox())) {
-                        unit.takeDamage(projectile.getUnit().getRangedWeapon().getDamage());
-                        projectile.remove();
-
-                        if (Game.debug) {
-                            System.out.println("HIT Enemy");
-                            System.out.println(unit.getHealth());
-                        }
-                    }
+                if (go.isRemoved()) {
+                    objects.remove(go);
                 }
-
             }
 
-            if(go.isRemoved()) {
-                objects.remove(go);
-            }
+            if(player.getUnits().size() <= 0) player.soldierWipe();
+            if(enemy.getUnits().size() <= 0) enemy.soldierWipe();
+
+        }else {
+            // place players units
+
         }
-
     }
 
     public void render(Canvas canvas, Paint paint) {
@@ -146,6 +156,12 @@ public class Level {
         if(this.player != null) {
             this.player.renderUnits(canvas, paint);
             this.enemy.renderUnits(canvas, paint);
+        }
+    }
+
+    public void addStartingArea(int x, int y) {
+        if(x >= 0 && y >= 0 && x < width && y < height) {
+            startingArea[x+y*width] = true;
         }
     }
 

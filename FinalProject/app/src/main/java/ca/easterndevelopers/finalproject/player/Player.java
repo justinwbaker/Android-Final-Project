@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.icu.util.UniversalTimeScale;
 
@@ -50,9 +51,6 @@ public class Player {
     public void playLevel(Level level) {
         currentLevel = level;
         level.init(this);
-        for(Unit u : units){
-            u.init(level);
-        }
     }
 
     public Level getCurrentLevel() {
@@ -66,7 +64,6 @@ public class Player {
     }
 
     public void updateUnits() {
-        int index = 0;
         for (int i = 0; i < units.size(); i++) {
             Unit u = units.get(i);
             u.update(0.0);
@@ -79,12 +76,11 @@ public class Player {
                     for (Unit unit : units) {
                         unit.setNotActive();
                     }
-                    this.indexOfActiveUnit = index;
+                    this.indexOfActiveUnit = i;
                     if(!u.isDoneTurn())
                         u.setActive();
                 }
             }
-            index++;
 
             if (u.isRemoved()) {
                 this.units.remove(u);
@@ -155,5 +151,30 @@ public class Player {
             MainActivity.getLocalPrefs().edit().clear().apply();
             GameActivity.getContext().startActivity(i);
         }
+    }
+
+    public void placeUnit(int unitIndex, int x, int y) {
+        units.get(unitIndex).setPosition(new Point((int)MainActivity.getTileSize() * x, (int)MainActivity.getTileSize() * y));
+        units.get(unitIndex).init(this.getCurrentLevel());
+    }
+
+    public boolean hasPlacedAllUnits() {
+        boolean hasPlacedAll = true;
+        for(int i = 0; i < units.size(); i++) {
+            if(!units.get(i).isOnLevel()) {
+                hasPlacedAll = false;
+                break;
+            }
+        }
+        return hasPlacedAll;
+    }
+
+    public Unit getUnplacedUnit() {
+        for(int i = 0; i < units.size(); i++) {
+            if(!units.get(i).isOnLevel()) {
+                return units.get(i);
+            }
+        }
+        return null;
     }
 }

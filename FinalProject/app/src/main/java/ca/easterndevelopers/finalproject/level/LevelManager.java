@@ -193,6 +193,7 @@ public class LevelManager {
                 switch (goBitmap.getPixel(j, i)) {
                     case 0xffbe2633:
                         // do player start area stuff....
+                        level.addStartingArea(j, i);
                         break;
                     case 0xffe06f8b:
                         level.getEnemy().addUnit(new Soldier(new Point((int)(MainActivity.getTileSize()*j),(int)(MainActivity.getTileSize()*i)), true));
