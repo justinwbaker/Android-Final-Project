@@ -12,17 +12,22 @@
         android:layout_width="76dp"
         android:layout_height="47dp"
         android:layout_marginBottom="40dp"
+        android:layout_marginEnd="104dp"
         android:layout_marginLeft="36dp"
+        android:layout_marginRight="104dp"
         android:layout_marginStart="36dp"
+        android:layout_marginTop="297dp"
         android:background="@android:color/transparent"
         android:text="Back"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@+id/amounts"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/gold"
         android:layout_width="70dp"
-        android:layout_height="wrap_content"
+        android:layout_height="19dp"
         android:text="Gold:1000"
         android:textColor="@android:color/holo_orange_light"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -36,11 +41,16 @@
         android:id="@+id/amounts"
         android:layout_width="46dp"
         android:layout_height="176dp"
+        android:layout_marginEnd="68dp"
         android:layout_marginLeft="216dp"
+        android:layout_marginRight="68dp"
         android:layout_marginStart="216dp"
+        android:layout_marginTop="67dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintEnd_toStartOf="@+id/linearLayout2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gold">
 
         <TextView
             android:id="@+id/soldiers"
@@ -74,14 +84,19 @@
 
     <LinearLayout
         android:id="@+id/linearLayout2"
-        android:layout_width="43dp"
+        android:layout_width="42dp"
         android:layout_height="209dp"
         android:layout_marginBottom="22dp"
+        android:layout_marginEnd="219dp"
         android:layout_marginLeft="330dp"
+        android:layout_marginRight="219dp"
         android:layout_marginStart="330dp"
+        android:layout_marginTop="153dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/buySoldier"

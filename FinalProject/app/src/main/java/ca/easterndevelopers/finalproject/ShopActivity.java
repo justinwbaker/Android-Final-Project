@@ -31,10 +31,10 @@ public class ShopActivity extends Activity {
         final TextView tanks = (TextView) findViewById(R.id.tanks);
         final TextView gold = (TextView) findViewById(R.id.gold);
 
-        soldiers.setText("solders: " + MainScreen.getNumSoldiers());
+        soldiers.setText("soldiers: " + MainScreen.getNumSoldiers());
         snipers.setText("snipers: " + MainScreen.getNumSnipers());
         tanks.setText("tanks: " + MainScreen.getNumTanks());
-        gold.setText("gold: " + MainScreen.getGold());
+        gold.setText("Gold: " + MainScreen.getGold());
 
 
         checkGold(soldier, sniper, tank);
@@ -51,7 +51,7 @@ public class ShopActivity extends Activity {
                 if(!MainScreen.buySolder()){
                     soldier.setBackgroundColor(Color.rgb(255, 20, 20));
                 }
-                soldiers.setText("Solders: " + MainScreen.getNumSoldiers());
+                soldiers.setText("soldiers: " + MainScreen.getNumSoldiers());
                 gold.setText("Gold: " + MainScreen.getGold());
                 checkGold(soldier, sniper, tank);
             }
@@ -62,7 +62,7 @@ public class ShopActivity extends Activity {
                 if(!MainScreen.buySniper()){
                     sniper.setBackgroundColor(Color.rgb(255, 20, 20));
                 }
-                snipers.setText("Solders: " + MainScreen.getNumSnipers());
+                snipers.setText("snipers: " + MainScreen.getNumSnipers());
                 gold.setText("Gold: " + MainScreen.getGold());
                 checkGold(soldier, sniper, tank);
             }
@@ -73,7 +73,7 @@ public class ShopActivity extends Activity {
                 if(!MainScreen.buyTank()){
                     tank.setBackgroundColor(Color.rgb(255, 20, 20));
                 }
-                tanks.setText("Solders: " + MainScreen.getNumTanks());
+                tanks.setText("tanks: " + MainScreen.getNumTanks());
                 gold.setText("Gold: " + MainScreen.getGold());
                 checkGold(soldier, sniper, tank);
             }
