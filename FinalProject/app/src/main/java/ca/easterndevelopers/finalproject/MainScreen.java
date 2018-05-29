@@ -14,7 +14,12 @@ import ca.easterndevelopers.finalproject.level.LevelManager;
 import ca.easterndevelopers.finalproject.level.gameobject.Soldier;
 import ca.easterndevelopers.finalproject.player.Player;
 
-public class MainScreen extends Activity implements View.OnClickListener{
+public class MainScreen extends Activity{
+
+
+    public static final int costSoldier = 100;
+    public static final int costSniper = 100;
+    public static final int costTank = 100;
 
     private static int missionSelect = 0; // will default start on mission one if you don't manually pick one
     private static Player player = new Player();
@@ -22,288 +27,55 @@ public class MainScreen extends Activity implements View.OnClickListener{
     private static int numSoldiers = 5;
     private static int numSnipers = 2;
     private static int numTanks = 2;
-    private static int costSoldier = 100;
-    private static int costSniper = 100;
-    private static int costTank = 100;
     private static int gold = 1000;
-
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+         final Intent levelIntent = new Intent(this, LevelSelect.class);
+         final Intent shopIntent = new Intent(this, ShopActivity.class);
+         final Intent gameIntent = new Intent(this, GameActivity.class);
 
         setContentView(R.layout.activity_main_screen);
-
-        final Intent z = new Intent(this, MainActivity.class);
 
         numSoldiers = MainActivity.localPrefs.getInt("numSoldiers", 5);
         numSnipers = MainActivity.localPrefs.getInt("numSnipers", 2);
         numTanks = MainActivity.localPrefs.getInt("numTanks", 2);
         gold = MainActivity.localPrefs.getInt("gold", 1000);
 
+        missionSelect = MainActivity.localPrefs.getInt("mission", -1);
 
-        final Button beginMission = findViewById(R.id.beginMission);
-        final Button chooseMission = findViewById(R.id.chooseMission);
-        final Button changeUnits = findViewById(R.id.changeUnits);
-        final Button mission1 = findViewById(R.id.Mission1);
-        final Button mission2 = findViewById(R.id.Mission2);
-        final Button mission3 = findViewById(R.id.Mission3);
-        final Button back = findViewById(R.id.Back);
-        final Button addSniper = findViewById(R.id.addSniper);
-        final Button addTank = findViewById(R.id.addTank);
-        final Button addSoldier = findViewById(R.id.addSoldier);
+        if(missionSelect != -1) {
+            startActivity(gameIntent);
+            finish();
+        }
 
-        final TextView Soldiers = (TextView)findViewById(R.id.armySoldiers);
-        final TextView Snipers = (TextView)findViewById(R.id.armySnipers);
-        final TextView Tanks = (TextView)findViewById(R.id.armyTanks);
-        final TextView Gold = (TextView)findViewById(R.id.Gold);
-        final TextView InsufficientGold = (TextView)findViewById(R.id.InsufficientGold);
-        Soldiers.setText("Soldiers: " + numSoldiers);
-        Snipers.setText("Snipers: " + numSnipers);
-        Tanks.setText("Tanks: " + numTanks);
-        Gold.setText("Gold: " + gold);
+        Button levelButton = (Button) findViewById(R.id.leveSelectButton);
+        Button shopButton = (Button) findViewById(R.id.shopButton);
 
-
-
-        final ImageView unitsPreview = (ImageView)findViewById(R.id.unitPreview);
-
-
-        beginMission.setOnClickListener(new View.OnClickListener() {
-
-            @Override
+        levelButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent z = new Intent(MainScreen.this, MainActivity.class);;
-
-                switch(missionSelect){
-
-                    case 1:
-                        z = new Intent(MainScreen.this, GameActivity.class);
-                        break;
-
-                    case 2:
-                        z = new Intent(MainScreen.this, GameActivity.class);
-                        break;
-
-                    case 3:
-                        z = new Intent(MainScreen.this, GameActivity.class);
-                        break;
-                }
-
-
-                startActivity(z);
+                startActivity(levelIntent);
                 finish();
             }
-
         });
 
-        chooseMission.setOnClickListener(new View.OnClickListener() {
-            @Override
+        shopButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-
-                mission1.setVisibility(View.VISIBLE);
-                mission2.setVisibility(View.VISIBLE);
-                mission3.setVisibility(View.VISIBLE);
-                back.setVisibility(View.VISIBLE);
-                beginMission.setVisibility(View.INVISIBLE);
-                chooseMission.setVisibility(View.INVISIBLE);
-                changeUnits.setVisibility(View.INVISIBLE);
-
-            }
-        });
-
-        changeUnits.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // insert link to change units page/buttons
-
-                back.setVisibility(View.VISIBLE);
-                beginMission.setVisibility(View.INVISIBLE);
-                chooseMission.setVisibility(View.INVISIBLE);
-                changeUnits.setVisibility(View.INVISIBLE);
-                addSniper.setVisibility(View.VISIBLE);
-                addSoldier.setVisibility(View.VISIBLE);
-                addTank.setVisibility(View.VISIBLE);
-                unitsPreview.setVisibility(View.VISIBLE);
-                Soldiers.setVisibility(View.VISIBLE);
-                Tanks.setVisibility(View.VISIBLE);
-                Snipers.setVisibility(View.VISIBLE);
-                Gold.setVisibility(View.VISIBLE);
-
-
-            }
-        });
-        // end of first screen buttons
-
-        mission1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                missionSelect = 1;
-
-                mission1.setVisibility(View.INVISIBLE);
-                mission2.setVisibility(View.INVISIBLE);
-                mission3.setVisibility(View.INVISIBLE);
-                back.setVisibility(View.INVISIBLE);
-                beginMission.setVisibility(View.VISIBLE);
-                chooseMission.setVisibility(View.VISIBLE);
-                changeUnits.setVisibility(View.VISIBLE);
-
-
-            }
-        });
-
-        mission2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                missionSelect = 2;
-
-                mission1.setVisibility(View.INVISIBLE);
-                mission2.setVisibility(View.INVISIBLE);
-                mission3.setVisibility(View.INVISIBLE);
-                back.setVisibility(View.INVISIBLE);
-                beginMission.setVisibility(View.VISIBLE);
-                chooseMission.setVisibility(View.VISIBLE);
-                changeUnits.setVisibility(View.VISIBLE);
-            }
-        });
-
-        mission3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                missionSelect = 3;
-
-                mission1.setVisibility(View.INVISIBLE);
-                mission2.setVisibility(View.INVISIBLE);
-                mission3.setVisibility(View.INVISIBLE);
-                back.setVisibility(View.INVISIBLE);
-                beginMission.setVisibility(View.VISIBLE);
-                chooseMission.setVisibility(View.VISIBLE);
-                changeUnits.setVisibility(View.VISIBLE);
-            }
-        });
-
-        // end of choose mission buttons
-
-        addSniper.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(numSnipers < 2 || Game.debug) {
-                    if (checkGold(gold, costSniper)) {
-                        minusGold(costSniper);
-                        numSnipers++;
-                        Snipers.setText("Snipers: " + numSnipers);
-                        unitsPreview.setImageResource(R.drawable.soldier);
-                        Gold.setText("Gold: " + gold);
-                        MainActivity.localPrefs.edit().putInt("gold", gold).apply();
-                        MainActivity.localPrefs.edit().putInt("numSnipers", numSnipers).apply();
-                        if (InsufficientGold.getVisibility() == View.VISIBLE) {
-                            InsufficientGold.setVisibility(View.INVISIBLE);
-                        }
-                    } else {
-                        InsufficientGold.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        });
-
-        addSoldier.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(numSoldiers < 6 || Game.debug) {
-                    if (checkGold(gold, costSoldier)) {
-                        minusGold(costSoldier);
-                        numSoldiers++;
-                        Soldiers.setText("Soldiers: " + numSoldiers);
-                        unitsPreview.setImageResource(R.drawable.soldier);
-                        Gold.setText("Gold: " + gold);
-                        MainActivity.localPrefs.edit().putInt("gold", gold).apply();
-                        MainActivity.localPrefs.edit().putInt("numSoldiers", numSoldiers).apply();
-                        if (InsufficientGold.getVisibility() == View.VISIBLE) {
-                            InsufficientGold.setVisibility(View.INVISIBLE);
-                        }
-                    } else {
-                        InsufficientGold.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        });
-
-        addTank.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if(numTanks < 2 || Game.debug) {
-                    if (checkGold(gold, costTank)) {
-                        minusGold(costTank);
-                        numTanks++;
-                        Tanks.setText("Tanks: " + numTanks);
-                        unitsPreview.setImageResource(R.drawable.soldier);
-                        Gold.setText("Gold: " + gold);
-                        MainActivity.localPrefs.edit().putInt("gold", gold).apply();
-                        MainActivity.localPrefs.edit().putInt("numTanks", numTanks).apply();
-                        if (InsufficientGold.getVisibility() == View.VISIBLE) {
-                            InsufficientGold.setVisibility(View.INVISIBLE);
-                        }
-                    } else {
-                        InsufficientGold.setVisibility(View.VISIBLE);
-                    }
-                }
-            }
-        });
-
-        // end of add soldier buttons
-
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // return to main menu without doing anything
-                mission1.setVisibility(View.INVISIBLE);
-                mission2.setVisibility(View.INVISIBLE);
-                mission3.setVisibility(View.INVISIBLE);
-                back.setVisibility(View.INVISIBLE);
-                beginMission.setVisibility(View.VISIBLE);
-                chooseMission.setVisibility(View.VISIBLE);
-                changeUnits.setVisibility(View.VISIBLE);
-
-                addSniper.setVisibility(View.INVISIBLE);
-                addSoldier.setVisibility(View.INVISIBLE);
-                addTank.setVisibility(View.INVISIBLE);
-                unitsPreview.setVisibility(View.INVISIBLE);
-                Soldiers.setVisibility(View.INVISIBLE);
-                Tanks.setVisibility(View.INVISIBLE);
-                Snipers.setVisibility(View.INVISIBLE);
-                Gold.setVisibility(View.INVISIBLE);
-                InsufficientGold.setVisibility(View.INVISIBLE);
-
+                startActivity(shopIntent);
+                finish();
             }
         });
     }
 
-    @Override
-    public void onClick(View v) {
-        Intent z = new Intent(this, MainActivity.class);;
+    public static int getLevel(){
+        return missionSelect;
+    }
 
-        switch(missionSelect){
+    public static void setLevel(int level){
+        missionSelect = level;
 
-            case 1:
-                z = new Intent(this, GameActivity.class);
-                break;
-
-            case 2:
-                z = new Intent(this, GameActivity.class);
-                break;
-
-            case 3:
-                z = new Intent(this, GameActivity.class);
-                break;
-        }
-
-
-        startActivity(z);
-        finish();
     }
 
     @Override
@@ -356,6 +128,36 @@ public class MainScreen extends Activity implements View.OnClickListener{
 
     public static int getGold() {
         return gold;
+    }
+
+    public static boolean buySolder() {
+        if(gold >= costSoldier) {
+            gold -= costSoldier;
+            numSoldiers++;
+            MainActivity.localPrefs.edit().putInt("gold", gold).apply();
+            MainActivity.localPrefs.edit().putInt("numSoldiers", numSoldiers).apply();
+        }
+        return gold >= costSoldier;
+    }
+
+    public static boolean buySniper() {
+        if(gold >= costSniper) {
+            gold -= costSniper;
+            numSnipers++;
+            MainActivity.localPrefs.edit().putInt("gold", gold).apply();
+            MainActivity.localPrefs.edit().putInt("numSnipers", numSnipers).apply();
+        }
+        return gold >= costSniper;
+    }
+
+    public static boolean buyTank() {
+        if(gold >= costTank) {
+            gold -= costTank;
+            numTanks++;
+            MainActivity.localPrefs.edit().putInt("gold", gold).apply();
+            MainActivity.localPrefs.edit().putInt("numTanks", numTanks).apply();
+        }
+        return gold >= costTank;
     }
 
     public static boolean checkGold(int gold, int cost) {
