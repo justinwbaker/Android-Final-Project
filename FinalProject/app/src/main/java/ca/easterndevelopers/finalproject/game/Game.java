@@ -33,6 +33,19 @@ public class Game {
         this.context = context;
         gui = new GameGUI();
 
+        MainScreen.getPlayer().getUnits().clear();
+
+        for(int i = 0; i < MainScreen.getNumSoldiers(); i++) {
+            MainScreen.getPlayer().addUnit(new Soldier(null, false));
+        }
+
+        for(int i = 0; i < MainScreen.getNumSnipers(); i++) {
+            MainScreen.getPlayer().addUnit(new Sniper(null, false));
+        }
+        for(int i = 0; i < MainScreen.getNumTanks(); i++) {
+            MainScreen.getPlayer().addUnit(new Tank(null, false));
+        }
+
         MainScreen.getPlayer().playLevel(LevelManager.getLevel(0));
     }
 

@@ -181,38 +181,40 @@ public abstract class Unit extends GameObject {
     }
 
     public void render(Canvas canvas, Paint paint){
-        if(this.isActiveUnit) {
-            this.showAttackRange(canvas, paint); // need to change this to only check if we want to attack
-        }
-        if(this.isActiveUnit && timesHasMoved != timeCanMove) {
-            this.showMovementRange(canvas, paint);
-        }
-        paint.setColor(Color.WHITE);
-        canvas.drawBitmap(image, getPosition().x, getPosition().y, paint);
+        if(this.isOnLevel) {
+            if (this.isActiveUnit) {
+                this.showAttackRange(canvas, paint); // need to change this to only check if we want to attack
+            }
+            if (this.isActiveUnit && timesHasMoved != timeCanMove) {
+                this.showMovementRange(canvas, paint);
+            }
+            paint.setColor(Color.WHITE);
+            canvas.drawBitmap(image, getPosition().x, getPosition().y, paint);
 
-        paint.setColor(Color.BLACK);
-        canvas.drawRect(getPosition().x  + (getPixelSize() * 2),
-                getPosition().y - (getPixelSize() * 3),
-                getPosition().x + MainActivity.getTileSize() - (getPixelSize() * 2),
-                getPosition().y , paint );
+            paint.setColor(Color.BLACK);
+            canvas.drawRect(getPosition().x + (getPixelSize() * 2),
+                    getPosition().y - (getPixelSize() * 3),
+                    getPosition().x + MainActivity.getTileSize() - (getPixelSize() * 2),
+                    getPosition().y, paint);
 
-        paint.setColor(Color.RED);
-        canvas.drawRect(getPosition().x  + (getPixelSize() * 3),
-                getPosition().y - (getPixelSize() * 2),
-                getPosition().x + MainActivity.getTileSize() - (getPixelSize() * 3),
-                getPosition().y - (getPixelSize() * 1) , paint );
+            paint.setColor(Color.RED);
+            canvas.drawRect(getPosition().x + (getPixelSize() * 3),
+                    getPosition().y - (getPixelSize() * 2),
+                    getPosition().x + MainActivity.getTileSize() - (getPixelSize() * 3),
+                    getPosition().y - (getPixelSize() * 1), paint);
 
 
-        paint.setColor(Color.GREEN);
-        canvas.drawRect(getPosition().x  + (getPixelSize() * 3),
-                getPosition().y - (getPixelSize() * 2),
-                ((getPosition().x + (getPixelSize() * 3)) + (healthPercent * ((MainActivity.getTileSize() - (getPixelSize() * 6))))),
-                getPosition().y - (getPixelSize() * 1) , paint );
+            paint.setColor(Color.GREEN);
+            canvas.drawRect(getPosition().x + (getPixelSize() * 3),
+                    getPosition().y - (getPixelSize() * 2),
+                    ((getPosition().x + (getPixelSize() * 3)) + (healthPercent * ((MainActivity.getTileSize() - (getPixelSize() * 6))))),
+                    getPosition().y - (getPixelSize() * 1), paint);
 
-        if(Game.debug){
-            paint.setColor(Color.argb(100, 255, 20, 20));
-            canvas.drawRect(this.getHitbox(), paint);
+            if (Game.debug) {
+                paint.setColor(Color.argb(100, 255, 20, 20));
+                canvas.drawRect(this.getHitbox(), paint);
 
+            }
         }
     }
 

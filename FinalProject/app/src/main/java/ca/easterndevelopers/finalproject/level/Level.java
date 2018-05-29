@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import ca.easterndevelopers.finalproject.GameActivity;
 import ca.easterndevelopers.finalproject.MainActivity;
+import ca.easterndevelopers.finalproject.MainScreen;
 import ca.easterndevelopers.finalproject.game.Game;
 import ca.easterndevelopers.finalproject.level.gameobject.Collider;
 import ca.easterndevelopers.finalproject.level.gameobject.GameObject;
@@ -20,6 +21,8 @@ import ca.easterndevelopers.finalproject.level.gameobject.projectile.Projectile;
 import ca.easterndevelopers.finalproject.level.tile.Tile;
 import ca.easterndevelopers.finalproject.player.Enemy;
 import ca.easterndevelopers.finalproject.player.Player;
+import ca.easterndevelopers.finalproject.renderer.GameRenderer;
+import ca.easterndevelopers.finalproject.utils.Utils;
 
 import static ca.easterndevelopers.finalproject.MainActivity.friendlyFire;
 
@@ -139,13 +142,38 @@ public class Level {
 
         }else {
             // place players units
+            int unplaced = player.getUnplacedUnit();
+            if(GameRenderer.getWorldTouchedPoint() != null){
 
+                int x = Utils.toTiledPosition(GameRenderer.getWorldTouchedPoint()).x;
+                int y = Utils.toTiledPosition(GameRenderer.getWorldTouchedPoint()).y;
+
+                if(startingArea[x+y*width]) {
+                    player.placeUnit(unplaced, x, y);
+                }
+
+                if(player.hasPlacedAllUnits()) {
+                    if(Game.debug)System.out.println("Finished placing units");
+                    player.startTurn();
+                }
+            }
         }
     }
 
     public void render(Canvas canvas, Paint paint) {
         for(int i = 0; i < width*height; i++) {
             tiles[i].render(canvas,paint);
+        }
+
+        if(!player.hasPlacedAllUnits()) {
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    if (startingArea[j + i * width]) {
+                        paint.setColor(Color.argb(150, 255, 22, 22));
+                        canvas.drawRect(new Rect(j * (int) MainActivity.getTileSize(), i * (int) MainActivity.getTileSize(), j * (int) MainActivity.getTileSize() + (int) MainActivity.getTileSize(), i * (int) MainActivity.getTileSize() + (int) MainActivity.getTileSize()), paint);
+                    }
+                }
+            }
         }
 
         for (GameObject go: objects) {

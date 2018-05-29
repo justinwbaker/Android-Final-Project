@@ -12,6 +12,12 @@ public class Enemy extends Player {
     }
 
     @Override
+    public void addUnit(Unit unit) {
+        unit.init(this.currentLevel);
+        units.add(unit);
+    }
+
+    @Override
     public void updateUnits() {
         for (int i = 0; i < units.size(); i++) {
             Unit u = units.get(i);

@@ -35,7 +35,6 @@ public class Player {
     }
 
     public void addUnit(Unit unit) {
-        unit.init(this.getCurrentLevel());
         units.add(unit);
     }
 
@@ -169,12 +168,12 @@ public class Player {
         return hasPlacedAll;
     }
 
-    public Unit getUnplacedUnit() {
+    public int getUnplacedUnit() {
         for(int i = 0; i < units.size(); i++) {
             if(!units.get(i).isOnLevel()) {
-                return units.get(i);
+                return i;
             }
         }
-        return null;
+        return -1;
     }
 }
