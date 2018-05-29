@@ -39,10 +39,10 @@ public class MainScreen extends Activity{
 
         setContentView(R.layout.activity_main_screen);
 
-        numSoldiers = MainActivity.localPrefs.getInt("numSoldiers", 5);
-        numSnipers = MainActivity.localPrefs.getInt("numSnipers", 2);
-        numTanks = MainActivity.localPrefs.getInt("numTanks", 2);
-        gold = MainActivity.localPrefs.getInt("gold", 1000);
+        numSoldiers = MainActivity.localPrefs.getInt("numSoldiers", 0);
+        numSnipers = MainActivity.localPrefs.getInt("numSnipers", 0);
+        numTanks = MainActivity.localPrefs.getInt("numTanks", 0);
+        gold = MainActivity.localPrefs.getInt("gold", 400);
 
         missionSelect = MainActivity.localPrefs.getInt("mission", -1);
 
@@ -182,5 +182,6 @@ public class MainScreen extends Activity{
 
     public static void addGold(int gold) {
         MainScreen.gold += gold;
+        MainActivity.localPrefs.edit().putInt("gold", gold).apply();
     }
 }

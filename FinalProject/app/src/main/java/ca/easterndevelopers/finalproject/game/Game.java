@@ -28,7 +28,7 @@ public class Game {
 
     private static boolean isLookingAtMap = false;
 
-    public static boolean debug = true;
+    public static boolean debug = false;
 
     public Game(Context context) {
         this.context = context;

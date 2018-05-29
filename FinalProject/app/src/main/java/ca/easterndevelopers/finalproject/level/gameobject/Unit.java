@@ -327,6 +327,10 @@ public abstract class Unit extends GameObject {
             if(this instanceof Soldier) MainScreen.setNumSoldiers(MainScreen.getNumSoldiers()-1);
             if(this instanceof Tank) MainScreen.setNumTanks(MainScreen.getNumTanks()-1);
             if(this instanceof Sniper) MainScreen.setNumSnipers(MainScreen.getNumSnipers()-1);
+        }else {
+            if(this instanceof Soldier) MainScreen.addGold(50);
+            if(this instanceof Tank) MainScreen.addGold(50);
+            if(this instanceof Sniper) MainScreen.addGold(50);
         }
     }
 
