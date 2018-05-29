@@ -16,9 +16,9 @@ public class Tank extends Unit {
     public Tank(Point position, boolean isEnemy) {
         super(position, new Point((int) MainActivity.getTileSize(), (int)MainActivity.getTileSize()), isEnemy);
         if(!isEnemy)
-            this.setBitmap(Utils.loadBitmap(GameActivity.getContext(), R.drawable.soldier));
+            this.setBitmap(Utils.loadBitmap(GameActivity.getContext(), R.drawable.tank));
         else
-            this.setBitmap(Utils.loadBitmap(GameActivity.getContext(), R.drawable.enemy_soldier));
+            this.setBitmap(Utils.loadBitmap(GameActivity.getContext(), R.drawable.tank_enemy));
 
         this.timeCanMove = 1;
         this.movementRange = 5;

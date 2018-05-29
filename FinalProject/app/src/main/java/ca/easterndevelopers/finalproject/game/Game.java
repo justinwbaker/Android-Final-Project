@@ -14,7 +14,9 @@ import ca.easterndevelopers.finalproject.MainScreen;
 import ca.easterndevelopers.finalproject.R;
 import ca.easterndevelopers.finalproject.level.Level;
 import ca.easterndevelopers.finalproject.level.LevelManager;
+import ca.easterndevelopers.finalproject.level.gameobject.Sniper;
 import ca.easterndevelopers.finalproject.level.gameobject.Soldier;
+import ca.easterndevelopers.finalproject.level.gameobject.Tank;
 import ca.easterndevelopers.finalproject.level.tile.GrassTile;
 import ca.easterndevelopers.finalproject.player.Player;
 
@@ -31,8 +33,8 @@ public class Game {
         this.context = context;
         gui = new GameGUI();
 
-        MainScreen.getPlayer().addUnit(new Soldier(new Point((int) MainActivity.getTileSize()*6, (int)MainActivity.getTileSize()*6), false));
-        MainScreen.getPlayer().addUnit(new Soldier(new Point((int) MainActivity.getTileSize()*12, (int)MainActivity.getTileSize()*12), false));
+        MainScreen.getPlayer().addUnit(new Sniper(new Point((int) MainActivity.getTileSize()*6, (int)MainActivity.getTileSize()*6), false));
+        MainScreen.getPlayer().addUnit(new Tank(new Point((int) MainActivity.getTileSize()*12, (int)MainActivity.getTileSize()*12), false));
         MainScreen.getPlayer().playLevel(LevelManager.getLevel(0));
         MainScreen.getPlayer().startTurn();
     }

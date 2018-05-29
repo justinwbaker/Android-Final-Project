@@ -10,7 +10,9 @@ import ca.easterndevelopers.finalproject.MainActivity;
 import ca.easterndevelopers.finalproject.level.gameobject.Bin;
 import ca.easterndevelopers.finalproject.level.gameobject.Car;
 import ca.easterndevelopers.finalproject.level.gameobject.Collider;
+import ca.easterndevelopers.finalproject.level.gameobject.Sniper;
 import ca.easterndevelopers.finalproject.level.gameobject.Soldier;
+import ca.easterndevelopers.finalproject.level.gameobject.Tank;
 import ca.easterndevelopers.finalproject.level.tile.BuildingTile;
 import ca.easterndevelopers.finalproject.level.tile.GrassTile;
 import ca.easterndevelopers.finalproject.level.tile.RoadTile;
@@ -194,6 +196,12 @@ public class LevelManager {
                         break;
                     case 0xffe06f8b:
                         level.getEnemy().addUnit(new Soldier(new Point((int)(MainActivity.getTileSize()*j),(int)(MainActivity.getTileSize()*i)), true));
+                        break;
+                    case 0xffe0976f:
+                        level.getEnemy().addUnit(new Tank(new Point((int)(MainActivity.getTileSize()*j),(int)(MainActivity.getTileSize()*i)), true));
+                        break;
+                    case 0xffc3e06f:
+                        level.getEnemy().addUnit(new Sniper(new Point((int)(MainActivity.getTileSize()*j),(int)(MainActivity.getTileSize()*i)), true));
                         break;
                     case 0xffff0000:
                         level.addGameObject(new Bin(new Point((int)(MainActivity.getTileSize()*j),(int)(MainActivity.getTileSize()*i)), false));

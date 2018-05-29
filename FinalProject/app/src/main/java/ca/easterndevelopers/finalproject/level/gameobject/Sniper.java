@@ -15,9 +15,9 @@ public class Sniper extends Unit {
     public Sniper(Point position, boolean isEnemy) {
         super(position, new Point((int) MainActivity.getTileSize(), (int)MainActivity.getTileSize()), isEnemy);
         if(!isEnemy)
-            this.setBitmap(Utils.loadBitmap(GameActivity.getContext(), R.drawable.soldier));
+            this.setBitmap(Utils.loadBitmap(GameActivity.getContext(), R.drawable.sniper));
         else
-            this.setBitmap(Utils.loadBitmap(GameActivity.getContext(), R.drawable.enemy_soldier));
+            this.setBitmap(Utils.loadBitmap(GameActivity.getContext(), R.drawable.sniper_enemy));
 
         this.timeCanMove = 1;
         this.movementRange = 4;
