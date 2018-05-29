@@ -74,15 +74,15 @@ public class Utils {
         return Math.sqrt((dx*dx)+(dy*dy));
     }
 
-    public static double getRadians(int degree){
+    public static double getRadians(double degree){
         double radians = degree * Math.PI / 180;
         return radians;
     }
 
-    public static int getRandom(){
+    public static double getRandom(){
         Random rand = new Random();
-        int number = rand.nextInt(5) + 1;
-        int negative = rand.nextInt(2) + 1;
+        double number = rand.nextInt(5) + 1;
+        double negative = rand.nextInt(2) + 1;
         if(negative == 1){
             number = -number;
         }
