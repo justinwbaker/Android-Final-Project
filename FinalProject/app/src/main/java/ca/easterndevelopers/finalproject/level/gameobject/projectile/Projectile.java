@@ -48,6 +48,29 @@ public class Projectile extends GameObject {
 
     }
 
+    public Projectile(double targetX, double targetY, int startX, int startY, Point size, int color, Unit unit, double directionRand) {
+
+        super(new Point(startX, startY), new Point (size));
+
+        this.setSize(size);
+        this.startX = startX;
+        this.startY = startY;
+        this.targetX = targetX;
+        this.targetY = targetY;
+        this.color = color;
+        this.unit = unit;
+
+        distance = Math.sqrt(Math.pow((startX-targetX), 2) + Math.pow((startY-targetY), 2));
+
+        direction = -(float)(Math.atan2(targetX - this.position.x, targetY - this.position.y) - Math.PI/2) + (float)directionRand;
+
+        changeX = (float)Math.cos(direction);
+        changeY = (float)Math.sin(direction);
+
+
+    }
+
+
 
     public void update(double fps){
 

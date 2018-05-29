@@ -76,14 +76,15 @@ public class Level {
             this.player.updateUnits();
             this.enemy.updateUnits();
 
-            for (GameObject go : objects) {
+            for (int i = 0; i < objects.size(); i++) {
+                GameObject go = objects.get(i);
                 go.update(fps);
 
                 if ((go instanceof Projectile)) {
                     Projectile projectile = (Projectile) go;
 
                     for (GameObject object : objects) {
-                        if ((go instanceof Projectile || object instanceof Collider)) {
+                        if (object instanceof Collider) {
                             GameObject go2 = object;
                             if (projectile != go2 && Rect.intersects(projectile.getHitbox(), go2.getHitbox())) {
                                 projectile.remove();
