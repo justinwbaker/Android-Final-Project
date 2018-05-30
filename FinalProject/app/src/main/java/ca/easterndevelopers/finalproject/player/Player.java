@@ -142,7 +142,7 @@ public class Player {
             GameActivity.getContext().startActivity(i);
 
         }
-        else{
+        else if(MainScreen.getPlayer().units.size() <= 0 && MainScreen.getGold() < 100){
             // bring to title
             Intent i = new Intent(this.currentLevel.getContext(), MainActivity.class);
             MainActivity.getLocalPrefs().edit().clear().apply();
