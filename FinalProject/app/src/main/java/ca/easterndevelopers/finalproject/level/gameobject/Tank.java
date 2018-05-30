@@ -6,7 +6,6 @@ import ca.easterndevelopers.finalproject.GameActivity;
 import ca.easterndevelopers.finalproject.MainActivity;
 import ca.easterndevelopers.finalproject.R;
 import ca.easterndevelopers.finalproject.level.gameobject.weapon.melee.CombatKnife;
-import ca.easterndevelopers.finalproject.level.gameobject.weapon.ranged.Pistol;
 import ca.easterndevelopers.finalproject.level.gameobject.weapon.ranged.RocketLauncher;
 import ca.easterndevelopers.finalproject.level.gameobject.weapon.ranged.Shotgun;
 import ca.easterndevelopers.finalproject.utils.Utils;

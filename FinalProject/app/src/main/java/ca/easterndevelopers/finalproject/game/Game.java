@@ -4,20 +4,14 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 
 import ca.easterndevelopers.finalproject.GUI.GUI;
 import ca.easterndevelopers.finalproject.GUI.GameGUI;
-import ca.easterndevelopers.finalproject.GameActivity;
-import ca.easterndevelopers.finalproject.MainActivity;
 import ca.easterndevelopers.finalproject.MainScreen;
-import ca.easterndevelopers.finalproject.R;
-import ca.easterndevelopers.finalproject.level.Level;
 import ca.easterndevelopers.finalproject.level.LevelManager;
 import ca.easterndevelopers.finalproject.level.gameobject.Sniper;
 import ca.easterndevelopers.finalproject.level.gameobject.Soldier;
 import ca.easterndevelopers.finalproject.level.gameobject.Tank;
-import ca.easterndevelopers.finalproject.level.tile.GrassTile;
 import ca.easterndevelopers.finalproject.player.Player;
 import ca.easterndevelopers.finalproject.renderer.GameRenderer;
 

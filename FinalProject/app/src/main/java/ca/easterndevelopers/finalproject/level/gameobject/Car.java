@@ -10,7 +10,6 @@ import ca.easterndevelopers.finalproject.GameActivity;
 import ca.easterndevelopers.finalproject.MainActivity;
 import ca.easterndevelopers.finalproject.R;
 import ca.easterndevelopers.finalproject.game.Game;
-import ca.easterndevelopers.finalproject.level.gameobject.GameObject;
 import ca.easterndevelopers.finalproject.utils.Utils;
 
 public class Car extends GameObject {

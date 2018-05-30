@@ -9,13 +9,10 @@ import android.graphics.Rect;
 
 import java.util.ArrayList;
 
-import ca.easterndevelopers.finalproject.GameActivity;
 import ca.easterndevelopers.finalproject.MainActivity;
-import ca.easterndevelopers.finalproject.MainScreen;
 import ca.easterndevelopers.finalproject.game.Game;
 import ca.easterndevelopers.finalproject.level.gameobject.Collider;
 import ca.easterndevelopers.finalproject.level.gameobject.GameObject;
-import ca.easterndevelopers.finalproject.level.gameobject.Soldier;
 import ca.easterndevelopers.finalproject.level.gameobject.Unit;
 import ca.easterndevelopers.finalproject.level.gameobject.projectile.Projectile;
 import ca.easterndevelopers.finalproject.level.tile.Tile;
@@ -33,7 +30,7 @@ public class Level {
 
     private Tile tiles[];
     private boolean startingArea[];
-    private ArrayList<GameObject> objects;
+    protected ArrayList<GameObject> objects;
 
     private Enemy enemy;
     private Player player;
@@ -250,5 +247,9 @@ public class Level {
             }
         }
         return new Point(0, 0);
+    }
+
+    public ArrayList<GameObject> getObjects() {
+        return objects;
     }
 }

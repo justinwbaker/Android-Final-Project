@@ -6,8 +6,8 @@ import ca.easterndevelopers.finalproject.GameActivity;
 import ca.easterndevelopers.finalproject.MainActivity;
 import ca.easterndevelopers.finalproject.R;
 import ca.easterndevelopers.finalproject.level.gameobject.weapon.melee.CombatKnife;
-import ca.easterndevelopers.finalproject.level.gameobject.weapon.ranged.SniperRifle;
 import ca.easterndevelopers.finalproject.level.gameobject.weapon.ranged.Rifle;
+import ca.easterndevelopers.finalproject.level.gameobject.weapon.ranged.SniperRifle;
 import ca.easterndevelopers.finalproject.utils.Utils;
 
 public class Sniper extends Unit {

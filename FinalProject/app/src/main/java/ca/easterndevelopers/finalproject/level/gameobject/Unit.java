@@ -6,9 +6,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import junit.runner.TestSuiteLoader;
+import java.util.Random;
 import ca.easterndevelopers.finalproject.GUI.GUI;
-import ca.easterndevelopers.finalproject.GameActivity;
 import ca.easterndevelopers.finalproject.MainActivity;
 import ca.easterndevelopers.finalproject.MainScreen;
 import ca.easterndevelopers.finalproject.game.Game;
@@ -18,10 +17,8 @@ import ca.easterndevelopers.finalproject.level.gameobject.weapon.RangedWeapon;
 import ca.easterndevelopers.finalproject.level.gameobject.weapon.Weapon;
 import ca.easterndevelopers.finalproject.level.gameobject.weapon.ranged.Shotgun;
 import ca.easterndevelopers.finalproject.level.tile.Tile;
-import ca.easterndevelopers.finalproject.player.Enemy;
 import ca.easterndevelopers.finalproject.renderer.GameRenderer;
 import ca.easterndevelopers.finalproject.utils.Utils;
-import java.util.Random;
 
 public abstract class Unit extends GameObject {
 
@@ -73,14 +70,14 @@ public abstract class Unit extends GameObject {
         if(this.isDoneTurn()) this.isActiveUnit = false;
         if(!this.isEnemyUnit) {
             // player ai
-            if (this.isActiveUnit && !GUI.isOnGUI && !this.level.containsProjectiles()) {
+            if (this.isActiveUnit && !GUI.isOnGUI && !this.level.containsProjectiles() ) {
                 if (timesHasMoved < timeCanMove) {
-                    if (GameRenderer.getWorldTouchedPoint() != null) {
+                    if (GameRenderer.getWorldTouchedPoint() != null ) {
                         int x = GameRenderer.getWorldTouchedPoint().x;
                         int y = GameRenderer.getWorldTouchedPoint().y;
 
                         Rect tilePosition = new Rect(x, y, x + 1, y + 1);
-                        if (Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), Utils.toTiledPosition(new Point(x, y)))) < movementRange) {
+                        if ((Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), Utils.toTiledPosition(new Point(x, y)))) < movementRange)  && isValidPoint()) {
                             int xpos = GameRenderer.getWorldTouchedPoint().x - (int) (GameRenderer.getWorldTouchedPoint().x % MainActivity.getTileSize());
                             int ypos = GameRenderer.getWorldTouchedPoint().y - (int) (GameRenderer.getWorldTouchedPoint().y % MainActivity.getTileSize());
 
@@ -98,7 +95,7 @@ public abstract class Unit extends GameObject {
                             }
                         }
                     }
-                } else if (ranged.getAmmo() != 0 && GameRenderer.getWorldTouchedPoint() != null && !hasAttackedRanged) {
+                } else if (ranged.getAmmo() != 0 && GameRenderer.getWorldTouchedPoint() != null && !hasAttackedRanged && timesHasMoved == timeCanMove) {
                     rangedAttack();
                 }
             }
@@ -135,8 +132,34 @@ public abstract class Unit extends GameObject {
                                 }
                             }
                         }
+                        // Will perform some basic checks to put Unit Next to player Units instead of on top if possible. if all 4 sides of closest Unit is full it'll get stuck. Can remove enemy checks for valid position to put multiple Enemies on the same tile to prevent hanging I don't know any weird ass algorithms lol
+
                         this.position.x = (int) (closestTile.getPosition().x * MainActivity.getTileSize());
                         this.position.y = (int) (closestTile.getPosition().y * MainActivity.getTileSize());
+
+                        if(!isValidPointAI(this.position.x, this.position.y)){
+                            if(isValidPointAI(this.position.x + (int)(MainActivity.getTileSize()) , this.position.y)){
+                                this.position.x += (int)(MainActivity.getTileSize());
+
+                            }
+                            else if(isValidPointAI(this.position.x - (int)(MainActivity.getTileSize()) , this.position.y)){
+                                this.position.x -= (int)(MainActivity.getTileSize());
+
+
+                            }
+                            else if(isValidPointAI(this.position.x, this.position.y + (int)(MainActivity.getTileSize()))){
+                                this.position.y += (int)(MainActivity.getTileSize());
+
+
+                            }
+                            else if(isValidPointAI(this.position.x, this.position.y - (int)(MainActivity.getTileSize()))){
+                                this.position.y -= (int)(MainActivity.getTileSize());
+
+
+                            }
+                        }
+
+
                         if (Game.debug)
                             System.out.println(this + " Moved to " + this.position.x + ":" + this.position.y);
 
@@ -154,8 +177,8 @@ public abstract class Unit extends GameObject {
                         this.timesHasMoved++;
 
                         if(closest != null && timesHasMoved == timeCanMove) {
-                            int targetX = closest.getPosition().x;
-                            int targetY = closest.getPosition().y;
+                            int targetX = closest.getPosition().x + (int)(MainActivity.getTileSize()/2);
+                            int targetY = closest.getPosition().y + (int)(MainActivity.getTileSize()/2);
 
                             if((Math.abs(Math.sqrt(Math.pow((this.getPosition().x - targetX), 2)
                                     + Math.pow((this.getPosition().y - targetY), 2))))
@@ -430,5 +453,95 @@ public abstract class Unit extends GameObject {
 
     public boolean isOnLevel() {
         return isOnLevel;
+    }
+
+    public boolean isValidPoint() {
+        boolean isValid = true;
+
+
+        for (int i = 0; i < level.getObjects().size(); i++) {
+            GameObject go = level.getObjects().get(i);
+
+            if (go instanceof Collider) {
+                if (GameRenderer.getWorldTouchedPoint().x > go.getHitbox().left
+                        && GameRenderer.getWorldTouchedPoint().x <  go.getHitbox().right
+                        && GameRenderer.getWorldTouchedPoint().y > go.getHitbox().top
+                        && GameRenderer.getWorldTouchedPoint().y <  go.getHitbox().bottom) {
+                    System.out.println("Is an occupied location, COLLIDER");
+                    if(Game.debug) System.out.println("Is an occupied location");
+                    isValid = false;
+                }
+            }
+        }
+
+        for (Unit go : this.getLevel().getEnemy().getUnits()) {
+            if (GameRenderer.getWorldTouchedPoint().x > go.getHitbox().left
+                    && GameRenderer.getWorldTouchedPoint().x <  go.getHitbox().right
+                    && GameRenderer.getWorldTouchedPoint().y > go.getHitbox().top
+                    && GameRenderer.getWorldTouchedPoint().y <  go.getHitbox().bottom) {
+                System.out.println("Is an occupied location, ENEMY");
+                if(Game.debug) System.out.println("Is an occupied location");
+                isValid = false;
+            }
+        }
+
+        for (Unit go : MainScreen.getPlayer().getUnits()){
+            if (GameRenderer.getWorldTouchedPoint().x > go.getHitbox().left
+                    && GameRenderer.getWorldTouchedPoint().x <  go.getHitbox().right
+                    && GameRenderer.getWorldTouchedPoint().y > go.getHitbox().top
+                    && GameRenderer.getWorldTouchedPoint().y <  go.getHitbox().bottom) {
+                System.out.println("Is an occupied location, ALLY");
+                if(Game.debug) System.out.println("Is an occupied location");
+                isValid = false;
+            }
+        }
+
+
+        return isValid;
+    }
+
+    public boolean isValidPointAI(int x, int y) {
+        boolean isValid = true;
+
+
+        for (int i = 0; i < level.getObjects().size(); i++) {
+            GameObject go = level.getObjects().get(i);
+
+            if (go instanceof Collider) {
+                if (x >= go.getHitbox().left + MainActivity.getTileSize()/2
+                        && x <=  go.getHitbox().right - MainActivity.getTileSize()/2
+                        && y >= go.getHitbox().top + MainActivity.getTileSize()/2
+                        && y <=  go.getHitbox().bottom - MainActivity.getTileSize()/2) {
+                    if(Game.debug)   System.out.println("Is an occupied location, COLLIDER");
+
+                    isValid = false;
+                }
+            }
+        }
+
+        for (Unit go : this.getLevel().getEnemy().getUnits()) {
+            if (x >= go.getHitbox().left + MainActivity.getTileSize()/2
+                    && x <=  go.getHitbox().right - MainActivity.getTileSize()/2
+                    && y >= go.getHitbox().top + MainActivity.getTileSize()/2
+                    && y <=  go.getHitbox().bottom - MainActivity.getTileSize()/2) {
+                if(Game.debug) System.out.println("Is an occupied location, ALLY");
+
+                isValid = false;
+            }
+        }
+
+        for (Unit go : MainScreen.getPlayer().getUnits()){
+            if (x >= go.getHitbox().left + MainActivity.getTileSize()/2
+                    && x <=  go.getHitbox().right - MainActivity.getTileSize()/2
+                    && y >= go.getHitbox().top + MainActivity.getTileSize()/2
+                    && y <=  go.getHitbox().bottom - MainActivity.getTileSize()/2) {
+                if(Game.debug) System.out.println("Is an occupied location, ENEMY");
+
+                isValid = false;
+            }
+        }
+
+
+        return isValid;
     }
 }

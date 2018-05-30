@@ -2,9 +2,7 @@ package ca.easterndevelopers.finalproject;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.ContentFrameLayout;
 import android.view.View;
 import android.widget.Button;
 
@@ -68,16 +66,16 @@ public class LevelSelect extends Activity {
     public void updateBackground(View view) {
         switch (MainScreen.getLevel()) {
             case 1:
-                view.setBackgroundResource(R.drawable.level_select_level01);
+                view.setBackgroundResource(R.mipmap.level_select_level01);
                 break;
             case 2:
-                view.setBackgroundResource(R.drawable.level_select_level02);
+                view.setBackgroundResource(R.mipmap.level_select_level02);
                 break;
             case 3:
-                view.setBackgroundResource(R.drawable.level_select_level03);
+                view.setBackgroundResource(R.mipmap.level_select_level03);
                 break;
             default:
-                view.setBackgroundResource(R.drawable.level_select);
+                view.setBackgroundResource(R.mipmap.level_select);
                 break;
         }
     }

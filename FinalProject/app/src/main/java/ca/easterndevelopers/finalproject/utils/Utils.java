@@ -8,7 +8,6 @@ import android.graphics.Point;
 
 import java.util.Random;
 
-import ca.easterndevelopers.finalproject.GameActivity;
 import ca.easterndevelopers.finalproject.MainActivity;
 
 public class Utils {

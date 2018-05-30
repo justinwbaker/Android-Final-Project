@@ -3,12 +3,7 @@ package ca.easterndevelopers.finalproject;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Point;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Display;
-import android.view.ViewGroup;
-import android.widget.Button;
 
 import ca.easterndevelopers.finalproject.level.LevelManager;
 import ca.easterndevelopers.finalproject.renderer.GameRenderer;

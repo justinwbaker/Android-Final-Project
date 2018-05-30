@@ -1,15 +1,12 @@
 package ca.easterndevelopers.finalproject.level.gameobject.projectile;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.Rect;
 
 import ca.easterndevelopers.finalproject.MainActivity;
 import ca.easterndevelopers.finalproject.level.gameobject.GameObject;
 import ca.easterndevelopers.finalproject.level.gameobject.Unit;
-import ca.easterndevelopers.finalproject.renderer.GameRenderer;
 
 public class Projectile extends GameObject {
 

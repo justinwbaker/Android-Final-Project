@@ -7,9 +7,6 @@ import android.graphics.Paint;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import ca.easterndevelopers.finalproject.GameActivity;
-import ca.easterndevelopers.finalproject.MainScreen;
-
 public class MenuRenderer extends SurfaceView implements Runnable {
 
     private double newTime, oldTime, deltaTime, fps;

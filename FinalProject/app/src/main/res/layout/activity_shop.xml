@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/shop"
+    android:antialias="false"
+    android:background="@mipmap/shop"
+    android:dither="false"
+    android:filter="false"
     tools:context=".ShopActivity">
 
     <Button

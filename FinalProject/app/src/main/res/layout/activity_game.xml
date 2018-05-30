@@ -4,6 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".GameActivity">
+    tools:context=".GameActivity"
+    android:antialias = "false"
+    android:dither = "false"
+    android:filter = "false">
 
 </android.support.constraint.ConstraintLayout>
