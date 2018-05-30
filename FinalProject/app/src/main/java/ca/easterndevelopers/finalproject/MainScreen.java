@@ -176,8 +176,8 @@ public class MainScreen extends Activity{
 
     }
 
-    public static void addGold(int gold) {
-        MainScreen.gold += gold;
+    public static void addGold(int _gold) {
+        gold += _gold;
         MainActivity.localPrefs.edit().putInt("gold", gold).apply();
     }
 }
