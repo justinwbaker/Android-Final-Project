@@ -9,7 +9,9 @@ import android.graphics.Rect;
 
 import java.util.ArrayList;
 
+import ca.easterndevelopers.finalproject.GameActivity;
 import ca.easterndevelopers.finalproject.MainActivity;
+import ca.easterndevelopers.finalproject.MainScreen;
 import ca.easterndevelopers.finalproject.game.Game;
 import ca.easterndevelopers.finalproject.level.gameobject.Collider;
 import ca.easterndevelopers.finalproject.level.gameobject.GameObject;
@@ -135,8 +137,17 @@ public class Level {
                 }
             }
 
-            if(player.getUnits().size() <= 0) player.soldierWipe();
-            if(enemy.getUnits().size() <= 0) enemy.soldierWipe();
+            if(player.getUnits().size() <= 0) {
+                player.soldierWipe();
+                LevelManager.resetLevel(GameActivity.getContext(), this);
+            }
+            if(enemy.getUnits().size() <= 0) {
+                enemy.soldierWipe();
+                // reset this level
+                // add gold
+                MainScreen.addGold(200);
+                LevelManager.resetLevel(GameActivity.getContext(), this);
+            }
 
         }else {
             // place players units

@@ -121,13 +121,14 @@ public class Player {
     }
 
     public void endTurn(){
-        this.isPlayersTurn = false;
-        for (Unit unit : this.getUnits()) {
-            unit.setNotActive();
-            unit.endTurn();
+        if(!Game.isLookingAtMap()) {
+            this.isPlayersTurn = false;
+            for (Unit unit : this.getUnits()) {
+                unit.setNotActive();
+                unit.endTurn();
+            }
+            if (Game.debug) System.out.println("Ended Turn");
         }
-        if(Game.debug) System.out.println("Ended Turn");
-
     }
 
     public ArrayList<Unit> getUnits() {
