@@ -77,7 +77,8 @@ public abstract class Unit extends GameObject {
                         int y = GameRenderer.getWorldTouchedPoint().y;
 
                         Rect tilePosition = new Rect(x, y, x + 1, y + 1);
-                        if ((Math.abs(Utils.getDistance(Utils.toTiledPosition(this.getPosition()), Utils.toTiledPosition(new Point(x, y)))) < movementRange)  && isValidPoint()) {
+                        Point center = new Point(this.getPosition().x + (int) MainActivity.getTileSize()/2, this.getPosition().y+ (int) MainActivity.getTileSize()/2);
+                        if ((Math.abs(Utils.getDistance(Utils.toTiledPosition(center), Utils.toTiledPosition(new Point(x + (int) MainActivity.getTileSize()/2, y+ (int) MainActivity.getTileSize()/2)))) < movementRange)  && isValidPoint()) {
                             int xpos = GameRenderer.getWorldTouchedPoint().x - (int) (GameRenderer.getWorldTouchedPoint().x % MainActivity.getTileSize());
                             int ypos = GameRenderer.getWorldTouchedPoint().y - (int) (GameRenderer.getWorldTouchedPoint().y % MainActivity.getTileSize());
 
