@@ -1,15 +1,19 @@
 package ca.easterndevelopers.finalproject.GUI;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
+import ca.easterndevelopers.finalproject.GameActivity;
 import ca.easterndevelopers.finalproject.MainActivity;
 import ca.easterndevelopers.finalproject.MainScreen;
+import ca.easterndevelopers.finalproject.R;
 import ca.easterndevelopers.finalproject.game.Game;
 import ca.easterndevelopers.finalproject.level.LevelManager;
 import ca.easterndevelopers.finalproject.renderer.GameRenderer;
+import ca.easterndevelopers.finalproject.utils.Utils;
 
 public class GameGUI extends GUI {
 
@@ -17,12 +21,23 @@ public class GameGUI extends GUI {
     private Rect nextUnit;
     private Rect endTurn;
 
+    private Bitmap map;
+    private Bitmap next;
+    private Bitmap end;
+
     private double fps;
 
     public GameGUI() {
-        viewMap = new Rect((int)MainActivity.getTileSize(), (int)MainActivity.getTileSize(), (int)(MainActivity.getTileSize()*2.5f), (int)(MainActivity.getTileSize()*2.5f));
-        nextUnit = new Rect((int)MainActivity.getResolution().x - (int)MainActivity.getTileSize()*4, MainActivity.getResolution().y - (int)(MainActivity.getTileSize()*2.5f), (int)MainActivity.getResolution().x - (int)MainActivity.getTileSize()*2, MainActivity.getResolution().y - (int)MainActivity.getTileSize());
-        endTurn = new Rect((int)MainActivity.getTileSize(), MainActivity.getResolution().y - (int)(MainActivity.getTileSize()*2.5f), (int)MainActivity.getTileSize()*3, MainActivity.getResolution().y - (int)MainActivity.getTileSize());
+        map = Utils.loadBitmap(GameActivity.getContext(), R.drawable.map_button);
+        map = Utils.getResizedBitmap(map, (int)MainActivity.getTileSize()*2, (int)MainActivity.getTileSize(), true);
+        next = Utils.loadBitmap(GameActivity.getContext(), R.drawable.next_button);
+        next = Utils.getResizedBitmap(next, (int)MainActivity.getTileSize()*2, (int)MainActivity.getTileSize(), true);
+        end = Utils.loadBitmap(GameActivity.getContext(), R.drawable.end_button);
+        end = Utils.getResizedBitmap(end, (int)MainActivity.getTileSize()*2, (int)MainActivity.getTileSize(), true);
+
+        viewMap = new Rect((int)MainActivity.getTileSize(), (int)MainActivity.getTileSize(), (int)(MainActivity.getTileSize()*3), (int)(MainActivity.getTileSize()*2));
+        nextUnit = new Rect((int)MainActivity.getResolution().x - (int)MainActivity.getTileSize()*3, MainActivity.getResolution().y - (int)(MainActivity.getTileSize()*2), (int)MainActivity.getResolution().x - (int)MainActivity.getTileSize(), MainActivity.getResolution().y - (int)MainActivity.getTileSize());
+        endTurn = new Rect((int)MainActivity.getTileSize(), MainActivity.getResolution().y - (int)(MainActivity.getTileSize()*2), (int)MainActivity.getTileSize()*3, MainActivity.getResolution().y - (int)MainActivity.getTileSize());
     }
 
     @Override
@@ -61,21 +76,16 @@ public class GameGUI extends GUI {
     @Override
     public void render(Canvas canvas, Paint paint) {
         canvas.restore();
-        paint.setColor(Color.argb(135, 0, 0, 255));
-        canvas.drawRect(viewMap, paint);
-
-        paint.setColor(Color.BLACK);
-        paint.setTextSize(50);
-        canvas.drawText("  MAP ", (int)MainActivity.getTileSize() + (int)MainActivity.getTileSize()/8, (int)MainActivity.getTileSize()*1.7f, paint);
+        paint.setColor(Color.argb(255, 255, 255, 255));
+        canvas.drawBitmap(map, viewMap.left, viewMap.top, paint);
+        if(Game.debug) canvas.drawRect(viewMap, paint);
 
         if(MainScreen.getPlayer().isPlayersTurn()) {
-
-            paint.setColor(Color.argb(135, 0, 0, 255));
-            canvas.drawRect(nextUnit, paint);
+            canvas.drawBitmap(next, nextUnit.left, nextUnit.top, paint);
+            if(Game.debug) canvas.drawRect(nextUnit, paint);
             canvas.drawRect(endTurn, paint);
-            paint.setColor(Color.BLACK);
-            canvas.drawText(" NEXT ", nextUnit.left + MainActivity.getTileSize() / 2, nextUnit.bottom - MainActivity.getTileSize() / 2, paint);
-            canvas.drawText("  END ", endTurn.left + MainActivity.getTileSize() / 2, endTurn.bottom - MainActivity.getTileSize() / 2, paint);
+            canvas.drawBitmap(end, endTurn.left, endTurn.top, paint);
+            if(Game.debug) canvas.drawRect(endTurn, paint);
         }
 
         if(Game.debug)
