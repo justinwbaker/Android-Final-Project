@@ -88,6 +88,12 @@ public class MainScreen extends Activity{
         return player;
     }
 
+    public static void endTurn(){
+        getPlayer().endTurn();
+        LevelManager.getLevel(0).getEnemy().startTurn();
+
+    }
+
     public static int getMissionSelected() {
         return missionSelect;
     }
