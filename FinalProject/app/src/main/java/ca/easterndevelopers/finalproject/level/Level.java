@@ -80,7 +80,6 @@ public class Level {
                 go.update(fps);
 
                 if ((go instanceof Projectile)) {
-
                     Projectile projectile = (Projectile) go;
 
                     for (GameObject object : objects) {
@@ -134,7 +133,6 @@ public class Level {
                 }
 
                 if (go.isRemoved()) {
-                    if(Game.debug) System.out.println("Projectile to be removed");
                     objects.remove(go);
                 }
             }
@@ -170,8 +168,6 @@ public class Level {
                 }
             }
         }
-
-
     }
 
     public void render(Canvas canvas, Paint paint) {
@@ -228,13 +224,14 @@ public class Level {
         return enemy;
     }
 
-    public void endTurn() {
+    public void endPlayersTurn() {
         if(this.player.isPlayersTurn()) {
             this.player.endTurn();
             this.enemy.startTurn();
             this.enemy.setNextActiveUnit();
         }else {
             this.enemy.endTurn();
+
             if (this.player.getUnits().size() != 0) {
                 this.player.startTurn();
             } else {
