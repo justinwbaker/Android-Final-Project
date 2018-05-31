@@ -57,13 +57,17 @@ public class GameGUI extends GUI {
 
                 if(Rect.intersects(nextUnit, new Rect(x, y, x+1, y+1))){
                     isOnGUI = true;
-                    MainScreen.getPlayer().setNextActiveUnit();
+                    if(MainScreen.getPlayer().hasPlacedAllUnits()){
+                        MainScreen.getPlayer().setNextActiveUnit();
+                    }
                     // select next unit
                 }
 
                 if(Rect.intersects(endTurn, new Rect(x, y, x+1, y+1))) {
                     isOnGUI = true;
-                    MainScreen.getPlayer().getCurrentLevel().endPlayersTurn();
+                    if(MainScreen.getPlayer().hasPlacedAllUnits()) {
+                        MainScreen.getPlayer().getCurrentLevel().endPlayersTurn();
+                    }
 
                 }
                 // go to enemy's turn
@@ -78,7 +82,7 @@ public class GameGUI extends GUI {
         canvas.drawBitmap(map, viewMap.left, viewMap.top, paint);
         if(Game.debug) canvas.drawRect(viewMap, paint);
 
-        if(MainScreen.getPlayer().isPlayersTurn()) {
+        if(MainScreen.getPlayer().isPlayersTurn() && !Game.isLookingAtMap()) {
             canvas.drawBitmap(next, nextUnit.left, nextUnit.top, paint);
             if(Game.debug) canvas.drawRect(nextUnit, paint);
             canvas.drawRect(endTurn, paint);

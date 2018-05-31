@@ -2,6 +2,7 @@ package ca.easterndevelopers.finalproject.player;
 
 import java.util.ArrayList;
 
+import ca.easterndevelopers.finalproject.game.Game;
 import ca.easterndevelopers.finalproject.level.gameobject.Unit;
 
 public class Enemy extends Player {
@@ -27,5 +28,14 @@ public class Enemy extends Player {
                 this.units.remove(u);
             }
         }
+    }
+
+    public void endTurn(){
+        this.isPlayersTurn = false;
+        for (Unit unit : this.getUnits()) {
+            unit.setNotActive();
+            unit.endTurn();
+        }
+        if (Game.debug) System.out.println("Ended Turn");
     }
 }

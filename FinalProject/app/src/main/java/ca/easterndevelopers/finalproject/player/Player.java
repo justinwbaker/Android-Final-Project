@@ -121,13 +121,14 @@ public class Player {
     }
 
     public void endTurn(){
-        this.isPlayersTurn = false;
-        for (Unit unit : this.getUnits()) {
-            unit.setNotActive();
-            unit.endTurn();
+        if(!Game.isLookingAtMap()) {
+            this.isPlayersTurn = false;
+            for (Unit unit : this.getUnits()) {
+                unit.setNotActive();
+                unit.endTurn();
+            }
+            if (Game.debug) System.out.println("Ended Turn");
         }
-        if(Game.debug) System.out.println("Ended Turn");
-
     }
 
     public ArrayList<Unit> getUnits() {
@@ -141,7 +142,7 @@ public class Player {
             GameActivity.getContext().startActivity(i);
 
         }
-        else{
+        else if(MainScreen.getPlayer().units.size() <= 0 && MainScreen.getGold() < 100){
             // bring to title
             Intent i = new Intent(this.currentLevel.getContext(), MainActivity.class);
             MainActivity.getLocalPrefs().edit().clear().apply();

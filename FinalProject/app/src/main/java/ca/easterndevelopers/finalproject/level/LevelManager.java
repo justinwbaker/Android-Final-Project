@@ -75,9 +75,6 @@ public class LevelManager {
 
     public static Level loadLevel(Context context, int bitmapIndex, int goBitmapIndex) {
         int indexes[] = new int[2];
-        indexes[0] = bitmapIndex;
-        indexes[1] = goBitmapIndex;
-        levelIndexes.add(indexes);
         Bitmap levelBitmap = Utils.loadBitmap(context, bitmapIndex);
         Bitmap goBitmap = Utils.loadBitmap(context, goBitmapIndex);
         Level level = new Level(levelBitmap.getWidth(), levelBitmap.getHeight(), context);
@@ -191,6 +188,10 @@ public class LevelManager {
         enemy soldier: ffe06f8b
         player start area: ffbe2633
 
+        enemy soldier: ffe06f8b
+        enemy sniper: ffc3e06f
+        enemy tank: ffe0976f
+
          */
 
         for(int i = 0; i < goBitmap.getHeight(); i++) {
@@ -227,6 +228,9 @@ public class LevelManager {
                 }
             }
         }
+        indexes[0] = bitmapIndex;
+        indexes[1] = goBitmapIndex;
+        levelIndexes.add(indexes);
         levels.add(level);
         return level;
     }
@@ -244,6 +248,17 @@ public class LevelManager {
     public static void resetLevel(Context context, int index) {
         int[] indexes = levelIndexes.get(index);
         levels.set(index, loadLevel(context, indexes[0], indexes[1]));
+    }
+
+    public static void resetLevel(Context context, Level level) {
+        int indexes[] = new int[2];
+        for(int i = 0; i < levels.size(); i++) {
+            if(levels.get(i) == level) {
+                indexes[0] = levelIndexes.get(i)[0];
+                indexes[1] = levelIndexes.get(i)[1];
+                levels.set(i, loadLevel(context, indexes[0], indexes[1]));
+            }
+        }
     }
 
 }
