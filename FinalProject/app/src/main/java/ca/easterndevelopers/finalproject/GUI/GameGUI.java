@@ -11,7 +11,6 @@ import ca.easterndevelopers.finalproject.MainActivity;
 import ca.easterndevelopers.finalproject.MainScreen;
 import ca.easterndevelopers.finalproject.R;
 import ca.easterndevelopers.finalproject.game.Game;
-import ca.easterndevelopers.finalproject.level.LevelManager;
 import ca.easterndevelopers.finalproject.renderer.GameRenderer;
 import ca.easterndevelopers.finalproject.utils.Utils;
 
@@ -66,7 +65,7 @@ public class GameGUI extends GUI {
                 if(Rect.intersects(endTurn, new Rect(x, y, x+1, y+1))) {
                     isOnGUI = true;
                     if(MainScreen.getPlayer().hasPlacedAllUnits()) {
-                        MainScreen.getPlayer().getCurrentLevel().endPlayersTurn();
+                        MainScreen.getPlayer().getCurrentLevel().endTurn();
                     }
 
                 }

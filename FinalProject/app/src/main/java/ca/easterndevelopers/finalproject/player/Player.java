@@ -99,7 +99,7 @@ public class Player {
 
             if (unitsDone == this.units.size()) {
 
-                this.getCurrentLevel().endPlayersTurn();
+                this.getCurrentLevel().endTurn();
 
             } else {
 
