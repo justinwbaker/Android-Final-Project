@@ -101,11 +101,6 @@ public abstract class Unit extends GameObject {
                 }
             }
         }else {
-            //do enemy ai here
-
-            //get closest player unit
-            //move closer to it
-            //shoot it
 
             //getting the closes player unit:
             if (this.isActiveUnit && !this.level.containsProjectiles()) {
@@ -134,31 +129,41 @@ public abstract class Unit extends GameObject {
                             }
                         }
                         // Will perform some basic checks to put Unit Next to player Units instead of on top if possible. if all 4 sides of closest Unit is full it'll get stuck. Can remove enemy checks for valid position to put multiple Enemies on the same tile to prevent hanging I don't know any weird ass algorithms lol
+                        boolean AImove = false;
+                        do{
+                        System.out.println("I'm here in the do loop");
+                            if (!isValidPointAI((int) (closestTile.getPosition().x * MainActivity.getTileSize()), (int) (closestTile.getPosition().y * MainActivity.getTileSize()))) {
+                                if (isValidPointAI((int) (closestTile.getPosition().x * MainActivity.getTileSize()) + (int) (MainActivity.getTileSize()), (int) (closestTile.getPosition().y * MainActivity.getTileSize()))) {
+                                    this.position.x = (int) (closestTile.getPosition().x * MainActivity.getTileSize()) + (int) (MainActivity.getTileSize());
+                                    System.out.println("first if ");
 
-                        this.position.x = (int) (closestTile.getPosition().x * MainActivity.getTileSize());
-                        this.position.y = (int) (closestTile.getPosition().y * MainActivity.getTileSize());
+                                } else if (isValidPointAI((int) (closestTile.getPosition().x * MainActivity.getTileSize()) - (int) (MainActivity.getTileSize()), (int) (closestTile.getPosition().y * MainActivity.getTileSize()))) {
+                                    this.position.x = (int) (closestTile.getPosition().x * MainActivity.getTileSize()) - (int) (MainActivity.getTileSize());
+                                    System.out.println("first elseif");
 
-                        if(!isValidPointAI(this.position.x, this.position.y)){
-                            if(isValidPointAI(this.position.x + (int)(MainActivity.getTileSize()) , this.position.y)){
-                                this.position.x += (int)(MainActivity.getTileSize());
+                                } else if (isValidPointAI((int) (closestTile.getPosition().x * MainActivity.getTileSize()), (int) (closestTile.getPosition().y * MainActivity.getTileSize()) + (int) (MainActivity.getTileSize()))) {
+                                    this.position.y = (int) (closestTile.getPosition().y * MainActivity.getTileSize()) + (int) (MainActivity.getTileSize());
+                                    System.out.println("second elseif");
 
-                            }
-                            else if(isValidPointAI(this.position.x - (int)(MainActivity.getTileSize()) , this.position.y)){
-                                this.position.x -= (int)(MainActivity.getTileSize());
-
-
-                            }
-                            else if(isValidPointAI(this.position.x, this.position.y + (int)(MainActivity.getTileSize()))){
-                                this.position.y += (int)(MainActivity.getTileSize());
-
-
-                            }
-                            else if(isValidPointAI(this.position.x, this.position.y - (int)(MainActivity.getTileSize()))){
-                                this.position.y -= (int)(MainActivity.getTileSize());
-
-
-                            }
+                                } else if (isValidPointAI((int) (closestTile.getPosition().x * MainActivity.getTileSize()), (int) (closestTile.getPosition().y * MainActivity.getTileSize()) - (int) (MainActivity.getTileSize()))) {
+                                    this.position.y = (int) (closestTile.getPosition().y * MainActivity.getTileSize()) - (int) (MainActivity.getTileSize());
+                                    System.out.println("last elseif");
+                                }
+                                else{
+                                    System.out.println("nested else statement");
+                                    AImove = true;
+                                }
+                            } else {
+                                System.out.println("first else statement");
+                                this.position.x = (int) (closestTile.getPosition().x * MainActivity.getTileSize());
+                                this.position.y = (int) (closestTile.getPosition().y * MainActivity.getTileSize());
+                                AImove = true;
+                            } // moves if it is a valid position
                         }
+                        while(AImove == false);
+
+                        System.out.println("gets passed while loop");
+
 
 
                         if (Game.debug)
@@ -177,7 +182,8 @@ public abstract class Unit extends GameObject {
 
                         this.timesHasMoved++;
 
-                        if(closest != null && timesHasMoved == timeCanMove) {
+
+                        if(closest != null && timesHasMoved >= timeCanMove) {
                             int targetX = closest.getPosition().x + (int)(MainActivity.getTileSize()/2);
                             int targetY = closest.getPosition().y + (int)(MainActivity.getTileSize()/2);
 
@@ -203,6 +209,8 @@ public abstract class Unit extends GameObject {
                 }
             }
         }
+        if(!this.isDoneTurn() && this.isActiveUnit == true) if(Game.debug) System.out.println("Not finished");
+
     }
 
     public void render(Canvas canvas, Paint paint){
@@ -413,7 +421,9 @@ public abstract class Unit extends GameObject {
     }
 
     public boolean isDoneTurn() {
+
         return (this.hasAttackedRanged && (this.timeCanMove == this.timesHasMoved));
+
     }
 
     public float getPixelSize() {

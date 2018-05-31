@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 
 import ca.easterndevelopers.finalproject.MainActivity;
+import ca.easterndevelopers.finalproject.game.Game;
 import ca.easterndevelopers.finalproject.level.gameobject.GameObject;
 import ca.easterndevelopers.finalproject.level.gameobject.Unit;
 
@@ -27,6 +28,7 @@ public class Projectile extends GameObject {
 
         super(new Point(startX, startY), new Point (size));
 
+
         this.setSize(size);
         this.startX = startX;
         this.startY = startY;
@@ -48,6 +50,7 @@ public class Projectile extends GameObject {
     public Projectile(double targetX, double targetY, int startX, int startY, Point size, int color, Unit unit, double directionRand) {
 
         super(new Point(startX, startY), new Point (size));
+
 
         this.setSize(size);
         this.startX = startX;
