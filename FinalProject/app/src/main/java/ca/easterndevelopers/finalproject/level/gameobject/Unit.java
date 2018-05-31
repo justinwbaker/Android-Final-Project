@@ -34,7 +34,6 @@ public abstract class Unit extends GameObject {
 
     protected boolean isActiveUnit;
     protected boolean isOnLevel;
-
     int costToLevel;
     int unitLevel;
 
@@ -99,6 +98,11 @@ public abstract class Unit extends GameObject {
                 } else if (ranged.getAmmo() != 0 && GameRenderer.getWorldTouchedPoint() != null && !hasAttackedRanged && timesHasMoved == timeCanMove) {
                     rangedAttack();
                 }
+                else if(ranged.getAmmo() == 0){
+                    this.ranged.setAmmo(this.ranged.getAmmoCapacity());
+                    this.hasAttackedRanged = true;
+                    MainScreen.getPlayer().setNextActiveUnit();
+                }
             }
         }else {
             //do enemy ai here
@@ -134,31 +138,58 @@ public abstract class Unit extends GameObject {
                             }
                         }
                         // Will perform some basic checks to put Unit Next to player Units instead of on top if possible. if all 4 sides of closest Unit is full it'll get stuck. Can remove enemy checks for valid position to put multiple Enemies on the same tile to prevent hanging I don't know any weird ass algorithms lol
+                        int tempx = this.position.x;
+                        int tempy = this.position.y;
 
-                        this.position.x = (int) (closestTile.getPosition().x * MainActivity.getTileSize());
-                        this.position.y = (int) (closestTile.getPosition().y * MainActivity.getTileSize());
-
-                        if(!isValidPointAI(this.position.x, this.position.y)){
-                            if(isValidPointAI(this.position.x + (int)(MainActivity.getTileSize()) , this.position.y)){
-                                this.position.x += (int)(MainActivity.getTileSize());
-
-                            }
-                            else if(isValidPointAI(this.position.x - (int)(MainActivity.getTileSize()) , this.position.y)){
-                                this.position.x -= (int)(MainActivity.getTileSize());
-
-
-                            }
-                            else if(isValidPointAI(this.position.x, this.position.y + (int)(MainActivity.getTileSize()))){
-                                this.position.y += (int)(MainActivity.getTileSize());
-
-
-                            }
-                            else if(isValidPointAI(this.position.x, this.position.y - (int)(MainActivity.getTileSize()))){
-                                this.position.y -= (int)(MainActivity.getTileSize());
-
-
+                        if(Game.debug) {
+                            for (Unit u : this.level.getEnemy().getUnits()) {
+                                System.out.println(u.isDoneTurn());
                             }
                         }
+
+
+                            System.out.println("I'm here in the do loop");
+
+                        System.out.println(closestTile.getPosition().x);
+                            if (!isValidPointAI((int) (closestTile.getPosition().x * MainActivity.getTileSize()),
+                                    (int) (closestTile.getPosition().y * MainActivity.getTileSize()))) {
+
+                                if (isValidPointAI((int) (closestTile.getPosition().x * MainActivity.getTileSize()) + (int) (MainActivity.getTileSize()), (int) (closestTile.getPosition().y * MainActivity.getTileSize()))) {
+                                    this.position.x = (int) (closestTile.getPosition().x * MainActivity.getTileSize()) + (int) (MainActivity.getTileSize());
+                                    this.position.y = (int) (closestTile.getPosition().y * MainActivity.getTileSize());
+                                    System.out.println("first if ");
+
+
+                                } else if (isValidPointAI((int) (closestTile.getPosition().x * MainActivity.getTileSize()) - (int) (MainActivity.getTileSize()), (int) (closestTile.getPosition().y * MainActivity.getTileSize()))) {
+                                    this.position.x = (int) (closestTile.getPosition().x * MainActivity.getTileSize()) - (int) (MainActivity.getTileSize());
+                                    this.position.y = (int) (closestTile.getPosition().y * MainActivity.getTileSize());
+                                    System.out.println("first elseif");
+
+
+                                } else if (isValidPointAI((int) (closestTile.getPosition().x * MainActivity.getTileSize()), (int) (closestTile.getPosition().y * MainActivity.getTileSize()) + (int) (MainActivity.getTileSize()))) {
+                                    this.position.y = (int) (closestTile.getPosition().y * MainActivity.getTileSize()) + (int) (MainActivity.getTileSize());
+                                    this.position.x = (int) (closestTile.getPosition().x * MainActivity.getTileSize());
+                                    System.out.println("second elseif");
+
+
+                                } else if (isValidPointAI((int) (closestTile.getPosition().x * MainActivity.getTileSize()), (int) (closestTile.getPosition().y * MainActivity.getTileSize()) - (int) (MainActivity.getTileSize()))) {
+                                    this.position.y = (int) (closestTile.getPosition().y * MainActivity.getTileSize()) - (int) (MainActivity.getTileSize());
+                                    this.position.x = (int) (closestTile.getPosition().x * MainActivity.getTileSize());
+                                    System.out.println("last elseif");
+
+                                }
+                                else{
+                                    System.out.println("nested else statement");
+                                    this.position.x = tempx;
+                                    this.position.y = tempy;
+
+                                }
+                            } else {
+                                System.out.println("first else statement");
+                                this.position.x = (int) (closestTile.getPosition().x * MainActivity.getTileSize());
+                                this.position.y = (int) (closestTile.getPosition().y * MainActivity.getTileSize());
+                            } // moves if it is a valid position
+
 
 
                         if (Game.debug)
@@ -177,32 +208,58 @@ public abstract class Unit extends GameObject {
 
                         this.timesHasMoved++;
 
-                        if(closest != null && timesHasMoved == timeCanMove) {
+                        if(closest != null && timesHasMoved >= timeCanMove && this.ranged.getAmmo() != 0) {
                             int targetX = closest.getPosition().x + (int)(MainActivity.getTileSize()/2);
                             int targetY = closest.getPosition().y + (int)(MainActivity.getTileSize()/2);
 
-                            if((Math.abs(Math.sqrt(Math.pow((this.getPosition().x - targetX), 2)
-                                    + Math.pow((this.getPosition().y - targetY), 2))))
-                                    <= (this.ranged.getRange() * MainActivity.getTileSize())){
+                            if(this.ranged.getAmmo() != 0) {
+                                if ((Math.abs(Math.sqrt(Math.pow((this.getPosition().x - targetX), 2)
+                                        + Math.pow((this.getPosition().y - targetY), 2))))
+                                        <= (this.ranged.getRange() * MainActivity.getTileSize())) {
 
-                                rangedAttack(targetX, targetY);
-                                if(Game.debug)System.out.println("Ai fired a shot");
+                                    rangedAttack(targetX, targetY);
+                                    if (Game.debug) System.out.println("Ai fired a shot");
+                                } else {
+                                    hasAttackedRanged = true;
+                                }
                             }
                         }
+                        else if(closest != null && timesHasMoved >= timeCanMove){
 
+                                this.ranged.setAmmo(this.ranged.getAmmoCapacity());
+                                hasAttackedRanged = true;
+                                this.getLevel().getEnemy().setNextActiveUnit();
+                        }
+
+                        else if(closest == null){
+                            if(MainScreen.getPlayer().getUnits().size() <= 0) {
+                                MainScreen.getPlayer().soldierWipe(); // end game call
+                            }
+                            else{
+                                this.level.endPlayersTurn();
+                            }
+                        }
                         else{
-                            MainScreen.getPlayer().soldierWipe(); // end game call
+                            this.level.endPlayersTurn();
                         }
                     }
                     else{
                         MainScreen.getPlayer().soldierWipe(); // end game call
                     }
+                    System.out.println(this.getHitbox());
                 }
                 else {
+
+                    this.endUnitTurn();
                     this.level.getEnemy().setNextActiveUnit();
+
+
                 }
+
+                this.level.getEnemy().setNextActiveUnit();
+                this.endUnitTurn();
             }
-        }
+        } // AI action turn end
     }
 
     public void render(Canvas canvas, Paint paint){
@@ -444,6 +501,11 @@ public abstract class Unit extends GameObject {
     public void endTurn() {
         this.hasAttackedRanged = false;
         this.timesHasMoved = 0;
+    }
+
+    public void endUnitTurn(){
+        this.hasAttackedRanged = true;
+        this.timesHasMoved = timeCanMove;
     }
 
     @Override

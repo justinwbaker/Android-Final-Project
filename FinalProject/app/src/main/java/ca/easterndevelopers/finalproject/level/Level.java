@@ -237,6 +237,7 @@ public class Level {
             } else {
                 this.player.soldierWipe();
             }
+            this.player.startTurn();
         }
     }
 
