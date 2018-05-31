@@ -26,8 +26,7 @@ public class LevelManager {
 
     /* Tiles:
 
-             player start area: ffbe2633
-                 enemy soldier: ffe06f8b
+
 
                          grass: ff00ff00
 
@@ -185,6 +184,12 @@ public class LevelManager {
         collider: ffb2dcef
         red bin : ffff0000
         green bin : ff00ff00
+        car red : ff981e27
+        car orange : ff44891a
+        Tank : ffe0976f
+        Sniper : ffe0976f
+        enemy soldier: ffe06f8b
+        player start area: ffbe2633
 
          */
 

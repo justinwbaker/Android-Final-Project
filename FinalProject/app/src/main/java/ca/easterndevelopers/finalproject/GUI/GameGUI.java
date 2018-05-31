@@ -48,14 +48,12 @@ public class GameGUI extends GUI {
             int x = GameRenderer.getTouchedPoint().x;
             int y = GameRenderer.getTouchedPoint().y;
 
-
-
-            if(Rect.intersects(viewMap, new Rect(x, y, x+1, y+1))){
-                isOnGUI = true;
-                Game.setIsLookingAtMap(!Game.isLookingAtMap());
-            }
-
             if(MainScreen.getPlayer().isPlayersTurn()){
+
+                if(Rect.intersects(viewMap, new Rect(x, y, x+1, y+1))){
+                    isOnGUI = true;
+                    Game.setIsLookingAtMap(!Game.isLookingAtMap());
+                }
 
                 if(Rect.intersects(nextUnit, new Rect(x, y, x+1, y+1))){
                     isOnGUI = true;

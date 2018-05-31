@@ -123,7 +123,7 @@ public abstract class Unit extends GameObject {
                         int closestTileDistance = Integer.MAX_VALUE;
                         for (int i = 0; i < this.getLevel().getHeight(); i++) {
                             for (int j = 0; j < this.getLevel().getWidth(); j++) {
-                                Tile tile = this.getLevel().getTile(i, j);
+                                Tile tile = this.getLevel().getTile(j, i);
                                 if (Utils.getDistance(Utils.toTiledPosition(this.getPosition()), tile.getPosition()) < this.movementRange) {
                                     if (Utils.getDistance(Utils.toTiledPosition(closest.getPosition()), tile.getPosition()) < closestTileDistance) {
                                         closestTileDistance = (int) Utils.getDistance(Utils.toTiledPosition(closest.getPosition()), tile.getPosition());
